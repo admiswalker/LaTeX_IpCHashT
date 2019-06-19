@@ -1,0 +1,114 @@
+\documentclass[oneside,openright,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
+
+% jsbookで余白が広すぎるのを直す
+% 参照 https://oku.edu.mie-u.ac.jp/~okumura/jsclasses/
+\setlength{\textwidth}{\fullwidth}
+\setlength{\evensidemargin}{\oddsidemargin}
+
+% OTF フォントを使えるようにし、複数のウェイトも使用可能にする。
+% これがないと、Mac のヒラギノ環境で使われる角ゴが太すぎてみっともない。
+\usepackage[deluxe]{otf}
+
+% OT1→T1に変更し、ウムラウトなどを PDF 出力で合成文字ではなくす
+\usepackage[T1]{fontenc}
+
+% uplatex の場合に必要な処理 
+\usepackage[utf8]{inputenc} % エンコーディングが UTF8 であることを明示する。
+\usepackage[prefernoncjk]{pxcjkcat} % アクセントつきラテン文字を欧文扱いにする
+
+% Helvetica と Times を sf と rm のそれぞれで使う。
+% default だとバランスが悪いので、日本語に合わせて文字の大きさを調整する。
+\usepackage[scaled=1.05,helvratio=0.95]{newtxtext}
+
+\usepackage[dvipdfmx]{graphicx} % 画像の添付に必要
+\usepackage[dvipdfmx]{color}    % 画像の添付に必要
+
+% 表でセルを複数列で結合する
+\usepackage{multicol}
+
+% 数式の機能を拡張
+\usepackage{amsmath}
+
+% citep や citet を有効にする
+\usepackage{natbib} % 参考文献を bib で管理するために必要．
+\usepackage{url}    % 参考文献のリンク指定オプションに必要．
+
+% (Okumura, 2009) などを (Okumura 2009) とする
+\setcitestyle{aysep={}}
+
+% subfigure 環境で、(a)、(b) などの番号を左上に表示する。宇宙系の分野ではこれが一般的なはず。
+\usepackage[nooneline]{subfigure}
+\subfiguretopcaptrue
+
+% 行番号を表示する。添削時のみに使い、事務提出版ではコメントアウトする
+%\usepackage{lineno}
+%\linenumbers
+
+% PDF 内で外部リンクや文書内リンクを生成したい場合に使う（好みによる）
+% \usepackage[dvipdfmx]{hyperref}
+
+% newcommand を使うことで、繰り返し使う長ったらしい入力を簡単にすることができる
+\makeatletter
+\newcommand{\ion}[2]{#1$\;${\small\rmfamily\@Roman{#2}}\relax}%
+\makeatother
+\newcommand{\HI}{\mbox{\ion{H}{1}}} % 中性原子ガス（HI 領域）の例
+\newcommand{\bs}{\symbol{92}} % backslash
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 図を通し番号にする: http://rexpit.blog29.fc2.com/blog-entry-99.html
+\usepackage{remreset}	% removefromreset に使う
+\makeatletter
+	\@removefromreset{figure}{chapter}
+	\def\thefigure{\arabic{figure}}
+
+	\@removefromreset{table}{chapter}
+	\def\thetable{\arabic{table}}
+
+	\@removefromreset{equation}{chapter}
+	\def\theequation{\arabic{equation}}
+\makeatother
+
+\usepackage{comment} % \begin{comment} \end{comment}
+\usepackage{color}   % {\color{red}メモ}
+
+\usepackage{natbib} % citep や citet を有効にする
+\bibpunct[:]{[}{]}{,}{a}{}{,} % 括弧を () -> [] へ変更
+%\usepackage[numbers]{natbib} % citep や citet を有効にする
+%\bibpunct[:]{(}{)}{,}{a}{}{,}
+
+\usepackage[]{multicol}         % 段組み % \begin{multicols}{2}%2段組み開始 ~ \end{multicols}%2段組み終了
+
+\usepackage{wrapfig}            % 図の回り込みを許す．\begin{figure}~\end{figure} -> \begin{wrapfigure}{r}{90mm}~\end{wrapfigure} へ置き換え
+                                % 直後の文が制御記号だと，回り込みに失敗し，文字が図下に重なるので，制御記号の直前に ''\noindent \ \ '' を挿入して回避する．
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\input{FrontCover} % 表紙
+\include{00_Abstract}
+
+\frontmatter     % make page number roman
+\tableofcontents % 目次
+%\listoffigures  % 図目次
+%\listoftables   % 表目次
+
+\mainmatter      % make page number arabic
+\include{01_Introduction}
+\include{02_Device}
+\include{03_Method}
+\include{04_Implementation}
+\include{05_Results}
+\include{06_Discussion}
+\include{07_Conclusion}
+\include{08_Appendix}
+\include{09_Acknowledgments}
+
+\renewcommand{\bibname}{参考文献} % jecon.bst だと bib の doi を読み込めずエラーを吐くので，ここだけ，削除すること．
+\bibliographystyle{jecon}
+\nocite{*} % 文献の引用がない場合のエラーを抑制．
+\bibliography{10_References}
+
+\end{document}
