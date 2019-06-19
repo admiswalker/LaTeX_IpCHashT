@@ -1,3 +1,4 @@
 *.xbb
+.fuse_hidden*
 /tmpMake
 out.pdf
