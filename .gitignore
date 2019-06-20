@@ -1,4 +1,7 @@
+*.log
 *.xbb
 .fuse_hidden*
 /tmpMake
 out.pdf
+.~lock.*
+
