@@ -29,12 +29,39 @@
 リハッシュ以外の方法で衝突を解決する必要がある．
 
 剰余衝突の解決策は，主に２種類に大別される．
-１つ目は，Chaining に代表される Closed addressing (別名：Open hashing) である．
-Chaining は，．
+１つ目は，
+Chaining に代表される Open hashing\footnote{別名：Closed addressing．} である．
+衝突が発生した際，新しくメモリ領域を確保し，片方向リスト\footnote{別名：linked list または singly linked list，} により現在の要素に追加する．
+この手法は，
+要素の削除と追加を繰り返す場合でも安定して動作するが，要素をポインタにより接続するため，
+アドレス空間が連続とならず CPU キャッシュが効き難い欠点がある．
+２つ目は，
+Linear probing や Quadratic probing に代表される Closed hashing\footnote{別名：Open addressing．} である．
+衝突が発生した際，それぞれの probing 規則に従い，隣接する空き要素に値を格納する．
+Linear probing は，隣接する $1, 2, 3, ... k$ 番目の要素を線形探査する．
+% 隣接する要素に値が格納されている場合は，高速に取り出せる．しかし，
+配列が隙間なく埋まった場合は，
+境界が分からず探査時間は大きく増加する．これを Primary clustering と呼ぶ．
+% \footnote{Primary clustering と呼ぶ}．
+% \href{https://en.wikipedia.org/wiki/Primary_clustering}{Primary clustering - wikipedia - 2019.06.22}}
+% https://books.google.co.jp/books?id=HJ9gds_zhVEC&pg=PA186&redir_esc=y#v=onepage&q&f=false, ISBN 9780763725624 - Google Books
+Quadratic probing は，隣接する $1^2, 2^2, 3^2, ... k^2$ 番目の要素を探査する．
+飛び値を取るため，比較的 Primary clustering し難い．
+いずれの probing も，空の要素が探査終了条件 \footnote{最悪計算量を保証するため，ホップ数を制限することもある．} の一つであるため，
+要素を削除すると「要素が削除された」のか「要素が存在しない」のか判断できない．
+このため，要素削除時は，削除フラグを付与する．
+これらの手法は，
+要素の削除と追加を繰り返す場合において，性能低下とそれに伴うリハッシュを必要とするが，
+要素を隣接する要素に格納するため，CPU キャッシュが効き易い利点がある．
 
-２つ目は，Linear probing や Quadratic probing に代表される Open addressing (別名：Closed hashing) である．
-Linear probing は，．
-これに対して，Quadratic probing は，．
+
+
+
+・chaining ポインタ接続による，キャッシュミスが課題．
+・probing
+そもそも本来挿入すべき場所に挿入できない．
+
+
 
 
 

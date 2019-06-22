@@ -33,6 +33,8 @@
 \usepackage{natbib} % 参考文献を bib で管理するために必要．
 \usepackage{url}    % 参考文献のリンク指定オプションに必要．
 
+%\usepackage[hypertex]{hyperref} % url 埋め込みに必要．Usage: \href{url}{text}
+
 % (Okumura, 2009) などを (Okumura 2009) とする
 \setcitestyle{aysep={}}
 
@@ -82,6 +84,11 @@
 
 \usepackage{wrapfig}            % 図の回り込みを許す．\begin{figure}~\end{figure} -> \begin{wrapfigure}{r}{90mm}~\end{wrapfigure} へ置き換え
                                 % 直後の文が制御記号だと，回り込みに失敗し，文字が図下に重なるので，制御記号の直前に ''\noindent \ \ '' を挿入して回避する．
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% footnote % 脚注の調整
+\renewcommand\thefootnote{\arabic{footnote})}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
