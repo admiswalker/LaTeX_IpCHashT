@@ -7,11 +7,13 @@ MAIN = main
 SRCDIR = ./*.tex
 BIBDIR = ./*.bib
 
-FIGPNG = ./figs/*.png
-FIGPDF = ./figs/*.pdf
+FIGDIR = ./figs
+FIGPNG = $(FIGDIR)/*.png
+FIGPDF = $(FIGDIR)/*.pdf
 
-CROP_PDFS = ./figs/algorism.pdf
-CROPed_PDFS = ./figs/algorism_crop.pdf
+#CROP_PDFS_name   = $(FIGDIR)/algorism
+CROP_PDFS   = $(FIGDIR)/algorism.pdf
+CROPed_PDFS = $(FIGDIR)/algorism_crop.pdf
 
 TARGET = out.pdf
 
@@ -62,7 +64,13 @@ $(TARGET): $(SRCS) $(XBBS) $(CROPed_PDFS)
 	dvipdfmx -o $(TARGET) ./$(TEMPDIR)/$(MAIN)
 	@echo ""
 
-$(CROPed_PDFS): $(CROP_PDFS)
+#$(CROPed_PDFS):
+#	soffice --headless --convert-to pdf:writer_pdf_Export $(FIGDIR)/*.odp # convert *.odp to *.pdf
+./figs/algorism.pdf:
+	(cd ./$(FIGDIR); soffice --headless --convert-to pdf:writer_pdf_Export *.odp) # convert *.odp to *.pdf
+
+$(CROPed_PDFS): ./figs/algorism.pdf
+#	(cd ./$(FIGDIR); soffice --headless --convert-to pdf:writer_pdf_Export *.odp) # convert *.odp to *.pdf
 	pdfcrop $< $(CROPed_PDFS)
 	$(EXTRACTBB) $(CROPed_PDFS)
 
@@ -84,5 +92,5 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(CROPed_PDFS)
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(CROP_PDFS) $(CROPed_PDFS)
 
