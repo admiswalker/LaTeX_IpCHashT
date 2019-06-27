@@ -11,9 +11,9 @@ FIGDIR = ./figs
 FIGPNG = $(FIGDIR)/*.png
 FIGPDF = $(FIGDIR)/*.pdf
 
-#CROP_PDFS_name   = $(FIGDIR)/algorism
-CROP_PDFS   = $(FIGDIR)/algorism.pdf
-CROPed_PDFS = $(FIGDIR)/algorism_crop.pdf
+doc_name      = algorism
+PDFS_from_doc = $(FIGDIR)/$(doc_name).pdf
+PDFS_cropped  = $(FIGDIR)/$(doc_name)_crop.pdf
 
 TARGET = out.pdf
 
@@ -34,7 +34,7 @@ DVIPDFMX  = dvipdfmx
 EXTRACTBB = extractbb
 BIB       = pbibtex
 
-$(TARGET): $(SRCS) $(XBBS) $(CROPed_PDFS)
+$(TARGET): $(SRCS) $(XBBS) $(PDFS_cropped)
 	mkdir -p $(TEMPDIR)
 	@echo -e "\n============================================================\n"
 	@echo -e "SRCS: \n$(SRCS)\n"
@@ -64,15 +64,12 @@ $(TARGET): $(SRCS) $(XBBS) $(CROPed_PDFS)
 	dvipdfmx -o $(TARGET) ./$(TEMPDIR)/$(MAIN)
 	@echo ""
 
-#$(CROPed_PDFS):
-#	soffice --headless --convert-to pdf:writer_pdf_Export $(FIGDIR)/*.odp # convert *.odp to *.pdf
-./figs/algorism.pdf:
+$(PDFS_from_doc):
 	(cd ./$(FIGDIR); soffice --headless --convert-to pdf:writer_pdf_Export *.odp) # convert *.odp to *.pdf
 
-$(CROPed_PDFS): ./figs/algorism.pdf
-#	(cd ./$(FIGDIR); soffice --headless --convert-to pdf:writer_pdf_Export *.odp) # convert *.odp to *.pdf
-	pdfcrop $< $(CROPed_PDFS)
-	$(EXTRACTBB) $(CROPed_PDFS)
+$(PDFS_cropped): $(PDFS_from_doc)
+	pdfcrop $< $(PDFS_cropped)
+	$(EXTRACTBB) $(PDFS_cropped)
 
 %.xbb: %.png
 	$(EXTRACTBB) $<
@@ -92,5 +89,5 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(CROP_PDFS) $(CROPed_PDFS)
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(PDFS_from_doc) $(PDFS_cropped)
 
