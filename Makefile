@@ -65,7 +65,7 @@ $(TARGET): $(SRCS) $(XBBS) $(PDFS_cropped)
 	@echo ""
 
 $(PDFS_from_doc):
-	(cd ./$(FIGDIR); soffice --headless --convert-to pdf:writer_pdf_Export *.odp) # convert *.odp to *.pdf
+	(cd ./$(FIGDIR); export HOME=/tmp; soffice --headless --convert-to pdf *.odp) # convert *.odp to *.pdf
 
 $(PDFS_cropped): $(PDFS_from_doc)
 	pdfcrop $< $(PDFS_cropped)
@@ -89,5 +89,5 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(PDFS_from_doc) $(PDFS_cropped)
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(PDFS_from_doc) $(PDFS_cropped) ./.fuse_hidden*
 
