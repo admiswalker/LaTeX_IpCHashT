@@ -1,7 +1,7 @@
 *.log
 *.xbb
 .fuse_hidden*
-/tmpMake
+/tmp*/
 out.pdf
 .~lock.*
-
+*_crop.pdf

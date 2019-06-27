@@ -10,6 +10,9 @@ BIBDIR = ./*.bib
 FIGPNG = ./figs/*.png
 FIGPDF = ./figs/*.pdf
 
+CROP_PDFS = ./figs/algorism.pdf
+CROPed_PDFS = ./figs/algorism_crop.pdf
+
 TARGET = out.pdf
 
 #============================================================
@@ -29,7 +32,7 @@ DVIPDFMX  = dvipdfmx
 EXTRACTBB = extractbb
 BIB       = pbibtex
 
-$(TARGET): $(SRCS) $(XBBS)
+$(TARGET): $(SRCS) $(XBBS) $(CROPed_PDFS)
 	mkdir -p $(TEMPDIR)
 	@echo -e "\n============================================================\n"
 	@echo -e "SRCS: \n$(SRCS)\n"
@@ -59,6 +62,10 @@ $(TARGET): $(SRCS) $(XBBS)
 	dvipdfmx -o $(TARGET) ./$(TEMPDIR)/$(MAIN)
 	@echo ""
 
+$(CROPed_PDFS): $(CROP_PDFS)
+	pdfcrop $< $(CROPed_PDFS)
+	$(EXTRACTBB) $(CROPed_PDFS)
+
 %.xbb: %.png
 	$(EXTRACTBB) $<
 
@@ -77,5 +84,5 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) ./*.log ./figs/*.xbb
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(CROPed_PDFS)
 
