@@ -8,6 +8,43 @@ probing により衝突を解決しなくてはならない．
 そこで，要素挿入時に，要素位置を整理して挿入する手法を提案する．
 これは．挿入時間を犠牲に lookup 速度を向上させることを意味する．
 
+
+
+\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{lstlisting}[language=C++]
+template <class T_key, class T_val, typename T_shift>
+struct element{
+private:
+public:
+	element(){
+		T_shift maxShift = (T_shift) 0; maxShift =~ maxShift;
+		prev = maxShift;
+		next = (T_shift) 0;
+	}
+	~element(){}
+	
+	T_key key;
+	T_val val;
+	T_shift prev;
+	T_shift next;
+};
+\end{lstlisting}
+\caption{
+  In-place hash table 要素の C++ 擬似構造体．T\_key は key の型，T\_val は val の型である．
+  T\_shift は doubly-linked list に用いる型で，uint8 または uint16 を指定する．
+  uint16 より大きな型を指定するメリットは殆どない．
+  prev は 前の要素までの相対距離を，next は 次の要素までの相対距離を表す．
+  ポインタにおけるアドレスとは異なり，区間 [0, max(T\_shift) - 1] の範囲でリンクを表現する．
+  ただし，max(T\_shift) は T\_shift 型の取り得る最大値である．
+  0 のときに自分自身を示し，max(T\_shift) - 1 がリンクできる最大距離である．区間外へのリンクはできない．
+  max(T\_shift) は，予約されており，'prev==max(T\_shift)' のとき，要素が空であることを示す．
+  また，'prev==0' であれば linked list の先頭であること，'next==0' であれば linked list の末尾であることが分かる．
+}
+\label{fig_IpCHashT_struct}
+\end{figure}
+
+
+
 \section{挿入}
 
 \begin{center}

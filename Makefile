@@ -66,7 +66,6 @@ $(TARGET): $(SRCS) $(XBBS) $(PDFS_cropped)
 
 $(PDFS_from_doc): $(FIGDIR)/$(doc_name).odg
 	(cd ./$(FIGDIR); export HOME=/tmp; soffice --headless --convert-to pdf *.odg) # convert *.odp to *.pdf
-#	(cd ./$(FIGDIR); export HOME=/tmp; soffice --headless --convert-to pdf *.odp) # convert *.odp to *.pdf
 
 $(PDFS_cropped): $(PDFS_from_doc)
 	pdfcrop $< $(PDFS_cropped)
