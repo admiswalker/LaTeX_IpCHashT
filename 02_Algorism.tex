@@ -14,8 +14,6 @@ probing により衝突を解決しなくてはならない．
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val, typename T_shift>
 struct element{
-private:
-public:
 	element(){
 		T_shift maxShift = (T_shift) 0; maxShift =~ maxShift;
 		prev = maxShift;
@@ -45,17 +43,47 @@ public:
 
 
 
+%\leavevmode \newline
+%\leavevmode \newline
 \section{挿入}
 
+\begin{figure}[h]
 \begin{center}
   \includegraphics[page=1, scale=0.75]{./figs/algorism_crop.pdf}
 \end{center}
-\leavevmode \newline
-\leavevmode \newline
+\end{figure}
 
-%\begin{center}
-%\includegraphics[page=2]{./figs/algorism_crop.pdf}
-%\end{center}
+\begin{figure}[h]
+\begin{center}
+  \includegraphics[page=2, scale=0.75]{./figs/algorism_crop.pdf}
+\end{center}
+\end{figure}
+
+\begin{center}
+  \begin{figure}[h]
+    \includegraphics[page=3, scale=0.75]{./figs/algorism_crop.pdf}
+    \caption{
+      discription.
+    }
+    \label{fig_IpCHashT_XXXX}
+  \end{figure}
+\end{center}
+
+\begin{figure}[h]
+\begin{center}
+  \includegraphics[page=4, scale=0.75]{./figs/algorism_crop.pdf}
+\end{center}
+\end{figure}
+\begin{center}
+  \begin{figure}[h]
+    \includegraphics[page=5, scale=0.75]{./figs/algorism_crop.pdf}
+    \caption{
+      discription.
+    }
+    \label{fig_IpCHashT_XXXX}
+  \end{figure}
+\end{center}
+
 
 \section{探査}
 \section{削除}

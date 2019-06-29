@@ -6,3 +6,5 @@ out.pdf
 .~lock.*
 algorism.pdf
 *_crop.pdf
+backup_*/
+
