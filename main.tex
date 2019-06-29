@@ -20,7 +20,7 @@
 % default だとバランスが悪いので、日本語に合わせて文字の大きさを調整する。
 \usepackage[scaled=1.05,helvratio=0.95]{newtxtext}
 
-\usepackage[dvipdfmx]{graphicx} % 画像の添付に必要
+\usepackage[dvipdfmx,hiresbb]{graphicx} % 画像の添付に必要
 \usepackage[dvipdfmx]{color}    % 画像の添付に必要
 
 % 表でセルを複数列で結合する
@@ -84,6 +84,13 @@
 
 \usepackage{wrapfig}            % 図の回り込みを許す．\begin{figure}~\end{figure} -> \begin{wrapfigure}{r}{90mm}~\end{wrapfigure} へ置き換え
                                 % 直後の文が制御記号だと，回り込みに失敗し，文字が図下に重なるので，制御記号の直前に ''\noindent \ \ '' を挿入して回避する．
+
+%\setlength\floatsep{0pt}         % 図と図の間の余白
+%\setlength\textfloatsep{0pt}     % 本文と図の間の余白
+%\setlength\intextsep{0pt}        % 本文中の図の余白
+%\setlength\abovecaptionskip{0pt} % 図とキャプションの間の余白
+
+%\usepackage{here} % \begin{figure}[H]
 
 \renewcommand\thefootnote{\arabic{footnote})} % footnote % 脚注の調整
 \usepackage{dblfnote} % 脚注を 2 段組にする

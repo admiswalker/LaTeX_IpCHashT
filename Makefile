@@ -7,13 +7,15 @@ MAIN = main
 SRCDIR = ./*.tex
 BIBDIR = ./*.bib
 
-FIGDIR = ./figs
+FIGDIR_doc     = ./figs_algo
+doc_name       = algorism
+PDFS_from_doc  = $(FIGDIR_doc)/$(doc_name).pdf
+PDFS_cropped   = $(FIGDIR_doc)/$(doc_name)_crop.pdf
+PDFS_separated = $(FIGDIR_doc)/$(doc_name)_crop_\%02d.pdf
+
+FIGDIR = ./figs $(FIGDIR_doc)
 FIGPNG = $(FIGDIR)/*.png
 FIGPDF = $(FIGDIR)/*.pdf
-
-doc_name      = algorism
-PDFS_from_doc = $(FIGDIR)/$(doc_name).pdf
-PDFS_cropped  = $(FIGDIR)/$(doc_name)_crop.pdf
 
 TARGET = out.pdf
 
@@ -64,12 +66,12 @@ $(TARGET): $(SRCS) $(XBBS) $(PDFS_cropped)
 	dvipdfmx -o $(TARGET) ./$(TEMPDIR)/$(MAIN)
 	@echo ""
 
-$(PDFS_from_doc): $(FIGDIR)/$(doc_name).odg
-	(cd ./$(FIGDIR); export HOME=/tmp; soffice --headless --convert-to pdf *.odg) # convert *.odp to *.pdf
+$(PDFS_from_doc): $(FIGDIR_doc)/$(doc_name).odg
+	(cd ./$(FIGDIR_doc); export HOME=/tmp; soffice --headless --convert-to pdf *.odg) # convert *.odp to *.pdf
 
 $(PDFS_cropped): $(PDFS_from_doc)
 	pdfcrop $< $(PDFS_cropped)
-	$(EXTRACTBB) $(PDFS_cropped)
+	pdfseparate $(PDFS_cropped) $(PDFS_separated)
 
 %.xbb: %.png
 	$(EXTRACTBB) $<
@@ -89,5 +91,5 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(PDFS_from_doc) $(PDFS_cropped) ./.fuse_hidden*
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(PDFS_from_doc) $(PDFS_cropped) $(FIGDIR_doc)/$(doc_name)_crop_*.pdf ./.fuse_hidden*
 

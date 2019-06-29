@@ -8,8 +8,6 @@ probing により衝突を解決しなくてはならない．
 そこで，要素挿入時に，要素位置を整理して挿入する手法を提案する．
 これは．挿入時間を犠牲に lookup 速度を向上させることを意味する．
 
-
-
 \begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val, typename T_shift>
@@ -48,45 +46,55 @@ struct element{
 \section{挿入}
 
 \begin{figure}[h]
-  \includegraphics[page=1, scale=0.73]{./figs/algorism_crop.pdf}
+%  \vspace{-1cm}
+%  \includegraphics[page=1, scale=0.73]{./figs/algorism_crop.pdf}
+  \includegraphics[scale=0.73]{./figs_algo/algorism_crop_01.pdf}
+%  \includegraphics[page=1, scale=0.73, bb=0 0 668 468]{./figs/algorism_crop.pdf}
   \caption{
     Description of the symbols.
   }
   \label{fig_IpCHashT_fig_description}
+%  \vspace{-3cm}
 \end{figure}
-%\leavevmode \newline
-%\leavevmode \newline
-%\leavevmode \newline
-%\leavevmode \newline
-
-%\begin{figure}[h]
-%\begin{center}
-%  \includegraphics[page=2, scale=0.75]{./figs/algorism_crop.pdf}
-%\end{center}
-%\end{figure}
 
 \begin{figure}[h]
-  \includegraphics[page=3, scale=0.73]{./figs/algorism_crop.pdf}
+%  \vspace{-11cm}
+%  \includegraphics[page=2, scale=0.73]{./figs/algorism_crop.pdf}
+  \includegraphics[scale=0.73]{./figs_algo/algorism_crop_02.pdf}
+%  \includegraphics[page=2, scale=0.73, bb=0 0 259 18]{./figs/algorism_crop.pdf}
+  \caption{
+    Insertion case08.
+  }
+%  \vspace{-3cm}
+\end{figure}
+
+\begin{figure}[h]
+%  \vspace{-3cm}
+%  \includegraphics[page=3, scale=0.73]{./figs/algorism_crop.pdf}
+  \includegraphics[scale=0.73]{./figs_algo/algorism_crop_03.pdf}
+%  \includegraphics[page=3, scale=0.73, bb=0 0 668, 312]{./figs/algorism_crop.pdf}
   \caption{
     Insertion case08.
   }
   \label{fig_IpCHashT_insert_hard_case08}
+%  \vspace{-3cm}
 \end{figure}
 
-\begin{figure}[h]
-\begin{center}
-  \includegraphics[page=4, scale=0.75]{./figs/algorism_crop.pdf}
-\end{center}
-\end{figure}
-\begin{center}
-  \begin{figure}[h]
-    \includegraphics[page=5, scale=0.75]{./figs/algorism_crop.pdf}
-    \caption{
-      discription.
-    }
-    \label{fig_IpCHashT_XXXX}
-  \end{figure}
-\end{center}
+%\begin{figure}[h]
+%\begin{center}
+%  \includegraphics[page=4, scale=0.73]{./figs/algorism_crop.pdf}
+%\end{center}
+%\end{figure}
+
+%\begin{center}
+%  \begin{figure}[h]
+%    \includegraphics[page=5, scale=0.73]{./figs/algorism_crop.pdf}
+%    \caption{
+%      discription.
+%    }
+%    \label{fig_IpCHashT_XXXX}
+%  \end{figure}
+%\end{center}
 
 
 \section{探査}
