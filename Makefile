@@ -91,5 +91,6 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) ./*.log ./figs/*.xbb $(PDFS_from_doc) $(PDFS_cropped) $(FIGDIR_doc)/$(doc_name)_crop_*.pdf ./.fuse_hidden*
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb ./.fuse_hidden* \
+	$(PDFS_from_doc) $(PDFS_cropped) $(FIGDIR_doc)/$(doc_name)_crop_*.pdf $(FIGDIR_doc)/$(doc_name)_crop_*.xbb
 
