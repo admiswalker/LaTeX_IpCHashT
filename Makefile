@@ -36,7 +36,7 @@ DVIPDFMX  = dvipdfmx
 EXTRACTBB = extractbb
 BIB       = pbibtex
 
-$(TARGET): $(SRCS) $(XBBS) $(PDFS_cropped)
+$(TARGET): $(PDFS_cropped) $(XBBS) $(SRCS)
 	mkdir -p $(TEMPDIR)
 	@echo -e "\n============================================================\n"
 	@echo -e "SRCS: \n$(SRCS)\n"
@@ -70,6 +70,7 @@ $(PDFS_from_doc): $(FIGDIR_doc)/$(doc_name).odg
 	(cd ./$(FIGDIR_doc); export HOME=/tmp; soffice --headless --convert-to pdf *.odg) # convert *.odp to *.pdf
 
 $(PDFS_cropped): $(PDFS_from_doc)
+	-rm -f $(FIGDIR_doc)/$(doc_name)_crop_*.xbb
 	pdfcrop $< $(PDFS_cropped)
 	pdfseparate $(PDFS_cropped) $(PDFS_separated)
 
