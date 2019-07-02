@@ -4,5 +4,5 @@ This document will explain its algorithm and benchmarks.
 
 # Compile
 ```
-$ make
+$ make -j
 ```
