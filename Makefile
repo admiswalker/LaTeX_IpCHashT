@@ -89,22 +89,9 @@ all:
 	@(make clean)
 	@(make -j)
 
-.PHONY: make_j
-make_j:
-	@(make -j)
-
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
 	-rm -f $(TARGET) ./*.log ./figs/*.xbb ./.fuse_hidden* \
 	$(PDFS_from_doc) $(PDFS_cropped) $(FIGDIR_doc)/$(doc_name)_crop_*.pdf $(FIGDIR_doc)/$(doc_name)_crop_*.xbb
-
-Dummy=
-for_multi:
-ifdef
-	@echo Dummy is defined.
-else
-	@echo Dummy is NOT defined.
-	@(make -j Dummy=in_j_option)
-endif
 
