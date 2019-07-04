@@ -8,4 +8,5 @@ algorism.pdf
 *_crop.pdf
 *_crop_*.pdf
 backup_*/
+/figs_algo/*.pdf
 
