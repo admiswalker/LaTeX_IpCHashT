@@ -17,7 +17,7 @@ T\_shift には unsigned int 型を用い，相対位置により linked list �
 \footnote{例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
 テープルサイズの 50\% が doubly linked list に由来する．}．
 
-\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val, typename T_shift>
 struct element{
@@ -48,7 +48,7 @@ struct element{
 \label{fig_IpCHashT_struct}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_01.pdf}
   \caption{ Description of the symbols. }
   \label{fig_IpCHashT_fig_description}
@@ -62,17 +62,17 @@ struct element{
 各図は，青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
 
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
-丸印ひとつ一つが配列要素を表しており，
-双方向に張られた 2 つの矢印により doubly linked list を構成している．
+丸印ひとつ一つが配列要素を，
+双方向に張られた２つの矢印が doubly linked list を表す．
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
 ２辺を共有した四角形の連なりにより表現されることが多い．
-しかし，IpCHashT は，linked list を用いた構造のため，
-一見すると図\ref{fig_IpCHashT_apparence}のように隣接した連続構造であっても，
+同様に，IpCHashT では，配列要素を図\ref{fig_IpCHashT_apparence}のように抽象化して表すが，
+一見すると隣接した連続構造であっても，
 実際には，図\ref{fig_IpCHashT_insert_introspection}のように，
 各要素が断続的なアドレス空間上に存在することがある．
 
-\begin{figure}[h]
+\begin{figure}
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_03.pdf}
   \caption{
     IpCHashT に挿入された要素の抽象表現.
@@ -84,7 +84,7 @@ Open hashing を用いたハッシュテーブルの説明では，
   \label{fig_IpCHashT_apparence}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_04.pdf}
   \caption{
     図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した場合の一例.
