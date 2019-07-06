@@ -52,7 +52,16 @@ struct element{
 
 \begin{figure}
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_01.pdf}
-  \caption{ Description of the symbols. }
+  \caption{
+    図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号．
+    ``Ope.''は，実行順序を意味し，``Ope. 0'' は初期状態を表す．
+    下向き矢印は，ハッシュ値の示す配列アドレス上に置かれる．
+    各要素は，丸１つと prev locator １つ，next locator １つで構成されるが，
+    接続が無い場合 locator は省略される．
+    点線で書かれた丸は空の要素を表し，緑の枠線と矢印は要素の移動を表す．
+    バツ印は linked list の削除を意味する．
+    配色は，青色を初期状態，赤色を要素の挿入・削除動作，緑色を要素の移動，と分かれている．
+  }
   \label{fig_IpCHashT_fig_description}
 \end{figure}
 
@@ -98,13 +107,66 @@ Open hashing を用いたハッシュテーブルの説明では，
   \label{fig_IpCHashT_insert_introspection}
 \end{figure}
 
+ハッシュテーブルの主要な動作は，挿入・探査・削除である．
+IpCHashT における検索は，単に linked list を辿るだけであるから，
+ここでは，挿入と削除について説明する．
+
 %\leavevmode \newline
 %\leavevmode \newline
 %\vspace{-1cm}
 \section{挿入}
 
-図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}に IpCHashT における挿入方法を示す．
+高い検索性能を達成するためには，
+命令数を削減するだけでなく，
+キャッシュミスを抑える必要がある．
+一般に，CPU は配列の連続アクセスに対して，
+参照の局所性を利用してキャッシングする．
+ここでは，
+必要な要素を配列に隙間なく詰め込むことが，
+空間的局所性と逐次的局所性を高め，
+キャッシュミスを削減する．
 
+通常の Chaining であれば，
+新しく確保したメモリアドレスをポインタにより接続するため，
+挿入済みの要素がメモリ上の何処に存在するかを考慮する必要はなく，
+メモリの確保自体も malloc 関数に任せればよい．
+しかし今回のように，
+連続したメモリアドレス上に doubly linked list を構築するには，
+メモリ自体を手動で管理する必要がある．
+
+key-value pair を１つ挿入するとき，
+1) key のハッシュ値が示すテーブルのアドレスが空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
+2) 既に要素が挿入されており，chain の間に空きがある場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
+3) chain の間に空きがない場合は，図\ref{fig_IpCHashT_insert_hard_case03}のように，末尾に空きを探し挿入する．
+4) 挿入先の要素が異なるハッシュ値を持つ要素の退避先に使用されている場合は，
+図\ref{fig_IpCHashT_insert_hard_case04}〜\ref{fig_IpCHashT_insert_hard_case11}のように挿入する．
+これだけの場合分けが必要となるのは，要素の退避先と locator の再接続先との兼ね合いである．
+
+chain 間に空きがあるかを調べるには，線形探査を行う．
+これには，対象の要素に全て調べ上げる必要があり，処理に時間が掛かる．
+また，11 通りの場合分けを全て実装するには非常に手間も掛かる．
+ここで示す場合分けは，
+任意の箇所に空きが合った場合を考慮しており，
+ハッシュテーブルの内容を固定して利用する場合は，
+要素削除なく挿入するため，メモリが断片化することはない．
+これらを考慮すると，必ず実装しなくてはいけないのは，
+図\ref{fig_IpCHashT_insert_hard_case01}，
+\ref{fig_IpCHashT_insert_hard_case03}，
+\ref{fig_IpCHashT_insert_hard_case06}，
+\ref{fig_IpCHashT_insert_hard_case11}
+の５通りである．
+これは，挿入時の実行コストと引き換えに，
+要素の削除と再挿入によるメモリ断片化への耐性を捨てることを意味する．
+
+% \section{探査}
+
+\section{削除}
+
+\section{断片化}
+
+\section{配列確保（パディングの話）}
+
+%---
 
 \begin{figure}[h]
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_06.pdf}
@@ -172,14 +234,8 @@ Open hashing を用いたハッシュテーブルの説明では，
   \label{fig_IpCHashT_insert_hard_case11}
 \end{figure}
 
+%---
 
-
-
-
-\section{探査}
-
-
-\section{削除}
 \begin{figure}[h]
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_18.pdf}
   \caption{ Deletion case01. }
@@ -216,15 +272,5 @@ Open hashing を用いたハッシュテーブルの説明では，
   \label{fig_IpCHashT_deletion_case06}
 \end{figure}
 
-\section{断片化}
-
-\section{配列確保（パディングの話）}
-
-
-
-
-
-
-
-
+%---
 
