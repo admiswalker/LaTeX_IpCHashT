@@ -10,12 +10,14 @@ probing により衝突を解決しなくてはならない．
 一般に，要素を先頭から末尾までただ辿る場合は，singly linked list を用いる．
 今回は，後から挿入位置を整理するため，doubly linked list を用いる．
 
-図 \ref{fig_IpCHashT_struct} に In-place hash table (以下，IpCHashT) のデータ構造を示す．
-各要素には key-value pair の他に，linked list のための prev 要素と next 要素を備える．
-T\_shift には unsigned int 型を用い，相対位置により linked list を構成する．
+In-place hash table (以下，IpCHashT) では図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
+各要素には key-value pair の他に，linked list のための prev 要素と next 要素を持つ．
+T\_shift には unsigned int 型を用い，相対位置による linked list を構成する．
 これは，ポインタ接続におけるメモリ消費量が無視できないためである．
-\footnote{例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
-テープルサイズの 50\% が doubly linked list に由来する．}．
+\footnote{
+  例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
+  テープルサイズの 50\% が doubly linked list に由来する．
+}．
 
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
@@ -54,13 +56,10 @@ struct element{
   \label{fig_IpCHashT_fig_description}
 \end{figure}
 
-図\ref{fig_IpCHashT_fig_description}に，
-%図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_insert_introspection}，
-%図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11} および
-%図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を示す．
-図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を示す．
-各図は，青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
-
+本章で示す図は，
+青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
+また，図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を
+図\ref{fig_IpCHashT_fig_description}に示す．
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
 丸印ひとつ一つが配列要素を，
 双方向に張られた２つの矢印が doubly linked list を表す．
@@ -76,7 +75,7 @@ Open hashing を用いたハッシュテーブルの説明では，
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_03.pdf}
   \caption{
     IpCHashT に挿入された要素の抽象表現.
-    この場合，3 つの要素のハッシュ値は，いずれも first アドレスを示すため，
+    この場合，3 つの要素のハッシュ値は，いずれも first 要素のアドレスを示すため，
     linked list により衝突を解決している．
     各要素は prev locator と next locator の示す相対位置により接続されており，
     各要素間に別の要素がある可能性がある．
@@ -87,14 +86,14 @@ Open hashing を用いたハッシュテーブルの説明では，
 \begin{figure}
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_04.pdf}
   \caption{
-    図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した場合の一例.
+    図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
     同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
-    ここでは，薄い灰色に囲まれた四角形が配列を示す．
-    青字の linked list は図\ref{fig_IpCHashT_apparence}で示された構造を示し，
-    赤字の linked list は間に挿入されていた別の chain を示す．
-    この例では，手前に空の要素があるにも関わらず，
+    灰色の枠線が配列を表す．
+    青字の linked list は図\ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
+    赤字の linked list は間に挿入された別の chain である．
+    この例では，手前に空き要素があるにも関わらず，
     青字の linked list の末尾が不用意に遠い場所に格納されており，
-    断片化していることが分かる．
+    断片化している．
   }
   \label{fig_IpCHashT_insert_introspection}
 \end{figure}
