@@ -55,31 +55,47 @@ struct element{
 \end{figure}
 
 図\ref{fig_IpCHashT_fig_description}に，
-図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_insert_introspection}，
-図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11} および
-図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を示す．
+%図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_insert_introspection}，
+%図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11} および
+%図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を示す．
+図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を示す．
 各図は，青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
 
-図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11} および
-図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}では，
+図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
 丸印ひとつ一つが配列要素を表しており，
 双方向に張られた 2 つの矢印により doubly linked list を構成している．
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
 ２辺を共有した四角形の連なりにより表現されることが多い．
 しかし，IpCHashT は，linked list を用いた構造のため，
-一見すると図\ref{fig_IpCHashT_apparence}のように隣接する構造であっても，
-実際には，図\ref{fig_IpCHashT_insert_introspection}のように，連続したアドレス空間上に存在しないことがある．
+一見すると図\ref{fig_IpCHashT_apparence}のように隣接した連続構造であっても，
+実際には，図\ref{fig_IpCHashT_insert_introspection}のように，
+各要素が断続的なアドレス空間上に存在することがある．
 
 \begin{figure}[h]
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_03.pdf}
-  \caption{ Insertion case01. }
+  \caption{
+    IpCHashT に挿入された要素の抽象表現.
+    この場合，3 つの要素のハッシュ値は，いずれも first アドレスを示すため，
+    linked list により衝突を解決している．
+    各要素は prev locator と next locator の示す相対位置により接続されており，
+    各要素間に別の要素がある可能性がある．
+  }
   \label{fig_IpCHashT_apparence}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_04.pdf}
-  \caption{ Insertion case01. }
+  \caption{
+    図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した場合の一例.
+    同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
+    ここでは，薄い灰色に囲まれた四角形が配列を示す．
+    青字の linked list は図\ref{fig_IpCHashT_apparence}で示された構造を示し，
+    赤字の linked list は間に挿入されていた別の chain を示す．
+    この例では，手前に空の要素があるにも関わらず，
+    青字の linked list の末尾が不用意に遠い場所に格納されており，
+    断片化していることが分かる．
+  }
   \label{fig_IpCHashT_insert_introspection}
 \end{figure}
 
@@ -200,6 +216,8 @@ Open hashing を用いたハッシュテーブルの説明では，
   \caption{ Deletion case06. }
   \label{fig_IpCHashT_deletion_case06}
 \end{figure}
+
+\section{断片化}
 
 \section{配列確保（パディングの話）}
 
