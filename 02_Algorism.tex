@@ -147,15 +147,15 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 また，11 通りの場合分けを全て実装するには非常に手間も掛かる．
 ここで示す場合分けは，
 任意の箇所に空きが合った場合を考慮しており，
-ハッシュテーブルの内容を固定して利用する場合は，
-要素削除なく挿入するため，メモリが断片化することはない．
+ハッシュテーブルの内容を固定して利用する場合，
+要素削除なく挿入するため，メモリの断片化は発生しない．
 これらを考慮すると，必ず実装しなくてはいけないのは，
 図\ref{fig_IpCHashT_insert_hard_case01}，
 \ref{fig_IpCHashT_insert_hard_case03}，
 \ref{fig_IpCHashT_insert_hard_case06}，
 \ref{fig_IpCHashT_insert_hard_case11}
-の５通りである．
-これは，挿入時の実行コストと引き換えに，
+の５通りに限定される．
+これは，実装コストの低減および，挿入の高速化と引き換えに，
 要素の削除と再挿入によるメモリ断片化への耐性を捨てることを意味する．
 
 % \section{探査}
@@ -262,13 +262,21 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 
 \begin{figure}[h]
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_22.pdf}
-  \caption{ Deletion case05. }
+  \caption{
+    Deletion case05.
+    削除時の断片化を低減する処理．
+    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+  }
   \label{fig_IpCHashT_deletion_case05}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.73]{./figs_algo/algorism_crop_23.pdf}
-  \caption{ Deletion case06. }
+  \caption{
+    Deletion case06.
+    削除時の断片化を低減する処理．
+    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+  }
   \label{fig_IpCHashT_deletion_case06}
 \end{figure}
 
