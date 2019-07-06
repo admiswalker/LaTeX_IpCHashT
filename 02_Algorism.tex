@@ -167,16 +167,27 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 しかし，IpCHashT では，幾つかの場合を考慮する必要がある．
 
 key-value pair を１つ削除するには，
-次の 1) 〜 4) の場合を考える．
+次の 1) 〜 4) と，メモリの断片化を防ぐ処理として 5) を考える．
 1) 単一要素の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に削除する．
 2) 末尾要素を削除する場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように要素と locator を削除する．
 3) 先頭の要素が削除された場合，探査不能としないため，先頭に別の要素をつなぎ替える必要がある．
 図\ref{fig_IpCHashT_insert_hard_case03}では，断片化を防ぐために，末尾のデータを先頭へ移動させている．
 4) chain の中間要素を削除する場合は，図\ref{fig_IpCHashT_insert_hard_case04}のように末尾要素を移動させる．
+5) 別の削除処理によって，末尾の要素が移動すると，
+図\ref{fig_IpCHashT_insert_hard_case05}，\ref{fig_IpCHashT_insert_hard_case06}のように，
+chain の要素間に空きができ，断片化する場合がある．これを
+図\ref{fig_IpCHashT_insert_hard_case05}，\ref{fig_IpCHashT_insert_hard_case06}に示す操作を繰り返すことにより修正する．
+ただし，空き要素の探査は線形探査する必要がある．
+また，要素を移動させる度に別の chain に空きができる可能性があるため，再帰的に行う必要がある．
+この処理は，実行コストが高いため推奨しない．
 
-\section{断片化}
+以上を勘案して，1) 〜 4) の操作を実装する．
+
+% \section{断片化}
 
 \section{配列確保（パディングの話）}
+
+
 
 %---
 
