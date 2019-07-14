@@ -86,22 +86,24 @@ singly linked list を用いて，
 Linear probing のコストに配慮し，
 探査を $log_2(n)$ に制限している (ただし $n$ はテーブルサイズ) \cite{Skarupke2017}．
 
-
 \begin{table}[hbtp]
-  \caption{各実装の比較．}
-  \begin{tabular}{ccccc} \hline
-    Implementation of hash table & Algorism              & Successful lookup & Unsuccessful lookup & Memory efficiency \\ \hline
-    std::unorderd\_map           & Open hashing $^{a)}$   & bad               & bad                 & good              \\ 
-    google::dense\_hash\_map     & Closed hashing $^{b)}$ & good              & good                & medium            \\
-    ska::flat\_hash\_map         & Closed hashing $^{c)}$ & good              & good                & bad               \\ \hline
-  \end{tabular}
-  \\ 
-  $^{a)}$ Chaining, 
-  $^{b)}$ Quadratic probing,
-  $^{c)}$ Robin Hood hashing (One of the linear probing)
-  \\
-  \label{table_env}
+  \begin{center}
+    \fontsize{9pt}{10pt}\selectfont
+    \caption{各実装の比較．}
+    \begin{tabular}{ccccccc} \hline
+      \begin{tabular}{c}Implementation of\\hash table\end{tabular} & Algorism              & Insert & \begin{tabular}{c}Successful\\lookup\end{tabular} & \begin{tabular}{c}Unsuccessful\\lookup\end{tabular} & Erase & \begin{tabular}{c}Memory\\efficiency\end{tabular} \rule[0pt]{0pt}{15pt} \\ \hline
+      std::unorderd\_map           & Open hashing $^{a)}$   & bad    & bad  & bad  & bad   & good   \\ 
+      google::dense\_hash\_map     & Closed hashing $^{b)}$ & good   & good & good & good  & medium \\
+      ska::flat\_hash\_map         & Closed hashing $^{c)}$ & good   & good & good & good  & bad    \\ \hline
+    \end{tabular}
+    \\ 
+    $^{a)}$ Chaining, 
+    $^{b)}$ Quadratic probing,
+    $^{c)}$ Robin Hood hashing (One of the linear probing)
+    \label{table_env}
+  \end{center}
 \end{table}
+
 
 \section{Purpose}
 研究目的．
