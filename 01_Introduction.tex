@@ -103,56 +103,6 @@ Linear probing のコストに配慮し，
   \label{table_env}
 \end{table}
 
-
-%\begin{threeparttable}[hbtp]
-%  \caption{各実装の比較．\vspace{-2.5mm}}
-%  \begin{tabular}[]{cccc}\hline
-%     Implementation of hash table & Algorism & Successful lookup & Unsuccessful lookup \rule[0pt]{0pt}{0pt} \\ \hline
-%    std::unorderd\_map & Open hashing \tnote{Chaining} & bad & \rule[0pt]{0pt}{0pt} \\ 
-%    google::dense\_hash\_map & Closed hashing \tnote{Quadratic probing} & good& \\
-%    ska::flat\_hash\_map & Closed hashing \tnote{Robin Hood hashing (One of the linear probing)} & good & \\ \hline
-%  \end{tabular}
-%  \begin{tablenotes}[para] %(default:normal) % para,flushleft,online,normal
-%  \item[1] ......
-%  \item[2] ......
-%  \end{tablenotes}
-%  \label{table_hashT_imp}
-%\end{threeparttable}
-%\vspace{2.5mm}
-%あああああああああああ
-
-%\begin{table}[hbtp]
-%  \begin{center}
-%    \caption{各実装の比較．}
-%    \begin{tabular}{cccc} \hline
-%      Implementation of hash table & Algorism & Successful lookup & Unsuccessful lookup \rule[0pt]{0pt}{0pt} \\ \hline
-%      std::unorderd\_map & Open hashing / & bad & \rule[0pt]{0pt}{0pt} \\ 
-%                         & Chaining &  & \rule[0pt]{0pt}{0pt} \\ 
-%      google::dense\_hash\_map & Closed hashing / & good& \\
-%                               & Quadratic probing & & \\
-%      ska::flat\_hash\_map & Closed hashing / & good & \\
-%                           & Robin Hood hashing & & \\
-%                           & (One of the linear probing) & & \\ \hline
-%    \end{tabular}
-%  \end{center}
-%  \label{table_env}
-%\end{table}
-
-%\begin{table}[hbtp]
-%  \begin{center}
-%    \caption{各実装の比較．}
-%    \begin{tabular}{cccc} \hline
-%      Implementation of hash table & std::unorderd\_map & google::dense\_hash\_map & ska::flat\_hash\_map \rule[0pt]{0pt}{0pt} \\ \hline
-%      Algorism & Open hashing / & Closed hashing        & Closed hashing \\
-%               & Chaining       & Quadratic probing     & Robin Hood hashing \\
-%               &                &                       & (One of the linear probing) \\
-%        Successful lookup & bad & good & good \\
-%      Unsuccessful lookup & bad & good & good \\ \hline
-%    \end{tabular}
-%  \end{center}
-%  \label{table_env}
-%\end{table}
-
 \section{Purpose}
 研究目的．
 
