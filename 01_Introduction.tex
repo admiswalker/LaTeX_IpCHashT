@@ -2,6 +2,16 @@
 \label{chap_Introduction}
 
 XXXXXXXXXXXXXXXXX序論
+%\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+%  \centering
+%  \includegraphics[width=10cm]{./figs/taocp_v3_fig44.png}
+%  \caption{
+%    Comparison of collision resolution methods: limiting values of the average number of probes as $M \rightarrow \infty$ \citep{knuth1998}.
+%  }
+%  \label{fig_taocp_v3_fig44}
+%\end{figure}
+
+%先行研究\footnote{脚注はこのように挿入します．}．
 
 \section{先行研究}
 現実的なハッシュテーブルを検討するには，
@@ -15,7 +25,7 @@ C++ 標準のハッシュテーブル．
 メモリ効率を重視しており速度は遅い．
 
 \subsection{google::dense\_hash\_map}
-最も探査の高速な実装の内の 1 つ．
+最も探査の高速な実装の内の 1 つで，\cite{sparsehash2005}に含まれる．
 スループットで 250 query/$\mu$s 程度
 \footnote{AMD Ryzen7 1700 (8C/16T) 3.7 GHz の場合．詳細は，第\ref{chap_Results}章を参照．}
 の探査速度を持つことから，
@@ -63,22 +73,18 @@ dense\_hash\_map では，整数除算をしておらず，
 これを実現するため，テーブルサイズは常に 2 のべき乗となるように制御されている．
 
 また，メモリ使用量を削減するため，空マークを登録する必要があり，key として使用できない．
+削除マークについても同様で，key とメモリを共有しているため，削除が必要な場合は，削除マークを登録する必要があり，key として使用できなくなる．
 
 \subsection{ska::flat\_hash\_map}
 
-
-
-%\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
-%  \centering
-%  \includegraphics[width=10cm]{./figs/taocp_v3_fig44.png}
-%  \caption{
-%    Comparison of collision resolution methods: limiting values of the average number of probes as $M \rightarrow \infty$ \citep{knuth1998}.
-%  }
-%  \label{fig_taocp_v3_fig44}
-%\end{figure}
-
-%先行研究\footnote{脚注はこのように挿入します．}．
-
+Robin Hood hashing の実実装の内の一つ．
+条件次第で dense\_hash\_map より探査が高速であることを謳う．
+Robin Hood hashing は衝突解決法の一つで，
+singly linked list を用いて，
+より近い位置に要素が移動するように調整する．
+実際の探査時は，Linear probing により要素を検索する．
+Linear probing のコストに配慮し，
+探査を $log_2(n)$ に制限している (ただし $n$ はテーブルサイズ) \cite{Skarupke2017}．
 
 \section{Purpose}
 研究目的．
