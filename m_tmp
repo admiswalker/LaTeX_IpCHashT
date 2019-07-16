@@ -7,6 +7,12 @@ MAIN = main
 SRCDIR = ./*.tex
 BIBDIR = ./*.bib
 
+#FIGDIR_doc     = ./figs_algo
+#doc_name       = algorism
+#PDFS_from_doc  = $(FIGDIR_doc)/$(doc_name).pdf
+#PDFS_cropped   = $(FIGDIR_doc)/$(doc_name)_crop.pdf
+#PDFS_separated = $(FIGDIR_doc)/$(doc_name)_crop_\%02d.pdf
+
 FIGDIR = ./figs $(FIGDIR_doc)
 FIGPNG = $(FIGDIR)/*.png
 FIGPDF = $(FIGDIR)/*.pdf
@@ -30,9 +36,8 @@ DVIPDFMX  = dvipdfmx
 EXTRACTBB = extractbb
 BIB       = pbibtex
 
-FIGS_ALGO = FORCE_FIGS_ALGO # Force to build every time using a blank name
-
-$(TARGET): $(FIGS_ALGO) $(XBBS) $(SRCS)
+#$(TARGET): $(XBBS) $(SRCS)
+$(TARGET): $(PDFS_cropped) $(XBBS) $(SRCS)
 	mkdir -p $(TEMPDIR)
 	@echo -e "\n============================================================\n"
 	@echo -e "SRCS: \n$(SRCS)\n"
@@ -62,8 +67,16 @@ $(TARGET): $(FIGS_ALGO) $(XBBS) $(SRCS)
 	dvipdfmx -o $(TARGET) ./$(TEMPDIR)/$(MAIN)
 	@echo ""
 
-$(FIGS_ALGO):
-	@(cd ./figs_algo; make -j)
+#$(PDFS_from_doc): $(FIGDIR_doc)/$(doc_name).odg
+#	(cd ./$(FIGDIR_doc); export HOME=/tmp; soffice --headless --convert-to pdf *.odg) # convert *.odp to *.pdf
+#
+#$(PDFS_cropped): $(PDFS_from_doc)
+#	-rm -f $(FIGDIR_doc)/$(doc_name)_crop_*.xbb
+#	pdfcrop $< $(PDFS_cropped)
+#	pdfseparate $(PDFS_cropped) $(PDFS_separated)
+
+$(PDFS_cropped):
+	(cd ./figs_algo; make -j)
 
 %.xbb: %.png
 	$(EXTRACTBB) $<
@@ -83,6 +96,7 @@ all:
 .PHONY: clean
 clean:
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) $(XBBS) ./*.log
-	@(cd ./figs_algo; make clean)
+	-rm -f $(TARGET) ./*.log ./figs/*.xbb ./.fuse_hidden*
+	(cd ./figs_algo; make -j)
+#	$(FIGDIR_doc)/*.pdf $(FIGDIR_doc)/*.xbb
 
