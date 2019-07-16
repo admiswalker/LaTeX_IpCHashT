@@ -82,7 +82,8 @@ all:
 
 .PHONY: clean
 clean:
+	-rm -f $(TEMPDIR)/.fuse_hidden*
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) $(XBBS) ./*.log
+	-rm -f $(TARGET) $(XBBS) ./*.log .fuse_hidden*
 	@(cd ./figs_algo; make clean)
 
