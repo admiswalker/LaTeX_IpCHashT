@@ -17,37 +17,42 @@
 \samepage \\ \indent
 \begin{table}[hbtp]
   \begin{center}
-    \fontsize{9pt}{10pt}\selectfont
+    \fontsize{7pt}{10pt}\selectfont
     \caption{ファイル構成．}
-    \begin{tabular}{ccccccc} \hline
-      File or directory name & Description \rule[0pt]{0pt}{10pt} \\ \hline
-      flat\_hash\_map        &  \\ 
-      googletest-master      &  \\
-      sparsehash-master      &  \\
-      sstd                   &  \\
-      CHashT.hpp             &  \\
-      FNV\_Hash.cpp          &  \\
-      FNV\_Hash.hpp          &  \\
-      IpCHashT.hpp           &  \\
-      Makefile               &  \\
-      README.md              &  \\
-      bench.hpp              &  \\
-      bench\_main.cpp        &  \\
-      exe\_bm                &  \\
-      exe\_t                 &  \\
-      googletest-master.zip  &  \\
-      plots.py               &  \\
-      sparsehash-master.zip  &  \\
-      sstd.zip               &  \\
-      test\_CHashT.hpp       &  \\
-      test\_IpCHashT.hpp     &  \\
-      test\_main.cpp         &  \\
-      typeDef.h              &  \\ \hline
+    \begin{tabular}{ccc} \hline
+      File name                  & Description                                  & Origin \rule[0pt]{0pt}{10pt} \\ \hline
+      flat\_hash\_map-master     & Extract file of "flat\_hash\_map-master.zip" & \\
+      googletest-master          & Extract file of "googletest-master.zip"      & \\
+      sparsehash-master          & Extract file of "sparsehash-master.zip"      & \\
+      sstd                       & Extract file of "sstd.zip"                   & \\
+      CHashT.hpp                 & Inplimentation of "sstd::CHashT"             & \\
+      FNV\_Hash.cpp              & Light claculation weight hash function       & \url{qiita.com/Ushio/items/a19083514d087a57fc72} \\
+      FNV\_Hash.hpp              & Light claculation weight hash function       & \url{qiita.com/Ushio/items/a19083514d087a57fc72} \\
+      IpCHashT.hpp               & Inplimentation of "sstd::IpCHashT" (Proposing method) & \\
+      Makefile                   & Makefile                                     & \\
+      README.md                  & Read me file                                 & \\
+      bench.hpp                  & Benchmark                                    & \\
+      bench\_main.cpp            & Entry potion for "bench.hpp"                 & \\
+      exe\_bm                    & Binary file for benchmark                    & \\
+      exe\_t                     & Binary file for test of "test\_CHashT.hpp" and "test\_IpCHashT.hpp" & \\
+      flat\_hash\_map-master.zip & Inplimentation of "ska::flat\_hash\_map"     & \url{github.com/skarupke/flat_hash_map} \\
+      googletest-master.zip      & Google's C++ test framework                  & \url{github.com/google/googletest} \\
+      plots.py                   & Plotting funcrions for benchmark             & \\
+      sparsehash-master.zip      & Inplimentation of "google::dense\_hash\_map" & \url{github.com/sparsehash/sparsehash} \\
+      sstd.zip                   & Convenient functions set                     & \url{github.com/admiswalker/SubStandardLibrary-SSTD-} \\
+      test\_CHashT.hpp           & Test code for "CHashT.hpp"                   & \\
+      test\_IpCHashT.hpp         & Test code for "IpCHashT.hpp"                 & \\
+      test\_main.cpp             & Entry potion for "test\_CHashT.hpp" and "test\_IpCHashT.hpp" & \\
+      typeDef.h                  & Type definitions for integer & \\ \hline
     \end{tabular}
     \label{table_fileDesc}
   \end{center}
 \end{table}
-
+% std::unordered_map<uint64,uint64>
+% sstd::CHashT<uint64,uint64>
+% sstd::IpCHashT<uint64,uint64>
+% google::dense_hash_map<uint64,uint64>
+% ska::flat_hash_map<uint64,uint64,ska::power_of_two_std_hash<uint64>>
 
 
 {\bf 実行手順}
