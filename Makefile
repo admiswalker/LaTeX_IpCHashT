@@ -31,8 +31,9 @@ EXTRACTBB = extractbb
 BIB       = pbibtex
 
 FIGS_ALGO = FORCE_FIGS_ALGO # Force to build every time using a blank name
+FIGS_ODG  = FORCE_FIGS_ODG  # Force to build every time using a blank name
 
-$(TARGET): $(FIGS_ALGO) $(XBBS) $(SRCS)
+$(TARGET): $(FIGS_ODG) $(FIGS_ALGO) $(XBBS) $(SRCS)
 	mkdir -p $(TEMPDIR)
 	@echo -e "\n============================================================\n"
 	@echo -e "SRCS: \n$(SRCS)\n"
@@ -64,6 +65,8 @@ $(TARGET): $(FIGS_ALGO) $(XBBS) $(SRCS)
 
 $(FIGS_ALGO):
 	@(cd ./figs_algo; make -j)
+$(FIGS_ODG):
+	@(cd ./figs_odg; make -j)
 
 %.xbb: %.png
 	$(EXTRACTBB) $<
@@ -86,4 +89,5 @@ clean:
 	-rm -rf $(TEMPDIR)
 	-rm -f $(TARGET) $(XBBS) ./*.log .fuse_hidden*
 	@(cd ./figs_algo; make clean)
+	@(cd ./figs_odg; make clean)
 
