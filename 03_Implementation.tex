@@ -6,6 +6,8 @@
 ベンチマーク周りの実装も軽く説明する．
 \leavevmode \newline
 
+\section{ベンチマーク用コード}
+
 {\bf ソースコード}
 \samepage \\ \indent
 本研究で使用したソースコードを下記に示す．({\bf \color{red}メモ：現状では Private Repository.})
@@ -27,8 +29,8 @@
       sparsehash-master          & Extract file of "sparsehash-master.zip"      & \\
       sstd                       & Extract file of "sstd.zip"                   & \\
       CHashT.hpp                 & Inplimentation of "sstd::CHashT"             & \\
-      FNV\_Hash.cpp              & Light claculation weight hash function       & \url{qiita.com/Ushio/items/a19083514d087a57fc72}$^{a)}$ \\
-      FNV\_Hash.hpp              & Light claculation weight hash function       & \url{qiita.com/Ushio/items/a19083514d087a57fc72}$^{a)}$ \\
+      FNV\_Hash.cpp              & Light claculation weight hash function       & $^{a)}$\url{qiita.com/Ushio/items/a19083514d087a57fc72} \\
+      FNV\_Hash.hpp              & Light claculation weight hash function       & $^{a)}$\url{qiita.com/Ushio/items/a19083514d087a57fc72} \\
       IpCHashT.hpp               & Inplimentation of "sstd::IpCHashT" (Proposing method) & \\
       Makefile                   & Makefile                                     & \\
       README.md                  & Read me file                                 & \\
@@ -36,11 +38,11 @@
       bench\_main.cpp            & Entry potion for "bench.hpp"                 & \\
       exe\_bm                    & Binary file for benchmark                    & \\
       exe\_t                     & Binary file for test of "test\_CHashT.hpp" and "test\_IpCHashT.hpp" & \\
-      flat\_hash\_map-master.zip & Inplimentation of "ska::flat\_hash\_map"     & \url{github.com/skarupke/flat_hash_map}$^{a)}$ \\
-      googletest-master.zip      & Google's C++ test framework                  & \url{github.com/google/googletest}$^{a)}$ \\
+      flat\_hash\_map-master.zip & Inplimentation of "ska::flat\_hash\_map"     & $^{a)}$\url{github.com/skarupke/flat_hash_map} \\
+      googletest-master.zip      & Google's C++ test framework                  & $^{a)}$\url{github.com/google/googletest} \\
       plots.py                   & Plotting funcrions for benchmark             & \\
-      sparsehash-master.zip      & Inplimentation of "google::dense\_hash\_map" & \url{github.com/sparsehash/sparsehash}$^{a)}$ \\
-      sstd.zip                   & Convenient functions set                     & \url{github.com/admiswalker/SubStandardLibrary}$^{a)}$ \\
+      sparsehash-master.zip      & Inplimentation of "google::dense\_hash\_map" & $^{a)}$\url{github.com/sparsehash/sparsehash} \\
+      sstd.zip                   & Convenient functions set                     & $^{a)}$\url{github.com/admiswalker/SubStandardLibrary} \\
       test\_CHashT.hpp           & Test code for "CHashT.hpp"                   & \\
       test\_IpCHashT.hpp         & Test code for "IpCHashT.hpp"                 & \\
       test\_main.cpp             & Entry potion for "test\_CHashT.hpp" and "test\_IpCHashT.hpp" & \\
@@ -56,6 +58,9 @@
 % google::dense_hash_map<uint64,uint64>
 % ska::flat_hash_map<uint64,uint64,ska::power_of_two_std_hash<uint64>>
 
+\leavevmode \newline
+\leavevmode \newline
+\leavevmode \newline
 
 {\bf 実行手順}
 \samepage \\ \indent
@@ -86,4 +91,70 @@
 %}
 %  % colorbox: http://osksn2.hep.sci.osaka-u.ac.jp/~naga/miscellaneous/tex/tex-tips7.html
 %  % fonts:  http://ideas.paunix.org/latex/latex_6_fontstyle.htm
+
+
+
+\section{ベンチマークの仕様}
+
+{\bf レイテンシ}
+\samepage \\ \indent
+レイテンシの測定条件について説明する．
+\leavevmode \newline
+
+{\bf スループット}
+\samepage \\ \indent
+スループットの測定条件について説明する．
+\leavevmode \newline
+
+
+{\bf 挿入}
+\samepage \\ \indent
+レイテンシの測定条件について説明する．
+\leavevmode \newline
+
+{\bf 探査}
+\samepage \\ \indent
+レイテンシの測定条件について説明する．
+\leavevmode \newline
+
+{\bf 削除}
+\samepage \\ \indent
+レイテンシの測定条件について説明する．
+\leavevmode \newline
+
+{\bf Load factor}
+\samepage \\ \indent
+レイテンシの測定条件について説明する．
+\leavevmode \newline
+
+{\bf メモリ使用量}
+\samepage \\ \indent
+レイテンシの測定条件について説明する．
+\leavevmode \newline
+
+
+
+
+
+%
+% 第 3 章では，ベンチマークの実装がどのようであるかを説明し，
+% 第 4 章では，その測定結果を，
+% 第 5 章では，測定結果の考察を示す．．
+%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
