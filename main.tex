@@ -1,4 +1,6 @@
 \documentclass[oneside,openright,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
+%\documentclass[report,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
+%\documentclass[openany,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
 
 % jsbookで余白が広すぎるのを直す
 % 参照 https://oku.edu.mie-u.ac.jp/~okumura/jsclasses/
@@ -65,21 +67,22 @@
 \newcommand{\HI}{\mbox{\ion{H}{1}}} % 中性原子ガス（HI 領域）の例
 \newcommand{\bs}{\symbol{92}} % backslash
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 図を通し番号にする: http://rexpit.blog29.fc2.com/blog-entry-99.html
-\usepackage{remreset}	% removefromreset に使う
-\makeatletter
-	\@removefromreset{figure}{chapter}
-	\def\thefigure{\arabic{figure}}
+% \usepackage{remreset}	% removefromreset に使う
+% \makeatletter
+% 	\@removefromreset{figure}{chapter}
+% 	\def\thefigure{\arabic{figure}}
+% 
+% 	\@removefromreset{table}{chapter}
+% 	\def\thetable{\arabic{table}}
+% 
+% 	\@removefromreset{equation}{chapter}
+% 	\def\theequation{\arabic{equation}}
+% \makeatother
 
-	\@removefromreset{table}{chapter}
-	\def\thetable{\arabic{table}}
-
-	\@removefromreset{equation}{chapter}
-	\def\theequation{\arabic{equation}}
-\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{comment} % \begin{comment} \end{comment}
 \usepackage{color}   % {\bf \color{red}メモ}
