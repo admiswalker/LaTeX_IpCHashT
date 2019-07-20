@@ -27,7 +27,6 @@
 
 {\bf Loadfactor}
 
-
 {\bf メモリ使用量}
 
 {\bf 挿入}
@@ -35,6 +34,65 @@
 {\bf 探査}
 
 {\bf 削除}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor.pdf}
+  \caption{
+    Maximum load factor. Maximum load factor of std::IpHashT is limitted by its maximum length of shift\_T.
+    Maximum load factor of google::dense\_hash\_map is artificially limited by 50 \%.
+  }
+  \label{fig_bench_LF}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-1mm}
+  \includegraphics[scale=0.24]{./fig_bench/usedMemory_wRehash_log.pdf}
+  \caption{ Allocated memory size. }
+  \label{fig_bench_memory}
+\end{figure}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc.pdf}
+  \caption{ Total time of insertion using pre-allocated table. }
+  \label{fig_bench_insert_preAlloc}
+\end{figure}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.24]{./fig_bench/insert_et_wRehash.pdf}
+  \caption{ Total time of insertion with rehashing table. }
+  \label{fig_bench_insert_wRehash}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench/insert_wRehash.pdf}
+  \caption{ Insertion speed. }
+  \label{fig_bench_insert}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench/find_wRehash.pdf}
+  \caption{ Successful lookup speed. }
+  \label{fig_bench_insert}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench/find_wRehash_failedAll.pdf}
+  \caption{ Unsuccessful lookup speed. }
+  \label{fig_bench_insert}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench/erase_wRehash.pdf}
+  \caption{ Erasion speed. }
+  \label{fig_bench_insert}
+\end{figure}
+
+
+
 
 
 
