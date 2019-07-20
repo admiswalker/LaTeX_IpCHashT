@@ -7,7 +7,7 @@ MAIN = main
 SRCDIR = ./*.tex
 BIBDIR = ./*.bib
 
-FIGDIR = ./figs $(FIGDIR_doc)
+FIGDIR = ./fig $(FIGDIR_doc)
 FIGPNG = $(FIGDIR)/*.png
 FIGPDF = $(FIGDIR)/*.pdf
 
@@ -30,10 +30,10 @@ DVIPDFMX  = dvipdfmx
 EXTRACTBB = extractbb
 BIB       = pbibtex
 
-FIGS_ALGO = FORCE_FIGS_ALGO # Force to build every time using a blank name
-FIGS_ODG  = FORCE_FIGS_ODG  # Force to build every time using a blank name
+FIG_ALGO = FORCE_FIG_ALGO # Force to build every time using a blank name
+FIG_ODG  = FORCE_FIG_ODG  # Force to build every time using a blank name
 
-$(TARGET): $(FIGS_ODG) $(FIGS_ALGO) $(XBBS) $(SRCS)
+$(TARGET): $(FIG_ODG) $(FIG_ALGO) $(XBBS) $(SRCS)
 	mkdir -p $(TEMPDIR)
 	@echo -e "\n============================================================\n"
 	@echo -e "SRCS: \n$(SRCS)\n"
@@ -63,10 +63,10 @@ $(TARGET): $(FIGS_ODG) $(FIGS_ALGO) $(XBBS) $(SRCS)
 	dvipdfmx -o $(TARGET) ./$(TEMPDIR)/$(MAIN)
 	@echo ""
 
-$(FIGS_ALGO):
-	@(cd ./figs_algo; make -j)
-$(FIGS_ODG):
-	@(cd ./figs_odg; make -j)
+$(FIG_ALGO):
+	@(cd ./fig_algo; make -j)
+$(FIG_ODG):
+	@(cd ./fig_odg; make -j)
 
 %.xbb: %.png
 	$(EXTRACTBB) $<
@@ -88,6 +88,6 @@ clean:
 	-rm -f $(TEMPDIR)/.fuse_hidden*
 	-rm -rf $(TEMPDIR)
 	-rm -f $(TARGET) $(XBBS) ./*.log .fuse_hidden*
-	@(cd ./figs_algo; make clean)
-	@(cd ./figs_odg; make clean)
+	@(cd ./fig_algo; make clean)
+	@(cd ./fig_odg; make clean)
 
