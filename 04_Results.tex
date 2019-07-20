@@ -19,52 +19,6 @@
   \label{table_env}
 \end{table}
 
-
-例えば，Ryzen アーキテクチャにおける除算命令の実行時間は，
-DIV (r64/m64) の Latency が 14--46 [clocks] であることから\citep{AgnerFog2018}，
-CPU が 3.7 GHz で命令を処理している場合，
-\begin{align*}
-14 {\rm [clocks]} \times \frac{1}{3.7 {\rm [GHz]}}
-= \frac{14}{3.7 \times 10^9} {\rm [sec]}
-\simeq 3.8 \times 10^{-9} {\rm [sec]}
-= 3.8 {\rm [ns]}
-\end{align*}
-\begin{align*}
-46 {\rm [clocks]} \times \frac{1}{3.7 {\rm [GHz]}}
-= \frac{46}{3.7 \times 10^9} {\rm [sec]}
-\simeq 1.2 \times 10^{-8} {\rm [sec]}
-= 12 {\rm [ns]}
-\end{align*}
-より，3.8--12 ns である．
-
-
-
-XXXXXXXXXXX より，
-google::dense\_hash\_map はスループットで 250 query/$\mu$s 程度の探査速度を持つことから，
-探査１回あたりの実行時間は，
-\begin{align*}
-  250{\rm [query \slash \mu s]}
-  = \frac{1}{250} {\rm [\mu s \slash query]}
-  = \frac{10^3}{250} {\rm [ns \slash query]}
-  = 4 {\rm [ns \slash query]}
-\end{align*}
-である．
-
-例えば，Ryzen アーキテクチャにおける単位 clock あたりの実行時間は，
-\begin{align*}
-  \frac{1}{3.7 {\rm [GHz]}}
-  = \frac{1}{3.7 \times 10^9}{\rm [sec]}
-  = 2.7 \times 10^{-10}{\rm [sec]}
-  = 2.7 \times 10^{-1}{\rm [ns/clock]}
-\end{align*}
-である．
-したがって，google::dense\_hash\_map が探査１回に必要とする平均 clock 数は，
-\begin{align*}
-  \frac{ 4 {\rm [ns]} }{ 2.7 \times 10^{-1}{\rm [ns/clock]} }
-  = 14.8 {\rm [clock]}
-\end{align*}
-である．
-
 \section{結果}
 
 Loadfactor
