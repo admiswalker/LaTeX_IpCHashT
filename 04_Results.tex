@@ -27,18 +27,24 @@
 
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF50)}
 
-説明・・・．
+{\rm bench.hpp} 内で {\rm iHashT\_u8h} の別名により定義されている設定．
+linked list の構成に uint8 を用いる．
+Load factor の最大値が 50 \% に制限されている．
 \leavevmode \newline
 
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100)}
 
-説明・・・．
+{\rm bench.hpp} 内で {\rm iHashT\_u8} の別名により定義されている設定．
+linked list の構成に uint8 を用いる．
+Load factor に制限はなく，link 距離が uint8 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
 \leavevmode \newline
 
 
 {\bf sstd::IpCHashT<uint64,uint64> (as uint16 and maxLF100)}
 
-説明・・・．
+{\rm bench.hpp} 内で {\rm iHashT\_u16} の別名により定義されている設定．
+linked list の構成に unsigned int16 を用いる．
+Load factor に制限はなく，link 距離が uint16 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
 \leavevmode \newline
 
 
