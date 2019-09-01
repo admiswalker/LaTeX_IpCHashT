@@ -24,7 +24,7 @@
 
 
 %\section{IpCHashT の測定条件}
-\section{各ハッシュテーブルの測定条件}
+\section{各ハッシュテーブルの概要と測定条件}
 各ハッシュテーブルの key と value に uint64 型を指定して測定する．
 テーブルごとの設定を次に示す．
 \leavevmode \newline
@@ -38,44 +38,62 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 %
 {\bf sstd::CHashT<uint64,uint64>}
 
-``Separate chaining with list head cells'' の実装の一つ．比較用のサンプル実装．
+``Separate chaining with list head cells'' の実装の一つ．
+アルゴリズム比較用のサンプル実装として，
+最もシンプルなハッシュテーブルアルゴリズムの一つを選択した．
+本実装では，
 テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
-全要素数がテーブルサイズを超える時に，リハッシュする．
+全要素数がテーブルサイズを超える場合に，リハッシュする．
 \leavevmode \newline
 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF50)}
 
-{\rm bench.hpp} 内で {\rm iHashT\_u8h} の別名により定義される設定．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+提案アルゴリズムの実装例の一つ．
 uint8 により linked list を構成する．
-Load factor の最大値が 50 \% に制限されている．
+Load factor の最大値を 50 \% に制限している．
+テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+{\rm bench.hpp} 内で {\rm iHashT\_u8h} の別名により定義されている．
 \leavevmode \newline
 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100)}
 
-{\rm bench.hpp} 内で {\rm iHashT\_u8} の別名により定義される設定．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+提案アルゴリズムの実装例の一つ．
 uint8 により linked list を構成する．
 Load factor に制限はなく，link 距離が uint8 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
+テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+{\rm bench.hpp} 内で {\rm iHashT\_u8} の別名により定義されている．
 \leavevmode \newline
 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint16 and maxLF100)}
 
-{\rm bench.hpp} 内で {\rm iHashT\_u16} の別名により定義される設定．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+提案アルゴリズムの実装例の一つ．
 uint16 により linked list を構成する．
 Load factor に制限はなく，link 距離が uint16 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
+テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+{\rm bench.hpp} 内で {\rm iHashT\_u16} の別名により定義されている．
 \leavevmode \newline
 
 %
 {\bf google::dense\_hash\_map<uint64,uint64>}
 
 Quadratic probing の実装の一つ．
-set\_empty\_key();
-set\_deleted\_key();
+メモリ効率が高く，探査速度が速い一方，
+key 値の一つを空マークに，削除を行う場合はもう一つを削除マークとして予約する必要がある．
+予約された値は，key 値として使用できない．
+予約には，set\_empty\_key() 関数と set\_deleted\_key() 関数を用いる．
+テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+\leavevmode \newline
+
+%
+{\bf ska::flat\_hash\_map<uint64,uint64,ska::power\_of\_two\_std\_hash<uint64>>}
+
+Robin Hood Hashing の実装の一つ．
+ska::power\_of\_two\_std\_hash<uint64> オプションにより，
+テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号としている．
+
 \leavevmode \newline
 
 
