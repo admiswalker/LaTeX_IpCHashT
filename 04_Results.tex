@@ -115,7 +115,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
   \caption{
-    Maximum load factor of hash tables.
+    Maximum load factor.
     Maximum load factor of std::IpHashT (as maxLF100) is limitted by its maximum length of shift\_T.
     Maximum load factor of std::IpHashT (as maxLF50), google::dense\_hash\_map and ska::flat\_hash\_map is artificially limited by 50 \%.
   }
@@ -125,19 +125,32 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \begin{figure}[h]
   \hspace{-1mm}
   \includegraphics[scale=0.24]{./fig_bench/usedMemory.pdf}
-  \caption{ Allocated memory size. }
+  \caption{
+    Allocated memory size.
+    Peaks of memory size indicate rehash timmings.
+    And the width of peaks is measurement interval.
+    This means that the actual waveform is more sharp.
+    std::unordered\_map seems to allocating memory each by insertion.
+    sstd::IpCHashTs are moved the timming of rehashing back and forth by the influence of maximum load factor.
+  }
   \label{fig_bench_memory}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
-  \caption{ Total time of insertion using pre-allocated table. }
+  \caption{
+    Total time of insertion using pre-allocated table.
+    sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $4.1\textasciitilde2\times10^6$.
+  }
   \label{fig_bench_insert_preAlloc}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
-  \caption{ Total time of insertion with rehashing table. }
+  \caption{
+    Total time of insertion with rehashing table.
+    Chaining type of hash tables, sstd::CHashT and sstd::IpCHashT are slow down its insertion speed in high load factor range.
+  }
   \label{fig_bench_insert_wRehash}
 \end{figure}
 
