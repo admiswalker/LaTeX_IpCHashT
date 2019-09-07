@@ -56,9 +56,9 @@ SO は Separate chaining with ordered lists である．
 \section{先行研究}
 現実的なハッシュテーブルを検討するには，
 単にアルゴリズムのみならず，
-対応する実実装との比較が望ましい．
+対応する実装との比較が望ましい．
 ここでは，
-実際に利用されているハッシュテーブルの実実装を示す．
+実際に利用されているハッシュテーブルの実装を示す．
 \leavevmode \newline
 
 {\bf std::unorderd\_map}
@@ -121,7 +121,7 @@ dense\_hash\_map では，整数除算をしておらず，
 
 {\bf ska::flat\_hash\_map}
 \samepage \\ \indent
-Robin Hood hashing の実実装の内の一つ．
+Robin Hood hashing の実装の内の一つ．
 条件次第で dense\_hash\_map より探査が高速であることを謳う．
 Robin Hood hashing は衝突解決法の一つで，
 singly linked list により，ハッシュ値の示すテーブルアドレスを示す．

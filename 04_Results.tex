@@ -38,7 +38,10 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 %
 {\bf sstd::CHashT<uint64,uint64>}
 
-``Separate chaining with list head cells'' の実装の一つ．
+``Separate chaining with list head cells''
+\footnote{``Separate chaining with linked lists'' がテーブルにポインタしか持たず，
+ポインタで接続した先から初めて key-value ペアを持つのに対して，
+``Separate chaining with list head cells'' ではテーブルにも key-value ペアを内包する．} の実装の一つ．
 アルゴリズム比較用のサンプル実装として，
 最もシンプルなハッシュテーブルアルゴリズムの一つを選択した．
 本実装では，
@@ -49,7 +52,7 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF50)}
 
-提案アルゴリズムの実装例の一つ．
+提案アルゴリズムの実装の一つ．
 uint8 により linked list を構成する．
 Load factor の最大値を 50 \% に制限している．
 テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
@@ -59,7 +62,7 @@ Load factor の最大値を 50 \% に制限している．
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100)}
 
-提案アルゴリズムの実装例の一つ．
+提案アルゴリズムの実装の一つ．
 uint8 により linked list を構成する．
 Load factor に制限はなく，link 距離が uint8 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
 テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
@@ -69,7 +72,7 @@ Load factor に制限はなく，link 距離が uint8 の幅を超えるか，�
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint16 and maxLF100)}
 
-提案アルゴリズムの実装例の一つ．
+提案アルゴリズムの実装の一つ．
 uint16 により linked list を構成する．
 Load factor に制限はなく，link 距離が uint16 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
 テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
@@ -112,8 +115,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
   \caption{
-    Maximum load factor. Maximum load factor of std::IpHashT is limitted by its maximum length of shift\_T.
-    Maximum load factor of google::dense\_hash\_map is artificially limited by 50 \%.
+    Maximum load factor of hash tables.
+    Maximum load factor of std::IpHashT (as maxLF100) is limitted by its maximum length of shift\_T.
+    Maximum load factor of std::IpHashT (as maxLF50), google::dense\_hash\_map and ska::flat\_hash\_map is artificially limited by 50 \%.
   }
   \label{fig_bench_LF}
 \end{figure}
