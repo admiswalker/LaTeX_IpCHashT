@@ -159,7 +159,72 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 これは，実装コストの低減および，挿入の高速化と引き換えに，
 要素の削除と再挿入によるメモリ断片化への耐性を捨てることを意味する．
 
-% \section{探査}
+\section{探査}
+挿入済みの要素を探査するには，アルゴリズム\ref{alg_find_sm}に示すアルゴリズムが考えられる．
+
+\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{lstlisting}[language=C++]
+struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
+	uint64 hashVal = hashFunc(key_in);
+	uint64 idx = hashVal & tableSize_minus1;
+	
+	if(! isHead( pT[idx] ) ){ return itr( keyIsNotFound, maxIdx ); }
+	for(;;){
+		if( pT[idx].key == key_in ){ return itr( keyIsFound, idx); }
+		if( pT[idx].next == 0 ){ return itr( keyIsNotFound, maxIdx ); }
+		idx += pT[idx].next;
+	}
+}
+\end{lstlisting}
+\caption{
+  Find method of successful lookup major.
+}
+\label{alg_find_sm}
+\end{figure}
+
+
+\begin{figure}[] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{lstlisting}[language=C++]
+		for(;;){														\
+			if( T_key_eq()(pT[idx].key, key_in) ){						\
+				if( isEmpty_m(pT[idx]) ){ return itr_m(maxShift, ttSize, pT, itr_end_m); } /* key is not found. */ \
+				return itr_m(maxShift, ttSize, pT, idx); /* key is found. */ \
+			}															\
+			if( pT[idx].next==(T_shift)0 ){ return itr_m(maxShift, ttSize, pT, itr_end_m); } /* key is not found. */ \
+			idx += pT[idx].next;										\
+		}																\
+\end{lstlisting}
+\caption{
+  Find method of unsuccessful lookup major.
+}
+\label{alg_find_usm}
+\end{figure}
+
+%\begin{algorithm}
+%  \caption{Calculate $y = x^n$}
+%  \label{alg1}
+%  \begin{algorithmic}
+%    \REQUIRE $n \geq 0 \vee x \neq 0$
+%    \ENSURE $y = x^n$
+%    \STATE $y \Leftarrow 1$
+%    \IF{$n < 0$}
+%    \STATE $X \Leftarrow 1 / x$
+%    \STATE $N \Leftarrow -n$
+%    \ELSE
+%    \STATE $X \Leftarrow x$
+%    \STATE $N \Leftarrow n$
+%    \ENDIF
+%    \WHILE{$N \neq 0$}
+%    \IF{$N$ is even}
+%    \STATE $X \Leftarrow X \times X$
+%    \STATE $N \Leftarrow N / 2$
+%    \ELSE[$N$ is odd]
+%    \STATE $y \Leftarrow y \times X$
+%    \STATE $N \Leftarrow N - 1$
+%    \ENDIF
+%    \ENDWHILE
+%  \end{algorithmic}
+%\end{algorithm}
 
 \section{削除}
 
