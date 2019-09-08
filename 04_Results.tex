@@ -115,7 +115,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
   \caption{
-    Maximum load factor.
+    Maximum load factor which is median value of 100 samples.
     Maximum load factor of std::IpHashT (as maxLF100) is limitted by its maximum length of shift\_T.
     Maximum load factor of std::IpHashT (as maxLF50), google::dense\_hash\_map and ska::flat\_hash\_map is artificially limited by 50 \%.
   }
@@ -126,7 +126,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \hspace{-1mm}
   \includegraphics[scale=0.24]{./fig_bench/usedMemory.pdf}
   \caption{
-    Allocated memory size.
+    Allocated memory size which is one sample raw data.
     Peaks of memory size indicate rehash timmings.
     And the width of peaks is measurement interval.
     This means that the actual waveform is more sharp.
@@ -139,8 +139,8 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
   \caption{
-    Total time of insertion using pre-allocated table.
-    sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $4.1\textasciitilde2\times10^6$.
+    Total time of insertion using pre-allocated table which is median value of 100 samples.
+    sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $4.1\textasciitilde.2\times10^6$.
   }
   \label{fig_bench_insert_preAlloc}
 \end{figure}
@@ -148,7 +148,8 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
   \caption{
-    Total time of insertion with rehashing table.
+    Total time of insertion with rehashing table which is median value of 100 samples.
+    A distortion in sstd::IpCHashT (as uint8 and maxLF100) around elements count $3.5 \textasciitilde.75\times10^6$ is influenced by the maximum load factor.
     Chaining type of hash tables, sstd::CHashT and sstd::IpCHashT are slow down its insertion speed in high load factor range.
   }
   \label{fig_bench_insert_wRehash}
