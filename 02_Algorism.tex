@@ -165,14 +165,14 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
-	uint64 hashVal = hashFunc(key_in);
+	uint64 hashVal = hashFunc( key_in );
 	uint64 idx = hashVal & tableSize_minus1;
 	
-	if(! isHead( pT[idx] ) ){ return itr( keyIsNotFound, maxIdx ); }
+	if(! isHead( table[ idx ] ) ){ return itr ( keyIsNotFound, maxIdx ); }
 	for(;;){
-		if( pT[idx].key == key_in ){ return itr( keyIsFound, idx); }
-		if( pT[idx].next == 0 ){ return itr( keyIsNotFound, maxIdx ); }
-		idx += pT[idx].next;
+		if( table[ idx ].key == key_in ){ return itr ( keyIsFound, idx ); }
+		if( table[ idx ].next == 0 ){ return itr ( keyIsNotFound, maxIdx ); }
+		idx += table[ idx ].next;
 	}
 }
 \end{lstlisting}
@@ -185,14 +185,19 @@ struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
 
 \begin{figure}[] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
-		for(;;){														\
-			if( T_key_eq()(pT[idx].key, key_in) ){						\
-				if( isEmpty_m(pT[idx]) ){ return itr_m(maxShift, ttSize, pT, itr_end_m); } /* key is not found. */ \
-				return itr_m(maxShift, ttSize, pT, idx); /* key is found. */ \
-			}															\
-			if( pT[idx].next==(T_shift)0 ){ return itr_m(maxShift, ttSize, pT, itr_end_m); } /* key is not found. */ \
-			idx += pT[idx].next;										\
-		}																\
+struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
+	uint64 hashVal = hashFunc( key_in );
+	uint64 idx = hashVal & tableSize_minus1;
+	
+	for(;;){
+		if( table[ idx ].key == key_in ){
+			if( isEmpty( table[ idx ] ) ){ return itr ( keyIsNotFound, maxIdx ); }
+			return itr ( keyIsFound, idx );
+		}
+		if( table[ idx ].next == 0 ){ return itr ( keyIsNotFound, maxIdx ); }
+		idx += table[ idx ].next;
+	}
+}
 \end{lstlisting}
 \caption{
   Find method of unsuccessful lookup major.
