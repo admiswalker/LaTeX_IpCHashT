@@ -164,14 +164,15 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
-struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
+template <class T_key, class T_val>
+(bool, T_val) find(T_key key_in){
 	uint64 hashVal = hashFunc( key_in );
 	uint64 idx = hashVal & tableSize_minus1;
 	
-	if(! isHead( table[ idx ] ) ){ return itr ( keyIsNotFound, maxIdx ); }
+	if(! isHead( table[ idx ] ) ){ return ( false, none ); }
 	for(;;){
-		if( table[ idx ].key == key_in ){ return itr ( keyIsFound, idx ); }
-		if( table[ idx ].next == 0 ){ return itr ( keyIsNotFound, maxIdx ); }
+		if( table[ idx ].key == key_in ){ return ( true, table[ idx ].val ); }
+		if( table[ idx ].next == 0 ){ return ( false, none ); }
 		idx += table[ idx ].next;
 	}
 }
@@ -185,16 +186,17 @@ struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
 
 \begin{figure}[] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
-struct itr sstd::IpCHashT<T_key, T_val>::find(T_key key_in){
+template <class T_key, class T_val>
+(bool, T_val) find(T_key key_in){
 	uint64 hashVal = hashFunc( key_in );
 	uint64 idx = hashVal & tableSize_minus1;
 	
 	for(;;){
 		if( table[ idx ].key == key_in ){
-			if( isEmpty( table[ idx ] ) ){ return itr ( keyIsNotFound, maxIdx ); }
-			return itr ( keyIsFound, idx );
+			if( isEmpty( table[ idx ] ) ){ return ( false, none ); }
+			return ( true, table[ idx ].val );
 		}
-		if( table[ idx ].next == 0 ){ return itr ( keyIsNotFound, maxIdx ); }
+		if( table[ idx ].next == 0 ){ return ( false, none ); }
 		idx += table[ idx ].next;
 	}
 }
