@@ -9,7 +9,7 @@
 \begin{table}[hbtp]
   \label{table_env}
   \begin{center}
-    \caption{実行環境}
+    \caption{Execution environment}
     \begin{tabular}{cc} \hline
       Component & Type \rule[0pt]{0pt}{0pt} \\ \hline
       CPU & AMD Ryzen7 1700 (8Cores/16Threads) \rule[0pt]{0pt}{0pt} \\ 
@@ -101,6 +101,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 
 \section{結果}
+ここでは，sstd::IpCHashT の linked list 長に uint8 と uint16 を用いた設定，load factor の最大値を 50 \% に制限した設定に加えて，
+要素探査時に Successful lookup を優先した設定と，Unsuccessful lookup を優先した設定についてベンチマークする．
+\leavevmode \newline
 
 %
 {\bf Loadfactor}
@@ -117,29 +120,37 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 %
 {\bf 挿入}
 
-挿入速度とテーブルサイズの関係を，図4.X，4.X，\ref{fig_bench_insert_preAlloc_um}，\ref{fig_bench_insert_wRehash_um}に示す．
-図4.X，4.Xは，successful lookup を優先した設定，
-図\ref{fig_bench_insert_preAlloc_um}，\ref{fig_bench_insert_wRehash_um}は，unsuccessful lookup を優先した設定である．
+挿入速度とテーブルサイズの関係を，図
+\ref{fig_bench_insert_preAlloc_sm}，\ref{fig_bench_insert_wRehash_sm}，
+\ref{fig_bench_insert_preAlloc_um}，\ref{fig_bench_insert_wRehash_um}に示す．
+図\ref{fig_bench_insert_preAlloc_sm}，\ref{fig_bench_insert_wRehash_sm}は Successful lookup を優先した設定，
+図\ref{fig_bench_insert_preAlloc_um}，\ref{fig_bench_insert_wRehash_um}は Unsuccessful lookup を優先した設定である．
 \leavevmode \newline
 
 %
 {\bf 探査}
 
-探査速度とテーブルサイズの関係を，図4.X，4.X，\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
-図4.X，4.Xは，successful lookup を優先した設定，
-図\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}は，unsuccessful lookup を優先した設定である．
+探査速度とテーブルサイズの関係を，図
+\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
+\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
+図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}は Successful lookup を優先した設定，
+図\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}は Unsuccessful lookup を優先した設定である．
 \leavevmode \newline
 
 %
 {\bf 削除}
 
-削除速度とテーブルサイズの関係を，4.X，\ref{fig_bench_erase_um}に示す．
-図4.Xは，successful lookup を優先した設定，
-図\ref{fig_bench_erase_um}は，unsuccessful lookup を優先した設定である．
+削除速度とテーブルサイズの関係を，図
+\ref{fig_bench_erase_sm}，
+\ref{fig_bench_erase_um}に示す．
+図\ref{fig_bench_erase_sm}は Successful lookup を優先した設定，
+図\ref{fig_bench_erase_um}は Unsuccessful lookup を優先した設定である．
 \leavevmode \newline
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/maxLoadFactor_med.pdf}
   \caption{
     Maximum load factor which is median value of 100 samples.
     Maximum load factor of std::IpHashT (as maxLF100) is limitted by its maximum length of shift\_T.
@@ -150,7 +161,7 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 \begin{figure}[h]
   \hspace{-1mm}
-  \includegraphics[scale=0.24]{./fig_bench/usedMemory.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/usedMemory.pdf}
   \caption{
     Allocated memory size which is one sample raw data.
     Peaks of memory size indicate rehash timmings.
@@ -162,8 +173,68 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \label{fig_bench_memory}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_sm/insert_et_preAlloc_med.pdf}
+  \caption{
+    (Successful lookup major option). Total time of insertion using pre-allocated table which is median value of 100 samples.
+    sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $4.1\textasciitilde.2\times10^6$.
+  }
+  \label{fig_bench_insert_preAlloc_sm}
+\end{figure}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.24]{./fig_bench_sm/insert_et_med.pdf}
+  \caption{
+    (Successful lookup major option). Total time of insertion with rehashing table which is median value of 100 samples.
+    A distortion in sstd::IpCHashT (as uint8 and maxLF100) around elements count $3.5 \textasciitilde.75\times10^6$ is influenced by the maximum load factor.
+    Chaining type of hash tables, sstd::CHashT and sstd::IpCHashT are slow down its insertion speed in high load factor range.
+  }
+  \label{fig_bench_insert_wRehash_sm}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench_sm/insert_med.pdf}
+  \caption{
+    (Successful lookup major option). Insertion speed which is median value of 100 samples.
+    Rehash time is included in the valleys.
+  }
+  \label{fig_bench_insert_sm}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench_sm/find_successful_lookup_med.pdf}
+  \caption{
+    (Successful lookup major option). Successful lookup speed which is median value of 100 samples.
+  }
+  \label{fig_bench_find_s_sm}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench_sm/find_unsuccessful_lookup_med.pdf}
+  \caption{
+    (Successful lookup major option). Unsuccessful lookup speed which is median value of 100 samples.
+  }
+  \label{fig_bench_find_us_sm}
+\end{figure}
+
+\begin{figure}[h]
+  \hspace{-3mm}
+  \includegraphics[scale=0.24]{./fig_bench_sm/erase_med.pdf}
+  \caption{
+    (Successful lookup major option). Erasion speed which is median value of 100 samples.
+  }
+  \label{fig_bench_erase_sm}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h]
+  \includegraphics[scale=0.24]{./fig_bench_usm/insert_et_preAlloc_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Total time of insertion using pre-allocated table which is median value of 100 samples.
     sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $4.1\textasciitilde.2\times10^6$.
@@ -172,7 +243,7 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/insert_et_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Total time of insertion with rehashing table which is median value of 100 samples.
     A distortion in sstd::IpCHashT (as uint8 and maxLF100) around elements count $3.5 \textasciitilde.75\times10^6$ is influenced by the maximum load factor.
@@ -183,7 +254,7 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench/insert_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/insert_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Insertion speed which is median value of 100 samples.
     Rehash time is included in the valleys.
@@ -193,7 +264,7 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench/find_successful_lookup_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/find_successful_lookup_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Successful lookup speed which is median value of 100 samples.
   }
@@ -202,20 +273,23 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench/find_unsuccessful_lookup_med.pdf}
-  \caption{ Unsuccessful lookup speed (unsuccessful-major) which is median value of 100 samples. }
+  \includegraphics[scale=0.24]{./fig_bench_usm/find_unsuccessful_lookup_med.pdf}
+  \caption{
+    (Unsuccessful lookup major option). Unsuccessful lookup speed which is median value of 100 samples.
+  }
   \label{fig_bench_find_us_um}
 \end{figure}
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench/erase_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/erase_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Erasion speed which is median value of 100 samples.
   }
   \label{fig_bench_erase_um}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
