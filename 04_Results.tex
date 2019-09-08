@@ -149,6 +149,25 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 %\newpage
 
+% AMD Ryzen7 1700
+% Total L2 Cache:  4 MB
+% Total L3 Cache: 16 MB
+
+% key: uint64, value: uint64 -> 16 Byte/element
+% 4 [MB] / 16 [Byte/element]
+% = 4*1024*1024 [Byte] / 16 [Byte/element]
+% = (1/4) * 1024*1024 [element]
+% = 256*1024 [element]
+% = 262144 [element]
+% = 2.6x10^5 [element]
+
+% key: uint64, value: uint64 -> 16 Byte/element
+% 16 [MB] / 16 [Byte/element]
+% = 16*1024*1024 [Byte] / 16 [Byte/element]
+% = 1024*1024 [element]
+% = 1048576 [element]
+% = 1.0x10^6 [element]
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[h]
@@ -208,6 +227,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \caption{
     Insertion speed which is median value of 100 samples.
     Rehash time is included in the valleys.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_insert_sm}
 \end{figure}
@@ -219,6 +240,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \includegraphics[scale=0.24]{./fig_bench_sm/find_successful_lookup_med.pdf}
   \caption{
     (Successful lookup major option). Successful lookup speed which is median value of 100 samples.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_find_s_sm}
 \end{figure}
@@ -228,6 +251,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \includegraphics[scale=0.24]{./fig_bench_usm/find_successful_lookup_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Successful lookup speed which is median value of 100 samples.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_find_s_um}
 \end{figure}
@@ -239,6 +264,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \includegraphics[scale=0.24]{./fig_bench_sm/find_unsuccessful_lookup_med.pdf}
   \caption{
     (Successful lookup major option). Unsuccessful lookup speed which is median value of 100 samples.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_find_us_sm}
 \end{figure}
@@ -248,6 +275,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \includegraphics[scale=0.24]{./fig_bench_usm/find_unsuccessful_lookup_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Unsuccessful lookup speed which is median value of 100 samples.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_find_us_um}
 \end{figure}
@@ -259,6 +288,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \includegraphics[scale=0.24]{./fig_bench_sm/erase_med.pdf}
   \caption{
     (Successful lookup major option). Erasion speed which is median value of 100 samples.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_erase_sm}
 \end{figure}
@@ -268,6 +299,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
   \includegraphics[scale=0.24]{./fig_bench_usm/erase_med.pdf}
   \caption{
     (Unsuccessful lookup major option). Erasion speed which is median value of 100 samples.
+    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_erase_um}
 \end{figure}
