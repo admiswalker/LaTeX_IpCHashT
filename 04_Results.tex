@@ -31,13 +31,13 @@
 
 %
 {\bf std::unordered\_map<uint64,uint64>}
-
+\samepage\newline\indent
 C++ の標準ライブラリに収録されているハッシュテーブル．
 \leavevmode \newline
 
 %
 {\bf sstd::CHashT<uint64,uint64>}
-
+\samepage\newline\indent
 ``Separate chaining with list head cells''
 \footnote{``Separate chaining with linked lists'' がテーブルにポインタしか持たず，
 ポインタで接続した先から初めて key-value ペアを持つのに対して，
@@ -51,7 +51,7 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF50)}
-
+\samepage\newline\indent
 提案アルゴリズムの実装の一つ．
 uint8 により linked list を構成する．
 Load factor の最大値を 50 \% に制限している．
@@ -61,7 +61,7 @@ Load factor の最大値を 50 \% に制限している．
 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100)}
-
+\samepage\newline\indent
 提案アルゴリズムの実装の一つ．
 uint8 により linked list を構成する．
 Load factor に制限はなく，link 距離が uint8 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
@@ -71,7 +71,7 @@ Load factor に制限はなく，link 距離が uint8 の幅を超えるか，�
 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint16 and maxLF100)}
-
+\samepage\newline\indent
 提案アルゴリズムの実装の一つ．
 uint16 により linked list を構成する．
 Load factor に制限はなく，link 距離が uint16 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
@@ -81,7 +81,7 @@ Load factor に制限はなく，link 距離が uint16 の幅を超えるか，�
 
 %
 {\bf google::dense\_hash\_map<uint64,uint64>}
-
+\samepage\newline\indent
 Quadratic probing の実装の一つ．
 メモリ効率が高く，探査速度が速い一方，
 key 値の一つを空マークに，削除を行う場合はもう一つを削除マークとして予約する必要がある．
@@ -92,7 +92,7 @@ key 値の一つを空マークに，削除を行う場合はもう一つを削�
 
 %
 {\bf ska::flat\_hash\_map<uint64,uint64,ska::power\_of\_two\_std\_hash<uint64>>}
-
+\samepage\newline\indent
 Robin Hood Hashing の実装の一つ．
 ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号としている．
@@ -107,20 +107,20 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 %
 {\bf Loadfactor}
-
-Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示す．
+\samepage\newline\indent
+Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す．
 \leavevmode \newline
 
 %
 {\bf メモリ使用量}
-
-メモリー使用量とテーブルサイズの関係を，図\ref{fig_bench_memory}に示す．
+\samepage\newline\indent
+メモリー使用量とテーブルサイズの関係を図\ref{fig_bench_memory}に示す．
 \leavevmode \newline
 
 %
 {\bf 挿入}
-
-挿入速度とテーブルサイズの関係を，図
+\samepage\newline\indent
+挿入速度とテーブルサイズの関係を図
 \ref{fig_bench_insert_preAlloc_sm}，\ref{fig_bench_insert_wRehash_sm}に示す．
 挿入処理において，Hard insertion では find() 関数を用いるが，Soft insertion では，find() 関数を用いない．
 本ベンチマークでは，Soft insertion を用いる．
@@ -129,8 +129,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 %
 {\bf 探査}
-
-探査速度とテーブルサイズの関係を，図
+\samepage\newline\indent
+探査速度とテーブルサイズの関係を図
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
 \ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
 図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}は Successful lookup を優先した設定，
@@ -139,8 +139,8 @@ Load factor とテーブルサイズの関係を，図\ref{fig_bench_LF}に示�
 
 %
 {\bf 削除}
-
-削除速度とテーブルサイズの関係を，図
+\samepage\newline\indent
+削除速度とテーブルサイズの関係を図
 \ref{fig_bench_erase_sm}，
 \ref{fig_bench_erase_um}に示す．
 図\ref{fig_bench_erase_sm}は Successful lookup を優先した設定，
