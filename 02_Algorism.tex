@@ -206,6 +206,9 @@ template <class T_key, class T_val>
 \end{lstlisting}
 \caption{
   Pseudo C ++ code of find function prioritizing unsuccessful lookup.
+  This function will lookup ``key\_in''.
+  If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
+  For prioritizing unsuccessful lookup, isHead() function is removed compared to successful lookup prioritizing option.
 }
 \label{alg_find_usm}
 \end{figure}
