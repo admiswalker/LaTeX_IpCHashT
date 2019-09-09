@@ -160,7 +160,9 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 要素の削除と再挿入によるメモリ断片化への耐性を捨てることを意味する．
 
 \section{探査}
-挿入済みの要素を探査するには，アルゴリズム\ref{alg_find_sm}に示すアルゴリズムが考えられる．
+挿入済みの要素を探査するには，図\ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
+図\ref{alg_find_sm}は Successful lookup を優先した設定であり，
+図\ref{alg_find_usm}は Unsuccessful lookup を優先した設定である．
 
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
@@ -178,7 +180,7 @@ template <class T_key, class T_val>
 }
 \end{lstlisting}
 \caption{
-  Pseudo C ++ code of find function prioritizing successful lookup.
+  Pseudo C++ code of find function prioritizing successful lookup.
   This function will lookup ``key\_in''.
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
   For prioritizing successful lookup, isHead() function will check the link list is head or not at first.
@@ -205,7 +207,7 @@ template <class T_key, class T_val>
 }
 \end{lstlisting}
 \caption{
-  Pseudo C ++ code of find function prioritizing unsuccessful lookup.
+  Pseudo C++ code of find function prioritizing unsuccessful lookup.
   This function will lookup ``key\_in''.
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
   For prioritizing unsuccessful lookup, isHead() function is removed compared to successful lookup prioritizing option.
