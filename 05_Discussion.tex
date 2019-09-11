@@ -7,8 +7,20 @@
 %
 {\bf Loadfactor}
 \samepage\newline\indent
-Load factor とテーブルサイズの関係について．
-図\ref{fig_bench_LF}に示すように，
+Load factor とテーブルサイズの関係は，図\ref{fig_bench_LF}に示す通りである．
+まず，{\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で Load factor が低いものの，
+区間 $10^2\textasciitilde 10^8$ において，高い Load factor を示している．
+{\bf sstd::CHashT} は区間 $10^1\textasciitilde 10^8$ に渡り 72.5 \% を維持している．
+{\bf sstd::IpCHashT (as uint8 and maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の Load factor を示す．
+テーブルサイズが $10^3$ を超えるにしたがい，linked list の長さが uint8 の最大値 - 1 に制限されている影響により，
+Load factor が単調に減少していく．
+なお，実際には 100 サンプルの中央値のため，
+特に sstd::CHashT と sstd::IpCHashT (as uint8 and maxLF100) では，
+特にテーブルサイズが $10^3$ 未満の場合において，ある程度揺らぎがある．
+{\bf sstd::IpCHashT (as maxLF50)}，{\bf google::dense\_hash\_map}，{\bf ska::flat\_hash\_map} は，
+Load factor が制限されており，50 \% に留まっている．
+なお，sstd::IpCHashT の実装はいずれもは，パディングされる配列長も Load factor の計算に加算されるため，
+端数が発生し，丁度に 50 \% とはならない．
 \leavevmode \newline
 
 %
