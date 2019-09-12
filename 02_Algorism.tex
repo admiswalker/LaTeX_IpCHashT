@@ -63,6 +63,33 @@ struct element{
     配色は，青色を初期状態，赤色を要素の挿入・削除動作，緑色を要素の移動，と分かれている．
   }
   \label{fig_IpCHashT_fig_description}
+%\end{figure}
+
+%\begin{figure}
+  \includegraphics[scale=0.73]{./fig_algo/algorism_crop_03.pdf}
+  \caption{
+    IpCHashT に挿入された要素の抽象表現.
+    この場合，3 つの要素のハッシュ値は，いずれも first 要素のアドレスを示すため，
+    linked list により衝突を解決している．
+    各要素は prev locator と next locator の示す相対位置により接続されており，
+    各要素間に別の要素がある可能性がある．
+  }
+  \label{fig_IpCHashT_apparence}
+%\end{figure}
+
+%\begin{figure}
+  \includegraphics[scale=0.73]{./fig_algo/algorism_crop_04.pdf}
+  \caption{
+    図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
+    同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
+    灰色の枠線が配列を表す．
+    青字の linked list は図\ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
+    赤字の linked list は間に挿入された別の chain である．
+    この例では，手前に空き要素があるにも関わらず，
+    青字の linked list の末尾が不用意に遠い場所に格納されており，
+    断片化している．
+  }
+  \label{fig_IpCHashT_insert_introspection}
 \end{figure}
 
 本章で示す図は，
@@ -79,33 +106,6 @@ Open hashing を用いたハッシュテーブルの説明では，
 一見すると隣接した連続構造であっても，
 実際には，図\ref{fig_IpCHashT_insert_introspection}のように，
 各要素が断続的なアドレス空間上に存在することがある．
-
-\begin{figure}
-  \includegraphics[scale=0.73]{./fig_algo/algorism_crop_03.pdf}
-  \caption{
-    IpCHashT に挿入された要素の抽象表現.
-    この場合，3 つの要素のハッシュ値は，いずれも first 要素のアドレスを示すため，
-    linked list により衝突を解決している．
-    各要素は prev locator と next locator の示す相対位置により接続されており，
-    各要素間に別の要素がある可能性がある．
-  }
-  \label{fig_IpCHashT_apparence}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.73]{./fig_algo/algorism_crop_04.pdf}
-  \caption{
-    図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
-    同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
-    灰色の枠線が配列を表す．
-    青字の linked list は図\ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
-    赤字の linked list は間に挿入された別の chain である．
-    この例では，手前に空き要素があるにも関わらず，
-    青字の linked list の末尾が不用意に遠い場所に格納されており，
-    断片化している．
-  }
-  \label{fig_IpCHashT_insert_introspection}
-\end{figure}
 
 ハッシュテーブルの主要な動作は，挿入・探査・削除である．
 IpCHashT における検索は，単に linked list を辿るだけであるから，
@@ -164,7 +164,7 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 図\ref{alg_find_sm}は Successful lookup を優先した設定であり，
 図\ref{alg_find_usm}は Unsuccessful lookup を優先した設定である．
 
-\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val>
 (bool, T_val) find(T_key key_in){
@@ -186,10 +186,8 @@ template <class T_key, class T_val>
   For prioritizing successful lookup, isHead() function will check the link list is head or not at first.
 }
 \label{alg_find_sm}
-\end{figure}
-
-
-\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+%\end{figure}
+%\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val>
 (bool, T_val) find(T_key key_in){
@@ -353,21 +351,21 @@ bit mask 演算によりハッシュ値を丸める．
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_06.pdf}
   \caption{ Insertion case01. }
   \label{fig_IpCHashT_insert_hard_case01}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_07.pdf}
   \caption{ Insertion case02. }
   \label{fig_IpCHashT_insert_hard_case02}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_08.pdf}
   \caption{ Insertion case03. }
   \label{fig_IpCHashT_insert_hard_case03}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_09.pdf}
   \caption{ Insertion case04. }
   \label{fig_IpCHashT_insert_hard_case04}
@@ -377,21 +375,21 @@ bit mask 演算によりハッシュ値を丸める．
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_10.pdf}
   \caption{ Insertion case05. }
   \label{fig_IpCHashT_insert_hard_case05}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_11.pdf}
   \caption{ Insertion case06. }
   \label{fig_IpCHashT_insert_hard_case06}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_12.pdf}
   \caption{ Insertion case07. }
   \label{fig_IpCHashT_insert_hard_case07}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_13.pdf}
   \caption{ Insertion case08. }
   \label{fig_IpCHashT_insert_hard_case08}
@@ -401,15 +399,15 @@ bit mask 演算によりハッシュ値を丸める．
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_14.pdf}
   \caption{ Insertion case09. }
   \label{fig_IpCHashT_insert_hard_case09}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_15.pdf}
   \caption{ Insertion case10. }
   \label{fig_IpCHashT_insert_hard_case10}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_16.pdf}
   \caption{ Insertion case11. }
   \label{fig_IpCHashT_insert_hard_case11}
@@ -421,21 +419,21 @@ bit mask 演算によりハッシュ値を丸める．
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_18.pdf}
   \caption{ Deletion case01. }
   \label{fig_IpCHashT_deletion_case01}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_19.pdf}
   \caption{ Deletion case02. }
   \label{fig_IpCHashT_deletion_case02}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_20.pdf}
   \caption{ Deletion case03. }
   \label{fig_IpCHashT_deletion_case03}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_21.pdf}
   \caption{ Deletion case04. }
   \label{fig_IpCHashT_deletion_case04}
@@ -449,9 +447,9 @@ bit mask 演算によりハッシュ値を丸める．
     空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case05}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h]
+%\begin{figure}[h]
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_23.pdf}
   \caption{
     Deletion case06.
