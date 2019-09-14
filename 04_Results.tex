@@ -173,7 +173,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 %\begin{figure}[]
 \begin{figure}[b]
 %  \vspace{-0mm}
-  \includegraphics[scale=0.24]{./fig_bench_sm/maxLoadFactor_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
   \caption{
     Maximum load factor which is median value of 100 samples.
     Maximum load factor of std::IpHashT (as maxLF100) is limitted by its maximum length of shift\_T.
@@ -187,7 +187,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 \begin{figure}[h]
 %  \vspace{-5mm}
   \hspace{-1mm}
-  \includegraphics[scale=0.24]{./fig_bench_sm/usedMemory.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/usedMemory.pdf}
   \caption{
     Allocated memory size which is one sample raw data.
     Peaks of memory size indicate rehash timmings.
@@ -195,6 +195,8 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
     This means that the actual waveform is more sharp.
     std::unordered\_map seems to allocating memory each by insertion.
     sstd::IpCHashTs are moved the timming of rehashing back and forth by the influence of maximum load factor.
+    ska::flat\_hash\_map while it is hard to see, is plotted on the same place of sstd::IpCHashT (as maxLF50).
+    {\bf ATTENTION}: The table size of this graph is 10 times smaller than the others.
   }
   \label{fig_bench_memory}
 %  \vspace{-10mm}
