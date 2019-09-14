@@ -7,7 +7,7 @@
 %
 {\bf Load factor}
 \samepage\newline\indent
-Load factor とテーブルサイズの関係は，図\ref{fig_bench_LF}に示す通りである．
+Load factor とテーブルサイズの関係は，図\ref{fig_bench_LF}に示した通りである．
 {\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で Load factor が低いものの，
 区間 $10^2〜10^8$ において，高い Load factor を示している．
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持している．
@@ -27,7 +27,7 @@ Load factor が単調に減少していく．
 %
 {\bf メモリ使用量}
 \samepage\newline\indent
-メモリ使用量とテーブルサイズの関係は，図\ref{fig_bench_memory}に示す通りである．
+メモリ使用量とテーブルサイズの関係は，図\ref{fig_bench_memory}に示した通りである．
 複数のピークはハッシュテーブルのリハッシュを示す．
 ピークの持つ幅は測定間隔に等しく，実際には要素１つ分の幅しか持たない．
 {\bf std::unordered\_map} は要素数にしたがって，ほぼ線形にメモリ使用量を増加させている．
@@ -68,23 +68,40 @@ sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 %
 {\bf 挿入}
 \samepage\newline\indent
-挿入速度とテーブルサイズの関係は，図\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す通りである．
+挿入速度とテーブルサイズの関係は，図\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示した通りである．
+
 テーブルのメモリを事前に確保した場合の挿入速度の累積時間は，
-図\ref{fig_bench_insert_preAlloc}の通りであり，
-{\bf std::unordered\_map} が他のハッシュテーブルより 2\textasciitilde 3.5 倍程度遅いことを除けば，
-巨視的にはどのハッシュテーブルも似たような速度である．
+図\ref{fig_bench_insert_preAlloc} の通りである．
 ただし，図\ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
 ここでは，$2.0\times10^8$ に初期化されたテーブルに対する速度を示す．
-{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
+まず，{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
 {\bf google::dense\_hash\_map} についても，同じタイミングで load factor が 50 \% を超えているはずであるが，
 事前にテーブルサイズを指定した場合には，リハッシュしないように制御されている様子が伺える．
 {\bf sstd::IpCHashT (as uint8 and maxLF100)} については，
 uint8 型により構成された singly linked list の最大範囲を超えた時点でリハッシュが発生している．
+{\bf std::unordered\_map} は他のハッシュテーブルより 2\textasciitilde 3.5 倍程度遅い結果となった．
+std::unordered\_map 以外のハッシュテーブルについて，計算量の違いは軽微である．
 
+テーブルサイズを 0 で初期化した場合の挿入速度の累積時間は，
+図\ref{fig_bench_insert_wRehash} の通りである．
+図\ref{fig_bench_insert_preAlloc} と比較して，
+{\bf sstd::CHashT} と {\bf sstd::IpCHashT (as uint16)} の累積時間の増加が顕著である．
+これは，sstd::CHashT については，リハッシュそのものに時間が掛かっているためであり，
+sstd::IpCHashT (as uint16) については，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
+なお，他の条件の sstd::IpCHashT は，比較的 load factor の低い領域を使用するため，影響は軽微である．
+{\bf std::unordered\_map} は，挿入とリハッシュの両方に時間が掛かっていることが伺える．
+{\bf sstd::IpCHashT (as maxLF50)}，{\bf sstd::IpCHashT (as uint8 and maxLF100)}，{\bf ska::flat\_hash\_map}，{\bf google::dense\_hash\_map} に
+ついては，計算量の違いは軽微である．
 
-%挿入処理において，Hard insertion では find() 関数を用いるが，Soft insertion では，find() 関数を用いない．
-%本ベンチマークでは，Soft insertion を用いる．
-%したがって，Successful lookup と Unuccessful lookup オプションによる違いはない．
+テーブルサイズと挿入速度の関係は，図\ref{fig_bench_insert} に示した通りである．
+キャッシュの変わり目を除き，広い区間で {\bf ska::flat\_hash\_map} が高い性能を示している．
+{\bf google::dense\_hash\_map} は，L2 キャッシュに乗る区間 $10^2〜 10^5$ では，ska::flat\_hash\_map に次ぐ速度を示すものの，
+L3 キャッシュ外となる区間 $10^6〜 10^8$ では，sstd::IpCHashT (as maxLF50) と入れ替わる結果となった．
+{\bf sstd::IpCHashT (as maxLF50)} は，その挿入アルゴリズムの複雑さの割に高速な挿入である．
+これは，結局のところ，挿入操作が単なる線形探査であるためである．
+しかしながら，{\bf sstd::IpCHashT (as uint8 and maxLF100)} と {\bf sstd::IpCHashT (as uint16)} の示す通り，
+load factor の高い領域において，線形探査は大きく効率を落としている．
+{\bf sstd::CHashT} は L2，L3 キャッシュの外へ格納が増えるにしたがい，大きく速度を落としている．
 \leavevmode \newline
 
 %
