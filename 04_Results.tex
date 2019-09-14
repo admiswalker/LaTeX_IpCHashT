@@ -121,7 +121,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 {\bf 挿入}
 \samepage\newline\indent
 挿入速度とテーブルサイズの関係を図
-\ref{fig_bench_insert_preAlloc_sm}，\ref{fig_bench_insert_wRehash_sm}に示す．
+\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す．
 挿入処理において，Hard insertion では find() 関数を用いるが，Soft insertion では，find() 関数を用いない．
 本ベンチマークでは，Soft insertion を用いる．
 したがって，Successful lookup と Unuccessful lookup オプションによる違いはない．
@@ -212,7 +212,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
     sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $1.25\textasciitilde.375\times10^8$.
     And sstd::IpCHash (as uint8 and maxLF100) is rehashing around $1.375\textasciitilde2.0\times10^8$.
   }
-  \label{fig_bench_insert_preAlloc_sm}
+  \label{fig_bench_insert_preAlloc}
 \end{figure}
 
 \begin{figure}[h]
@@ -221,7 +221,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
     Total time of insertion, which is a median value of 100 samples, with rehashing table.
     Chaining type of hash tables like sstd::CHashT and sstd::IpCHashT are slow down its insertion speed as the load factor increase.
   }
-  \label{fig_bench_insert_wRehash_sm}
+  \label{fig_bench_insert_wRehash}
 \end{figure}
 
 \begin{figure}[h]
@@ -233,7 +233,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
-  \label{fig_bench_insert_sm}
+  \label{fig_bench_insert}
 \end{figure}
 
 %%%

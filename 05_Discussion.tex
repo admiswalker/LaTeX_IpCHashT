@@ -5,24 +5,18 @@
 \leavevmode \newline
 
 %
-{\bf Loadfactor}
+{\bf Load factor}
 \samepage\newline\indent
 Load factor とテーブルサイズの関係は，図\ref{fig_bench_LF}に示す通りである．
-
 {\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で Load factor が低いものの，
 区間 $10^2〜10^8$ において，高い Load factor を示している．
-
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持している．
-
 {\bf sstd::IpCHashT (as maxLF50)}，{\bf google::dense\_hash\_map}，{\bf ska::flat\_hash\_map} は，
 Load factor が制限されており，50 \% に留まっている．
-
 {\bf sstd::IpCHashT (as uint8 and maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の Load factor を示す．
 テーブルサイズが $10^3$ を超えるにしたがい，linked list の長さが uint8 の最大値 - 1 に制限されている影響により，
 Load factor が単調に減少していく．
-
 {\bf sstd::IpCHashT (as uint16 and maxLF100)} は区間 $10^1〜10^8$ に渡り 97.5 \% 以上を維持している．
-
 なお，実際には 100 サンプルの中央値のため，
 特に sstd::CHashT と sstd::IpCHashT (as uint8 and maxLF100) では，
 特にテーブルサイズが $10^3$ 未満の場合において，ある程度揺らぎがある．
@@ -36,40 +30,36 @@ Load factor が単調に減少していく．
 メモリ使用量とテーブルサイズの関係は，図\ref{fig_bench_memory}に示す通りである．
 複数のピークはハッシュテーブルのリハッシュを示す．
 ピークの持つ幅は測定間隔に等しく，実際には要素１つ分の幅しか持たない．
-
 {\bf std::unordered\_map} は要素数にしたがって，ほぼ線形にメモリ使用量を増加させている．
 これは，std::unordered\_map が要素ごとにメモリを確保することを示す．
 また，リハッシュ時のピークも小さいことから，
 アルゴリズムは ``Separate chaining with linked lists'' であると推察される．
-
-{\bf sstd::IpCHashT (as uint16 maxLF100)} は
+{\bf sstd::IpCHashT (as uint16 and maxLF100)} は
 広い区間において最も高いメモリ効率を示しており，
 図\ref{fig_bench_LF}で示した load factor の高さを反映する結果となった．
 一部，他のハッシュテーブルとは異なるタイミングでリハッシュが発生しており，
 load factor が 100 \% まで達していないことを示している．
-
 {\bf google::dense\_hash\_map} は
 Load factor が 50 \% に削減されているにも関わらず，
 std::unordered\_map 前後のメモリ使用量を示しており，
 key の一部を空符号や削除符号として使用する実装の特性が現れている．
-
 {\bf sstd::CHashT}，{\bf sstd::IpCHashT (as maxLF50)}，{\bf ska::flat\_hash\_map} は，
 いずれもほぼ同じメモリ使用量を示している．
 図\ref{fig_bench_LF}より，
-
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持しているものの，
 ポインタによる singly linked list の構築に 1 要素あたり 8 Byte\footnote{64 bits CPU のため．} 必要としており，
 多くのメモリを消費する結果となった．
 Load factor の高い区間において，
 線形にメモリ使用量が伸びており，
 衝突した要素分のメモリを動的に確保している．
-
 {\bf sstd::IpCHashT (as maxLF50)}，{\bf ska::flat\_hash\_map} は
-検索速度を得るため，単位要素あたり最も多くのメモリを消費しており，
+検索速度
+
+\noindent
+を得るため，単位要素あたり最も多くのメモリを消費しており，
 std::unordered\_map と比較して 1.5 倍程度となる．
 実利用に際しては，このメモリ使用量を許容できるかどうかが，
 一つの課題となる．
-
 {\bf sstd::IpCHashT (as uint8 maxLF100)} は
 sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 およそ中間でリハッシュする挙動を示している．
@@ -78,8 +68,20 @@ sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 %
 {\bf 挿入}
 \samepage\newline\indent
-%挿入速度とテーブルサイズの関係を，図
-%\ref{fig_bench_insert_preAlloc_sm}，\ref{fig_bench_insert_wRehash_sm}に示す．
+挿入速度とテーブルサイズの関係は，図\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す通りである．
+テーブルのメモリを事前に確保した場合の挿入速度の累積時間は，
+図\ref{fig_bench_insert_preAlloc}の通りであり，
+{\bf std::unordered\_map} が他のハッシュテーブルより 2\textasciitilde 3.5 倍程度遅いことを除けば，
+巨視的にはどのハッシュテーブルも似たような速度である．
+ただし，図\ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
+ここでは，$2.0\times10^8$ に初期化されたテーブルに対する速度を示す．
+{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
+{\bf google::dense\_hash\_map} についても，同じタイミングで load factor が 50 \% を超えているはずであるが，
+事前にテーブルサイズを指定した場合には，リハッシュしないように制御されている様子が伺える．
+{\bf sstd::IpCHashT (as uint8 and maxLF100)} については，
+uint8 型により構成された singly linked list の最大範囲を超えた時点でリハッシュが発生している．
+
+
 %挿入処理において，Hard insertion では find() 関数を用いるが，Soft insertion では，find() 関数を用いない．
 %本ベンチマークでは，Soft insertion を用いる．
 %したがって，Successful lookup と Unuccessful lookup オプションによる違いはない．
