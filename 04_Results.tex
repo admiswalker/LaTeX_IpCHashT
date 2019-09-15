@@ -152,8 +152,16 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 %\newpage
 
 % AMD Ryzen7 1700
-% Total L2 Cache:  4 MB
-% Total L3 Cache: 16 MB
+% Total L1 Cache: 768 KB
+% Total L2 Cache:   4 MB
+% Total L3 Cache:  16 MB
+
+% key: uint64, value: uint64 -> 16 Byte/element
+% 768 KB / 16 [Byte/element]
+% = 768*1024 [Byte] / 16 [Byte/element]
+% = 786432 [Byte] / 16 [Byte/element]
+% = 49152 [element]
+% = 4.9x10^4 [element]
 
 % key: uint64, value: uint64 -> 16 Byte/element
 % 4 [MB] / 16 [Byte/element]

@@ -133,11 +133,25 @@ L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 
 %%%
 次に，Unuccessful lookup の速度，図\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}について考察する．
-%探査速度とテーブルサイズの関係を，図
-%\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
-%\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
-%図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}は Successful lookup を優先した設定，
-%図\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}は Unsuccessful lookup を優先した設定である．
+
+Successful major option の図\ref{fig_bench_find_s_um}について．
+{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+区間 $1.0\times10^2〜1.5\times10^5$ において，高速に動作するが，
+区間 $1.5\times10^5〜1.5\times10^7$ においては，{\bf ska::flat\_hash\_map} が長い区間において，最速を保持している．
+区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い
+{\bf sstd::IpCHashT (as uint8 and maxLF100)} や {\bf sstd::IpCHashT (as uint16)} が最速を保持している．
+なお，図\ref{fig_taocp_v3_fig44} (a) に示すように，Separate Chaining は，本質的に Unsuccessful lookup に強く，
+一部区間では，{\bf sstd::CHashT} であっても，google::dense\_hash\_map を上回る速度を示している．
+
+Unsuccessful major option の図\ref{fig_bench_find_us_um}について．
+{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+特に L1, L2 キャッシュに収まる区間 $1.0\times10^2〜1.5\times10^5$ では，
+google::dense\_hash\_map の \textasciitilde4 倍程度高速に動作している．
+また，
+区間 $1.5\times10^5〜1.5\times10^7$ でも \textasciitilde3 倍程度高速に動作している．
+一方で，
+区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い {\bf sstd::IpCHashT (as uint16)} が速度を伸ばした．
+図\ref{fig_bench_find_us_um}の結果は特に，Chaining 系のアルゴリズムが高速に動作する結果となった．
 \leavevmode \newline
 
 %
