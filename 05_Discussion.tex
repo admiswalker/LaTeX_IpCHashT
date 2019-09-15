@@ -1,13 +1,13 @@
 \chapter{考察}
 \label{chap_Discussion}
 
-考察について記述する．
+最大 load factor，メモリ使用量，挿入速度，探査速度，削除速度について考察する．
 \leavevmode \newline
 
 %
-{\bf Load factor}
+{\bf 最大 load factor}
 \samepage\newline\indent
-Load factor とテーブルサイズの関係，図\ref{fig_bench_LF}について考察する．
+最大 load factor とテーブルサイズの関係，図\ref{fig_bench_LF}について考察する．
 {\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で Load factor が低いものの，
 区間 $10^2〜10^8$ において，高い Load factor を示している．
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持している．
@@ -66,7 +66,7 @@ sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 \leavevmode \newline
 
 %
-{\bf 挿入}
+{\bf 挿入速度}
 \samepage\newline\indent
 挿入速度とテーブルサイズの関係，図\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}について考察する．
 
@@ -105,7 +105,7 @@ load factor の高い領域において，線形探査は大きく効率を落�
 \leavevmode \newline
 
 %
-{\bf 探査}
+{\bf 探査速度}
 \samepage\newline\indent
 探査速度とテーブルサイズの関係，図
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
@@ -155,7 +155,7 @@ google::dense\_hash\_map の \textasciitilde4 倍程度高速に動作してい�
 \leavevmode \newline
 
 %
-{\bf 削除}
+{\bf 削除速度}
 \samepage\newline\indent
 削除速度とテーブルサイズの関係，図\ref{fig_bench_erase_sm}，\ref{fig_bench_erase_um} について考察する．
 
