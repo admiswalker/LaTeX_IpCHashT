@@ -10,6 +10,19 @@ probing により衝突を解決しなくてはならない．
 一般に，要素を先頭から末尾までただ辿る場合は，singly linked list を用いる．
 今回は，後から挿入位置を整理するため，doubly linked list を用いる．
 
+これらの提案は，本質的に \cite{ADMIS2017} で行った提案と同種のものであるが，
+今回新たに挿入操作に soft insertion を採用し，
+検索操作においても，
+Successful lookup を優先するオプションと，
+Unsuccessful lookup を優先するオプションについてそれぞれ実装と評価を行う．
+また，テーブルサイズによってパディングサイズを動的に変更することで，
+テーブルサイズが小さい場合に load factor が低下する問題に対処する．
+以下，
+図\ref{fig_IpCHashT_struct}，
+図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
+図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
+\cite{ADMIS2017} に由来する図である．
+
 In-place hash table (以下，IpCHashT) では図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
 各要素には key-value pair の他に，linked list のための prev 要素と next 要素を持つ．
 T\_shift には unsigned int 型を用い，相対位置による linked list を構成する．
@@ -106,10 +119,6 @@ Open hashing を用いたハッシュテーブルの説明では，
 一見すると隣接した連続構造であっても，
 実際には，図\ref{fig_IpCHashT_insert_introspection}のように，
 各要素が断続的なアドレス空間上に存在することがある．
-
-ハッシュテーブルの主要な動作は，挿入・探査・削除である．
-IpCHashT における検索は，単に linked list を辿るだけであるから，
-ここでは，挿入と削除について説明する．
 
 %\leavevmode \newline
 %\leavevmode \newline
@@ -296,7 +305,7 @@ load factor の上限が悪化する．
 テーブルサイズに比例するように調整する必要がある．
 
 必要なパディングサイズは，
-線形に比例すると推測されるため，
+線形に増加すると推測されるため，
 
 \[
   {\rm pSize} = \begin{cases}
