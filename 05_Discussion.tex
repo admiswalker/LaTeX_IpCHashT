@@ -157,17 +157,22 @@ google::dense\_hash\_map の \textasciitilde4 倍程度高速に動作してい�
 %
 {\bf 削除}
 \samepage\newline\indent
+削除速度とテーブルサイズの関係，図\ref{fig_bench_erase_sm}，\ref{fig_bench_erase_um} について考察する．
+
 まず，Successful lookup を優先した設定と，
-Unsuccessful lookup の違いについて考察する．
-本ベンチマークでは存在する key-value ペアを削除しているため，
+Unsuccessful lookup を優先した設定の違いについて考察する．
+このベンチマークでは，存在する key-value ペアを削除しているため，
 図\ref{fig_bench_erase_sm}に示す Successful lookup を優先する設定が，
 図\ref{fig_bench_erase_um}に示す Unsuccessful lookup を優先する設定より高速に処理すると期待されたが，
 明白な違いは認められなかった．
-%削除速度とテーブルサイズの関係を，図
-%\ref{fig_bench_erase_sm}，
-%\ref{fig_bench_erase_um}に示す．
-%図\ref{fig_bench_erase_sm}は Successful lookup を優先した設定，
-%図\ref{fig_bench_erase_um}は Unsuccessful lookup を優先した設定である．
-\leavevmode \newline
+
+{\bf google::dense\_hash\_map} は，
+区間 $1.0\times10^1〜2.0\times10^8$ のほぼ全てにおいて最速を保持している．
+{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+L2 キャッシュ内の区間 $2.0\times10^2〜1.5\times10^5$ において，
+ska::flat\_hash\_map より高速に動作するものの，
+区間 $1.5\times10^2〜2.0\times10^8$ においては，
+{\bf ska::flat\_hash\_map} の方が高速に動作している．
+%\leavevmode \newline
 
 

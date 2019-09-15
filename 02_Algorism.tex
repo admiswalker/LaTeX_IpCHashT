@@ -10,18 +10,19 @@ probing により衝突を解決しなくてはならない．
 一般に，要素を先頭から末尾までただ辿る場合は，singly linked list を用いる．
 今回は，後から挿入位置を整理するため，doubly linked list を用いる．
 
-これらの提案は，本質的に \cite{ADMIS2017} で行った提案と同種のものであるが，
-今回新たに挿入操作に soft insertion を採用し，
-検索操作においても，
-Successful lookup を優先するオプションと，
-Unsuccessful lookup を優先するオプションについてそれぞれ実装と評価を行う．
-また，テーブルサイズによってパディングサイズを動的に変更することで，
-テーブルサイズが小さい場合に load factor が低下する問題に対処する．
+これらの提案は，本質的に \cite{ADMIS2017} で行った提案と同じものである．
 以下，
 図\ref{fig_IpCHashT_struct}，
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
 図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
 \cite{ADMIS2017} に由来する図である．
+今回は，
+新たに挿入操作に soft insertion を採用した．
+検索操作においても，
+Successful lookup を優先するオプションと，
+Unsuccessful lookup を優先するオプションについてそれぞれ実装と評価を行う．
+また，テーブルサイズによってパディングサイズを動的に変更することで，
+テーブルサイズが小さい場合に load factor が低下する問題に対処する．
 
 In-place hash table (以下，IpCHashT) では図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
 各要素には key-value pair の他に，linked list のための prev 要素と next 要素を持つ．
