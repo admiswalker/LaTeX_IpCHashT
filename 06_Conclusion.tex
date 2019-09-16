@@ -112,19 +112,18 @@ TODO: このあたりの結果を，いい感じの表にまとめる．
 \leavevmode \newline
 \leavevmode \newline
 
-
 \begin{table}[hbtp]
   \begin{center}
     \fontsize{9pt}{10pt}\selectfont
     \caption{各実装の比較．}
     \begin{tabular}{c|c|ccc|ccc|c|c} \hline
-                                                                      &        & \multicolumn{3}{c|}{\begin{tabular}{c}Successful lookup\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful lookup\end{tabular}} &        & \rule[0pt]{0pt}{15pt} \\
-      \begin{tabular}{c}Implementation of\\hash table\end{tabular}    & Insert & $10^{2\textasciitilde5}$ & $10^{5\textasciitilde7}$ & $10^{7\textasciitilde8.3}$       & $10^{2\textasciitilde5}$ & $10^{5\textasciitilde7}$ & $10^{7\textasciitilde8.3}$         & Erase & \begin{tabular}{c}Memory\\efficiency\end{tabular} \rule[0pt]{0pt}{15pt} \\ \hline
-        \begin{tabular}{c}sstd::IpCHashT ${\rm ^{typeA)}}$\end{tabular} & good   & best                & best               & bad                        & good                & medium             & medium                       & medium & bad  \rule[0pt]{0pt}{15pt} \\
-        \begin{tabular}{c}sstd::IpCHashT ${\rm ^{typeB)}}$\end{tabular} & good   & best                & good               & bad                        & best                & best               & medium                       & medium & bad  \rule[0pt]{0pt}{15pt} \\
-        \begin{tabular}{c}sstd::IpCHashT ${\rm ^{typeC)}}$\end{tabular} & bad    & bad                 & good               & good                       & bad                 & bad                & good                         & bad    & best \rule[0pt]{0pt}{15pt} \\
-        google::dense\_hash\_map                                      & good   & good                & medium             & best                       & bad                 & bad                & medium                       & best   & good \rule[0pt]{0pt}{15pt} \\
-        ska::flat\_hash\_map                                          & best   & medium              & bad                & bad                        & medium              & good               & medium                       & medium & bad  \rule[0pt]{0pt}{15pt} \\ \hline
+                                                                      &                           & \multicolumn{3}{c|}{\begin{tabular}{c}Successful lookup\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful lookup\end{tabular}}                     &                           & \rule[0pt]{0pt}{15pt} \\
+      \begin{tabular}{c}Implementation of\\hash table\end{tabular}    & Insert                    & $10^{2\textasciitilde5}$       & $10^{5\textasciitilde7}$        & $10^{7\textasciitilde8.3}$    & $10^{2\textasciitilde5}$        & $10^{5\textasciitilde7}$       & $10^{7\textasciitilde8.3}$      & Erase                     & \begin{tabular}{c}Memory\\efficiency\end{tabular} \rule[0pt]{0pt}{15pt} \\ \hline
+        \begin{tabular}{c}sstd::IpCHashT ${\rm ^{typeA)}}$\end{tabular} & \cellcolor{gray090}good   & \cellcolor{gray100}best   & \cellcolor{gray100}best   & \cellcolor{gray050}bad  & \cellcolor{gray090}good   & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray050}bad  \rule[0pt]{0pt}{15pt} \\
+        \begin{tabular}{c}sstd::IpCHashT ${\rm ^{typeB)}}$\end{tabular} & \cellcolor{gray090}good   & \cellcolor{gray100}best   & \cellcolor{gray090}good   & \cellcolor{gray050}bad  & \cellcolor{gray100}best   & \cellcolor{gray100}best   & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray050}bad  \rule[0pt]{0pt}{15pt} \\
+        \begin{tabular}{c}sstd::IpCHashT ${\rm ^{typeC)}}$\end{tabular} & \cellcolor{gray050}bad    & \cellcolor{gray050}bad    & \cellcolor{gray090}good   & \cellcolor{gray090}good & \cellcolor{gray050}bad    & \cellcolor{gray050}bad    & \cellcolor{gray090}good   & \cellcolor{gray050}bad    & \cellcolor{gray100}best \rule[0pt]{0pt}{15pt} \\
+        google::dense\_hash\_map                                      & \cellcolor{gray090}good   & \cellcolor{gray090}good   & \cellcolor{gray070}medium & \cellcolor{gray100}best & \cellcolor{gray050}bad    & \cellcolor{gray050}bad    & \cellcolor{gray070}medium & \cellcolor{gray100}best   & \cellcolor{gray090}good \rule[0pt]{0pt}{15pt} \\
+        ska::flat\_hash\_map                                          & \cellcolor{gray100}best   & \cellcolor{gray070}medium & \cellcolor{gray050}bad    & \cellcolor{gray050}bad  & \cellcolor{gray070}medium & \cellcolor{gray090}good   & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray050}bad  \rule[0pt]{0pt}{15pt} \\ \hline
     \end{tabular}
     \\
     ${\rm ^{typeA)}}$ (as uint8 and maxLF50 ). Successful lookup major option.\\
