@@ -112,6 +112,7 @@ TODO: このあたりの結果を，いい感じの表にまとめる．
 \leavevmode \newline
 \leavevmode \newline
 
+% best, good, medium, bad, worst
 \begin{table}[hbtp]
   \begin{center}
     \fontsize{9pt}{10pt}\selectfont
@@ -119,23 +120,16 @@ TODO: このあたりの結果を，いい感じの表にまとめる．
     \begin{tabular}{c|c|ccc|ccc|c|c} \hline
         Implementation of                       & Insert                  & \multicolumn{3}{c|}{\begin{tabular}{c}Successful lookup\end{tabular}}           & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful lookup\end{tabular}}           & Erase                     & Memory \rule[0pt]{0pt}{15pt} \\
         hash table                              &                         & $10^{2\textasciitilde5}$       & $10^{5\textasciitilde7}$        & $10^{7\textasciitilde8.3}$    & $10^{2\textasciitilde5}$        & $10^{5\textasciitilde7}$       & $10^{7\textasciitilde8.3}$      &                           & efficiency \rule[0pt]{0pt}{15pt} \\ \hline
-        IpCHashT $_{\rm SL\ Opt.}^{\rm ^{u8, maxLF50}}$  & \cellcolor{gray090}good  & \cellcolor{gray100}best   & \cellcolor{gray100}best   & \cellcolor{gray050}bad  & \cellcolor{gray090}good   & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray050}bad  \rule[0pt]{0pt}{15pt} \\
-        IpCHashT $_{\rm USL\ Opt.}^{\rm ^{u8, maxLF50}}$  & \cellcolor{gray090}good & \cellcolor{gray100}best   & \cellcolor{gray090}good   & \cellcolor{gray050}bad  & \cellcolor{gray100}best   & \cellcolor{gray100}best   & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray050}bad  \rule[0pt]{0pt}{15pt} \\
-        IpCHashT $_{\rm SL\ Opt.}^{\rm ^{u16, maxLF100}}$ & \cellcolor{gray050}bad  & \cellcolor{gray050}bad    & \cellcolor{gray090}good   & \cellcolor{gray090}good & \cellcolor{gray050}bad    & \cellcolor{gray050}bad    & \cellcolor{gray090}good   & \cellcolor{gray050}bad    & \cellcolor{gray100}best \rule[0pt]{0pt}{15pt} \\
-        dense\_hash\_map                        & \cellcolor{gray090}good & \cellcolor{gray090}good   & \cellcolor{gray070}medium & \cellcolor{gray100}best & \cellcolor{gray050}bad    & \cellcolor{gray050}bad    & \cellcolor{gray070}medium & \cellcolor{gray100}best   & \cellcolor{gray090}good \rule[0pt]{0pt}{15pt} \\
-        flat\_hash\_map                         & \cellcolor{gray100}best & \cellcolor{gray070}medium & \cellcolor{gray050}bad    & \cellcolor{gray050}bad  & \cellcolor{gray070}medium & \cellcolor{gray090}good   & \cellcolor{gray070}medium & \cellcolor{gray070}medium & \cellcolor{gray050}bad  \rule[0pt]{0pt}{15pt} \\ \hline
+        IpCHashT $_{\rm SL\ Opt.}^{\rm ^{u8, maxLF50}}$  & \cellcolor{cGood}good  & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cBad }bad  & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
+        IpCHashT $_{\rm USL\ Opt.}^{\rm ^{u8, maxLF50}}$  & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cGood}good   & \cellcolor{cBad }bad  & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
+        IpCHashT $_{\rm SL\ Opt.}^{\rm ^{u16, maxLF100}}$ & \cellcolor{cBad }bad  & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cGood}good & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cBad }bad    & \cellcolor{cBest}best \rule[0pt]{0pt}{15pt} \\
+        dense\_hash\_map                        & \cellcolor{cGood}good & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cBest}best & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium & \cellcolor{cBest}best   & \cellcolor{cGood}good \rule[0pt]{0pt}{15pt} \\
+        flat\_hash\_map                         & \cellcolor{cBest}best & \cellcolor{cMedi}medium & \cellcolor{cBad }bad    & \cellcolor{cBad }bad  & \cellcolor{cMedi}medium & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\ \hline
     \end{tabular}
     Note. \ \ \ u8: uint8,\ \ \ \ u16: uint16,\ \ \ \ SL Opt.: Successful lookup major option,\ \ \ \ USL Opt.: Unsuccessful lookup major option.
-%    $^{a)}$ Chaining, 
-%    $^{b)}$ In-place chaining,
-%    $^{c)}$ Quadratic probing,
-%    $^{d)}$ Robin Hood hashing (One of the linear probing)
     \label{table_hashT_cmp}
   \end{center}
 \end{table}
-% best, good, medium, bad, worst
-
-
 
 % 2*10^8 = 10^x
 % log10( 2*10^8 ) = log10( 10^x )
