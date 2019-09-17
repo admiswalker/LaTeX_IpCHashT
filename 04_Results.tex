@@ -215,7 +215,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 %%%
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench_sm/insert_et_preAlloc_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
   \caption{
     Total time of insertion, which is a median value of 100 samples, using pre-allocated table.
     In this measurement, hash tables are initialized by $2.0\times10^8$ and inserted.
@@ -226,7 +226,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench_sm/insert_et_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
   \caption{
     Total time of insertion, which is a median value of 100 samples, with rehashing table.
     Chaining type of hash tables like sstd::CHashT and sstd::IpCHashT are slow down its insertion speed as the load factor increase.
@@ -236,7 +236,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench_sm/insert_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/insert_med.pdf}
   \caption{
     Insertion speed, which is a median value of 100 samples.
     Rehash time is included in the valleys.
