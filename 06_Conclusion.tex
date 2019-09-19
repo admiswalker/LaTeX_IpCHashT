@@ -125,8 +125,8 @@ sstd::CHashT よりは速い，程度の速度を保っている．
 % log10( 2*10^8 ) = x
 %               x = 8.301...
 
-以上の結果を，表\ref{table_hashT_cmp} にまとめる．
-このことから，少なくとも，key type と value type が uint64 のハッシュテーブルについて，次のことが言える．
+以上の結果は，表\ref{table_hashT_cmp} のようにまとめられる．
+これらの結果から，少なくとも，AMD Ryzen7 1700 上では，key type と value type が uint64 のハッシュテーブルについて，次のことが言える．
 {\bf sstd::IpCHashT (as uint8, maxLF50 and successful lookup major option)} は，Successful lookup の区間 $10^2〜10^7$ で最も優れた結果を出す．
 {\bf sstd::IpCHashT (as uint8, maxLF50 and unsuccessful lookup major option)} は，Successful lookup の区間 $10^2〜10^7$ で優れた結果を，
 Successful lookup の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長く，使い勝手が良い．
