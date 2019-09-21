@@ -104,16 +104,14 @@ sstd::CHashT よりは速い，程度の速度を保っている．
     \fontsize{9pt}{10pt}\selectfont
     \caption{各実装の比較．}
     \begin{tabular}{c|c|ccc|ccc|c|c} \hline
-        Implementation of                       & Insert                & \multicolumn{3}{c|}{\begin{tabular}{c}Successful lookup\end{tabular}}    & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful lookup\end{tabular}}       & Erase                   & Memory                \rule[0pt]{0pt}{15pt} \\
-        hash table                              &                       & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$  & $10^{2\textasciitilde5}$        & $10^{5\textasciitilde7}$       & $10^{7\textasciitilde8.3}$ &                         & efficiency            \rule[0pt]{0pt}{15pt} \\ \hline
-%        IpCHashT $_{\rm SL\ Opt.}^{\rm ^{u8, maxLF50}}$  & \cellcolor{cGood}good  & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cBad }bad  & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
-        IpCHashT (u8-LF50-S) & \cellcolor{cGood}good  & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cBad }bad  & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
-%        IpCHashT $_{\rm USL\ Opt.}^{\rm ^{u8, maxLF50}}$  & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cGood}good   & \cellcolor{cBad }bad  & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
-        IpCHashT (u8-LF50-U) & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cGood}good   & \cellcolor{cBad }bad  & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
-%        IpCHashT $_{\rm SL\ Opt.}^{\rm ^{u16, maxLF100}}$ & \cellcolor{cBad }bad  & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cGood}good & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cGood}good    & \cellcolor{cBad }bad    & \cellcolor{cBest}best \rule[0pt]{0pt}{15pt} \\
-        IpCHashT (u16-LF100-S) & \cellcolor{cBad }bad  & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cGood}good & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cGood}good    & \cellcolor{cBad }bad    & \cellcolor{cBest}best \rule[0pt]{0pt}{15pt} \\
-        dense\_hash\_map                        & \cellcolor{cGood}good & \cellcolor{cGood}good   & \cellcolor{cGood}good   & \cellcolor{cBest}best & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium  & \cellcolor{cBest}best   & \cellcolor{cGood}good \rule[0pt]{0pt}{15pt} \\
-        flat\_hash\_map                         & \cellcolor{cBest}best & \cellcolor{cMedi}medium & \cellcolor{cBad }bad    & \cellcolor{cBad }bad  & \cellcolor{cMedi}medium & \cellcolor{cGood}good   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\ \hline
+        Implementation of      & Insert                & \multicolumn{3}{c|}{\begin{tabular}{c}Successful lookup\end{tabular}}       & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful lookup\end{tabular}}      & Erase                   & Memory                \rule[0pt]{0pt}{15pt} \\
+        hash table             &                       & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$    & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$     &                         & efficiency            \rule[0pt]{0pt}{15pt} \\ \hline
+        IpCHashT (u8-LF50-S)   & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
+        IpCHashT (u8-LF50-U)   & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cMedi}medium & \cellcolor{cBad }bad    & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
+        IpCHashT (u16-LF100-S) & \cellcolor{cBad }bad  & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cGood}good   & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cGood}good    & \cellcolor{cBad }bad    & \cellcolor{cBest}best \rule[0pt]{0pt}{15pt} \\
+        IpCHashT (u16-LF100-U) & \cellcolor{cBad }bad  & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium & \cellcolor{cGood}good   & \cellcolor{cGood}good   & \cellcolor{cBest}best    & \cellcolor{cBad }bad    & \cellcolor{cBest}best \rule[0pt]{0pt}{15pt} \\
+        dense\_hash\_map       & \cellcolor{cGood}good & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cBest}best   & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium  & \cellcolor{cBest}best   & \cellcolor{cGood}good \rule[0pt]{0pt}{15pt} \\
+        flat\_hash\_map        & \cellcolor{cBest}best & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\ \hline
     \end{tabular}
 %    Note: \ \ u8: uint8,\ \ \ u16: uint16,\ \ \ SL Opt.: Successful lookup major option,\ \ \ USL Opt.: Unsuccessful lookup major option.
     Note: \ \ u8: uint8,\ \ \ u16: uint16,\ \ \ S: Successful lookup major option,\ \ \ U: Unsuccessful lookup major option.
@@ -131,8 +129,10 @@ sstd::CHashT よりは速い，程度の速度を保っている．
 {\bf sstd::IpCHashT (as uint8, maxLF50 and unsuccessful lookup major option)} は，Successful lookup の区間 $10^2〜10^7$ で優れた結果を，
 Successful lookup の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長く，使い勝手が良い．
 一方で，メモリ効率は高くなく，$10^7$ を超える巨大なハッシュテーブの場合には，大きく性能を落とす．
-{\bf sstd::IpCHashT (as uint16, maxLF50 and successful lookup major option)} は，Successful lookup の区間 $10^5〜10^8.3$ で最も優れた結果を出す．
-非常に高いメモリ効率を持つことが特徴である．
+{\bf sstd::IpCHashT (as uint16, maxLF100 and successful lookup major option)} は，最も高いメモリ効率を示し，
+Successful lookup の区間 $10^5〜10^8.3$ において，安定した性能を示す．
+{\bf sstd::IpCHashT (as uint16,maxLF100 and unsuccessful lookup major option)} は，最も高いメモリ効率を示し，
+Unsuccessful lookup の区間 $10^7〜10^8.3$ で最も優れた結果を出す．
 {\bf google::dense\_hash\_map} は，Successful lookup の区間 $10^2〜10^8.3$ の測定範囲ほぼ全域に渡り，よい性能を示す．
 特に，巨大なテーブルの場合でも，速度低下が緩やかである．また，メモリ効率もよい．
 一方で，Unuccessful lookup については，非常に遅い結果となった．
