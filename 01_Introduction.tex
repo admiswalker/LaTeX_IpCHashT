@@ -14,8 +14,8 @@ Load factor が高くなるに従い，
 Quadratic probing では，
 幾らか改善されるが，
 いずれも
-Unsuccessful lookup においては $\alpha = 0.65$ 前後，
-Successful lookup においても $\alpha = 0.85$ 前後において，
+Unsuccessful search においては $\alpha = 0.65$ 前後，
+Successful search においても $\alpha = 0.85$ 前後において，
 急激に平均 probe 数が増加する．
 この特性は，ハッシュテーブルの Load factor が閾値を超えると，
 著しく性能が悪化することを意味する．
@@ -139,7 +139,7 @@ Linear probing のコストに配慮し，
     \fontsize{9pt}{10pt}\selectfont
     \caption{各実装の比較．}
     \begin{tabular}{ccccccc} \hline
-      \begin{tabular}{c}Implementation of\\hash table\end{tabular} & Algorism & Insert & \begin{tabular}{c}Successful\\lookup\end{tabular} & \begin{tabular}{c}Unsuccessful\\lookup\end{tabular} & Erase & \begin{tabular}{c}Memory\\efficiency\end{tabular} \rule[0pt]{0pt}{15pt} \\ \hline
+      \begin{tabular}{c}Implementation of\\hash table\end{tabular} & Algorism & Insert & \begin{tabular}{c}Successful\\search\end{tabular} & \begin{tabular}{c}Unsuccessful\\search\end{tabular} & Erase & \begin{tabular}{c}Memory\\efficiency\end{tabular} \rule[0pt]{0pt}{15pt} \\ \hline
       std::unorderd\_map           & Open hashing $^{a)}$   & bad   & bad  & bad  & bad   & good   \\ 
       google::dense\_hash\_map     & Closed hashing $^{b)}$ & good  & good & good & good  & medium \\
       ska::flat\_hash\_map         & Closed hashing $^{c)}$ & good  & good & good & good  & bad    \\ \hline

@@ -7,13 +7,13 @@
 doubly linked list 構造を内包する Closed hashing アルゴリズムとして，
 In-place Chained Hash Table を提案した．
 図\ref{fig_taocp_v3_fig44}に示すように，
-Chaining 系のアルゴリズムは， Successful lookup に加え，
-特に Unsuccessful lookup に対して高い性能を示すことが期待された．
+Chaining 系のアルゴリズムは， Successful search に加え，
+特に Unsuccessful search に対して高い性能を示すことが期待された．
 \newline
 
-まず，{\bf sstd::IpCHashT (as uint8 and maxLF50)} の Unsuccessful lookup major option について結論を述べる．
+まず，{\bf sstd::IpCHashT (as uint8 and maxLF50)} の Unsuccessful search major option について結論を述べる．
 
-Successful lookup speed について，
+Successful search speed について，
 図\ref{fig_bench_find_s_um}より，
 テーブルサイズ $1.0\times10^2〜1.0\times10^7$ において，
 L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
@@ -21,7 +21,7 @@ L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
 ただし，$1.0\times10^7$ を超える非常に巨大なハッシュテーブについては，
 google::dense\_hash\_map がよい性能を示した．
 
-Unsuccessful lookup speed については，
+Unsuccessful search speed については，
 図\ref{fig_bench_find_us_um}より，
 テーブルサイズ $1.0\times10^2〜1.0\times10^7$ において，
 L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
@@ -40,29 +40,29 @@ L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
 2\textasciitilde 3 番目の速度を示した．
 \newline
 
-{\bf sstd::IpCHashT (as uint8 and maxLF50)} の Successful lookup major option について結論を述べる．
+{\bf sstd::IpCHashT (as uint8 and maxLF50)} の Successful search major option について結論を述べる．
 
-Successful lookup speed について，
+Successful search speed について，
 図\ref{fig_bench_find_s_sm}より，
-Unsuccessful lookup major option の場合と比較して，
+Unsuccessful search major option の場合と比較して，
 テーブルサイズ $3.0\times10^5〜1.0\times10^7$ において，
 性能の改善が見られる．
 それ以外の区間においては，大きな性能改善は見られず，
 $1.0\times10^7$ を超える非常に巨大なハッシュテーブについては，
 同様に性能が悪化した．
 
-Unsuccessful lookup speed については，
+Unsuccessful search speed については，
 図\ref{fig_bench_find_us_sm}より，
-Unsuccessful lookup major option の場合と比較して，
+Unsuccessful search major option の場合と比較して，
 L2 キャッシュサイズ内の $1.0\times10^2〜1.0\times10^5$ において，
 大きく性能を落とした．
 また，$1.0\times10^5〜1.0\times10^7$ においては，
 ska::flat\_hash\_map が最も高い性能を示した．
 \newline
 
-{\bf sstd::IpCHashT (as uint16 and maxLF100)} の Successful lookup major option について結論を述べる．
+{\bf sstd::IpCHashT (as uint16 and maxLF100)} の Successful search major option について結論を述べる．
 
-Successful lookup speed について，
+Successful search speed について，
 図\ref{fig_bench_find_s_sm}より，
 区間 $1.0\times10^5〜3.5\times10^7$ において，
 google::dense\_hash\_map と同程度の性能を示した．
@@ -70,7 +70,7 @@ google::dense\_hash\_map と同程度の性能を示した．
 google::dense\_hash\_map には劣るものの，
 2 番目の性能に収まった．
 
-Unsuccessful lookup speed については，
+Unsuccessful search speed については，
 図\ref{fig_bench_find_s_sm}より，
 区間 $1.0\times10^5〜3.5\times10^7$ において，
 google::dense\_hash\_map と同程度の性能を示した．
@@ -104,7 +104,7 @@ sstd::CHashT よりは速い，程度の速度を保っている．
     \fontsize{9pt}{10pt}\selectfont
     \caption{各実装の比較．}
     \begin{tabular}{c|c|ccc|ccc|c|c} \hline
-        Implementation of      & Insert                & \multicolumn{3}{c|}{\begin{tabular}{c}Successful lookup\end{tabular}}       & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful lookup\end{tabular}}      & Erase                   & Memory                \rule[0pt]{0pt}{15pt} \\
+        Implementation of      & Insert                & \multicolumn{3}{c|}{\begin{tabular}{c}Successful search\end{tabular}}       & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful search\end{tabular}}      & Erase                   & Memory                \rule[0pt]{0pt}{15pt} \\
         hash table             &                       & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$    & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$     &                         & efficiency            \rule[0pt]{0pt}{15pt} \\ \hline
         IpCHashT (u8-LF50-S)   & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
         IpCHashT (u8-LF50-U)   & \cellcolor{cGood}good & \cellcolor{cBest}best   & \cellcolor{cMedi}medium & \cellcolor{cBad }bad    & \cellcolor{cBest}best   & \cellcolor{cBest}best   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\
@@ -113,8 +113,8 @@ sstd::CHashT よりは速い，程度の速度を保っている．
         dense\_hash\_map       & \cellcolor{cGood}good & \cellcolor{cGood}good   & \cellcolor{cMedi}medium & \cellcolor{cBest}best   & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cMedi}medium  & \cellcolor{cBest}best   & \cellcolor{cGood}good \rule[0pt]{0pt}{15pt} \\
         flat\_hash\_map        & \cellcolor{cBest}best & \cellcolor{cMedi}medium & \cellcolor{cMedi}medium & \cellcolor{cBad }bad    & \cellcolor{cBad }bad    & \cellcolor{cGood}good   & \cellcolor{cMedi}medium  & \cellcolor{cMedi}medium & \cellcolor{cBad }bad  \rule[0pt]{0pt}{15pt} \\ \hline
     \end{tabular}
-%    Note: \ \ u8: uint8,\ \ \ u16: uint16,\ \ \ SL Opt.: Successful lookup major option,\ \ \ USL Opt.: Unsuccessful lookup major option.
-    Note: \ \ u8: uint8,\ \ \ u16: uint16,\ \ \ S: Successful lookup major option,\ \ \ U: Unsuccessful lookup major option.
+%    Note: \ \ u8: uint8,\ \ \ u16: uint16,\ \ \ SL Opt.: Successful search major option,\ \ \ USL Opt.: Unsuccessful search major option.
+    Note: \ \ u8: uint8,\ \ \ u16: uint16,\ \ \ S: Successful search major option,\ \ \ U: Unsuccessful search major option.
     \label{table_hashT_cmp}
   \end{center}
 \end{table}
@@ -125,17 +125,17 @@ sstd::CHashT よりは速い，程度の速度を保っている．
 
 以上の結果は，表\ref{table_hashT_cmp} のようにまとめられる．
 これらの結果から，少なくとも，AMD Ryzen7 1700 上では，key type と value type が uint64 のハッシュテーブルについて，次のことが言える．
-{\bf sstd::IpCHashT (as uint8, maxLF50 and successful lookup major option)} は，Successful lookup の区間 $10^2〜10^7$ で最も優れた結果を出す．
-{\bf sstd::IpCHashT (as uint8, maxLF50 and unsuccessful lookup major option)} は，Successful lookup の区間 $10^2〜10^7$ で優れた結果を，
-Successful lookup の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長く，使い勝手が良い．
+{\bf sstd::IpCHashT (as uint8, maxLF50 and successful search major option)} は，Successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．
+{\bf sstd::IpCHashT (as uint8, maxLF50 and unsuccessful search major option)} は，Successful search の区間 $10^2〜10^7$ で優れた結果を，
+Successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長く，使い勝手が良い．
 一方で，メモリ効率は高くなく，$10^7$ を超える巨大なハッシュテーブの場合には，大きく性能を落とす．
-{\bf sstd::IpCHashT (as uint16, maxLF100 and successful lookup major option)} は，最も高いメモリ効率を示し，
-Successful lookup の区間 $10^5〜10^8.3$ において，安定した性能を示す．
-{\bf sstd::IpCHashT (as uint16,maxLF100 and unsuccessful lookup major option)} は，最も高いメモリ効率を示し，
-Unsuccessful lookup の区間 $10^7〜10^8.3$ で最も優れた結果を出す．
-{\bf google::dense\_hash\_map} は，Successful lookup の区間 $10^2〜10^8.3$ の測定範囲ほぼ全域に渡り，よい性能を示す．
+{\bf sstd::IpCHashT (as uint16, maxLF100 and successful search major option)} は，最も高いメモリ効率を示し，
+Successful search の区間 $10^5〜10^8.3$ において，安定した性能を示す．
+{\bf sstd::IpCHashT (as uint16,maxLF100 and unsuccessful search major option)} は，最も高いメモリ効率を示し，
+Unsuccessful search の区間 $10^7〜10^8.3$ で最も優れた結果を出す．
+{\bf google::dense\_hash\_map} は，Successful search の区間 $10^2〜10^8.3$ の測定範囲ほぼ全域に渡り，よい性能を示す．
 特に，巨大なテーブルの場合でも，速度低下が緩やかである．また，メモリ効率もよい．
-一方で，Unuccessful lookup については，非常に遅い結果となった．
+一方で，Unuccessful search については，非常に遅い結果となった．
 また，要素の空きや削除を示す key を登録する必要があり，登録した key は key として扱えなくなる．
 {\bf flat\_hash\_map} は，insertion で最も優れた性能を示した．
 

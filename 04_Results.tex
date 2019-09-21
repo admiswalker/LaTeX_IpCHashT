@@ -102,7 +102,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 \section{結果}
 ここでは，sstd::IpCHashT の linked list 長に uint8 と uint16 を用いた設定，load factor の最大値を 50 \% に制限した設定に加えて，
-要素探査時に Successful lookup を優先した設定と，Unsuccessful lookup を優先した設定についてベンチマークする．
+要素探査時に Successful search を優先した設定と，Unsuccessful search を優先した設定についてベンチマークする．
 \leavevmode \newline
 
 %
@@ -124,7 +124,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 \ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す．
 挿入処理において，Hard insertion では find() 関数を用いるが，Soft insertion では，find() 関数を用いない．
 本ベンチマークでは，Soft insertion を用いる．
-したがって，Successful lookup と Unuccessful lookup オプションによる違いはない．
+したがって，Successful search と Unuccessful search オプションによる違いはない．
 \leavevmode \newline
 
 %
@@ -133,9 +133,9 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 探査速度とテーブルサイズの関係を図
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
 \ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
-コンパイル時 sstd::IpCHashT に Successful lookup を優先するオプションを指定した結果が
+コンパイル時 sstd::IpCHashT に Successful search を優先するオプションを指定した結果が
 図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}であり，
-コンパイル時 sstd::IpCHashT に Unsuccessful lookup を優先するオプションを指定した結果が
+コンパイル時 sstd::IpCHashT に Unsuccessful search を優先するオプションを指定した結果が
 図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}である．
 \leavevmode \newline
 
@@ -145,8 +145,8 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 削除速度とテーブルサイズの関係を図
 \ref{fig_bench_erase_sm}，
 \ref{fig_bench_erase_um}に示す．
-図\ref{fig_bench_erase_sm}は Successful lookup を優先した設定，
-図\ref{fig_bench_erase_um}は Unsuccessful lookup を優先した設定である．
+図\ref{fig_bench_erase_sm}は Successful search を優先した設定，
+図\ref{fig_bench_erase_um}は Unsuccessful search を優先した設定である．
 \leavevmode \newline
 
 %\newpage
@@ -250,9 +250,9 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench_sm/find_successful_lookup_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_sm/find_successful_search_med.pdf}
   \caption{
-    (Successful lookup major option). Successful lookup speed, which is a median value of 100 samples.
+    (Successful search major option). Successful search speed, which is a median value of 100 samples.
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
@@ -261,9 +261,9 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench_usm/find_successful_lookup_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/find_successful_search_med.pdf}
   \caption{
-    (Unsuccessful lookup major option). Successful lookup speed, which is a median value of 100 samples.
+    (Unsuccessful search major option). Successful search speed, which is a median value of 100 samples.
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
@@ -274,9 +274,9 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench_sm/find_unsuccessful_lookup_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_sm/find_unsuccessful_search_med.pdf}
   \caption{
-    (Successful lookup major option). Unsuccessful lookup speed, which is a median value of 100 samples.
+    (Successful search major option). Unsuccessful search speed, which is a median value of 100 samples.
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
@@ -285,9 +285,9 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 
 \begin{figure}[h]
   \hspace{-3mm}
-  \includegraphics[scale=0.24]{./fig_bench_usm/find_unsuccessful_lookup_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench_usm/find_unsuccessful_search_med.pdf}
   \caption{
-    (Unsuccessful lookup major option). Unsuccessful lookup speed, which is a median value of 100 samples.
+    (Unsuccessful search major option). Unsuccessful search speed, which is a median value of 100 samples.
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
@@ -300,7 +300,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
   \hspace{-3mm}
   \includegraphics[scale=0.24]{./fig_bench_sm/erase_med.pdf}
   \caption{
-    (Successful lookup major option). Erasion speed, which is a median value of 100 samples.
+    (Successful search major option). Erasion speed, which is a median value of 100 samples.
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
@@ -311,7 +311,7 @@ Load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
   \hspace{-3mm}
   \includegraphics[scale=0.24]{./fig_bench_usm/erase_med.pdf}
   \caption{
-    (Unsuccessful lookup major option). Erasion speed, which is a median value of 100 samples.
+    (Unsuccessful search major option). Erasion speed, which is a median value of 100 samples.
     About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
     and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
