@@ -8,6 +8,6 @@ algorism.pdf
 *_crop.pdf
 *_crop_*.pdf
 backup_*/
-/figs_algo/*.pdf
-/figs_odg/*.pdf
+/fig_algo/*.pdf
+/fig_odg/*.pdf
 
