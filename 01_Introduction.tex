@@ -8,7 +8,7 @@ L は Linear probing,
 U は Quadratic probing \footnote{$M \rightarrow \infty$ において，Quadratic probing と Double hashing は Uniform hashing と等価．}，
 S は Separate chaining の結果を示す．
 図\ref{fig_taocp_v3_fig44}から分かるように，
-Load factor が高くなるに従い，
+load factor が高くなるに従い，
 平均 probe 数は上昇する傾向が見られ，
 特に Linear probing では顕著である．
 Quadratic probing では，
@@ -17,9 +17,9 @@ Quadratic probing では，
 Unsuccessful search においては $\alpha = 0.65$ 前後，
 Successful search においても $\alpha = 0.85$ 前後において，
 急激に平均 probe 数が増加する．
-この特性は，ハッシュテーブルの Load factor が閾値を超えると，
+この特性は，ハッシュテーブルの load factor が閾値を超えると，
 著しく性能が悪化することを意味する．
-したがって，性能が悪化する手前で Load factor を制限する必要がある．
+したがって，性能が悪化する手前で load factor を制限する必要がある．
 一方で，chaining を利用する C, S, SO については，
 性能悪化は限られることが分かる．
 このとき，
@@ -65,7 +65,7 @@ SO は Separate chaining with ordered lists である．
 \samepage \\ \indent
 C++ 標準のハッシュテーブル．
 メモリ効率を重視しており速度は遅い．
-Load factor は，しばしば 100 \% を超過する．
+load factor は，しばしば 100 \% を超過する．
 
 {\bf google::dense\_hash\_map}
 \samepage \\ \indent
@@ -156,14 +156,14 @@ Linear probing のコストに配慮し，
 \section{研究目的}
 ハッシュテーブルにおいて，
 単に高い探査性能を求めるだけであれば，
-図\ref{fig_taocp_v3_fig44}が示すように Load factor を下げてしまえば，
+図\ref{fig_taocp_v3_fig44}が示すように load factor を下げてしまえば，
 どの手法も同じような性能に落ち着く
 \footnote{
   実際に，この味付けが異なるため，ハッシュテーブルの性能を比較する際には，
   どのハッシュテーブルがどれだけのメモリを消費しているかを考慮しなくてはならず，厳密にな比較は困難である．
 }．しかし，現実の問題を考えるとき，メモリ資源は有限であり，
 高いメモリ効率を達成すれば，それだけキャッシュに乗り易くなる．
-加えて，高い Load factor を達成することは，
+加えて，高い load factor を達成することは，
 Rehashing の発生し難い設計であることを意味し，
 実利用時の安全マージンが広いことを示す．
 
@@ -171,7 +171,7 @@ Rehashing の発生し難い設計であることを意味し，
 衝突がなく，ハッシュ計算の必要もない，単なる配列である．
 現実のハッシュテーブル，
 例えば google::dense\_hash\_map は，
-Load factor が 50 \% までで，
+load factor が 50 \% までで，
 ハッシュを計算し，衝突を解決する必要がある．
 ただし，衝突の解決には僅かな probing を行うだけであり，
 これ以上の改善にはデータ構造の見直しが必要である．

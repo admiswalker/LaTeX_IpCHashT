@@ -8,19 +8,19 @@
 {\bf 最大 load factor}
 \samepage\newline\indent
 最大 load factor とテーブルサイズの関係，図\ref{fig_bench_LF}について考察する．
-{\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で Load factor が低いものの，
-区間 $10^2〜10^8$ において，高い Load factor を示している．
+{\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で load factor が低いものの，
+区間 $10^2〜10^8$ において，高い load factor を示している．
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持している．
 {\bf sstd::IpCHashT (as maxLF50)}，{\bf google::dense\_hash\_map}，{\bf ska::flat\_hash\_map} は，
-Load factor が制限されており，50 \% に留まっている．
-{\bf sstd::IpCHashT (as uint8 and maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の Load factor を示す．
+load factor が制限されており，50 \% に留まっている．
+{\bf sstd::IpCHashT (as uint8 and maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の load factor を示す．
 テーブルサイズが $10^3$ を超えるにしたがい，linked list の長さが uint8 の最大値 - 1 に制限されている影響により，
-Load factor が単調に減少していく．
+load factor が単調に減少していく．
 {\bf sstd::IpCHashT (as uint16 and maxLF100)} は区間 $10^1〜10^8$ に渡り 97.5 \% 以上を維持している．
 なお，実際には 100 サンプルの中央値のため，
 特に sstd::CHashT と sstd::IpCHashT (as uint8 and maxLF100) では，
 特にテーブルサイズが $10^3$ 未満の場合において，ある程度揺らぎがある．
-また，sstd::IpCHashT の実装はいずれもは，パディングされる配列長も Load factor の計算に加算される．
+また，sstd::IpCHashT の実装はいずれもは，パディングされる配列長も load factor の計算に加算される．
 このため，{\bf sstd::IpCHashT (as maxLF50)} では端数が発生し，丁度に 50 \% とはならない．
 \leavevmode \newline
 
@@ -40,7 +40,7 @@ Load factor が単調に減少していく．
 一部，他のハッシュテーブルとは異なるタイミングでリハッシュが発生しており，
 load factor が 100 \% まで達していないことを示している．
 {\bf google::dense\_hash\_map} は
-Load factor が 50 \% に削減されているにも関わらず，
+load factor が 50 \% に削減されているにも関わらず，
 std::unordered\_map 前後のメモリ使用量を示しており，
 key の一部を空符号や削除符号として使用する実装の特性が現れている．
 {\bf sstd::CHashT}，{\bf sstd::IpCHashT (as maxLF50)}，{\bf ska::flat\_hash\_map} は，
@@ -49,7 +49,7 @@ key の一部を空符号や削除符号として使用する実装の特性が�
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持しているものの，
 ポインタによる singly linked list の構築に 1 要素あたり 8 Byte\footnote{64 bits CPU のため．} 必要としており，
 多くのメモリを消費する結果となった．
-Load factor の高い区間において，
+load factor の高い区間において，
 線形にメモリ使用量が伸びており，
 衝突した要素分のメモリを動的に確保している．
 
