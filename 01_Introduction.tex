@@ -128,34 +128,13 @@ $2.7 \times 10^{-1}$ [ns/clock]
 Robin Hood hashing の実装の内の一つ．
 条件次第で dense\_hash\_map より探査が高速であることを謳う．
 Robin Hood hashing は衝突解決法の一つで，
-singly linked list により，ハッシュ値の示すテーブルアドレスを示す．
+singly linked list によりハッシュ先のテーブルアドレスを示しており，
+次の要素位置を示す coalesced chaining とは singly linked list の使い方が逆である．
 本来の挿入位置が分かるため，
-より近い位置に要素が移動するように調整できる．
-Coalesced Chaining とは singly linked list の使い方が逆である．
-実際の探査時は，Linear probing により要素を検索する．
-Linear probing のコストに配慮し，
+要素挿入時に，より近い位置へ要素が移動するよう調整できる．
+探査時には，ハッシュ先になるべく近い位置へ移動させられた要素を linear probing により照合する．
+Linear probing のコストに配慮し，flat\_hash\_map では
 探査を $log_2(n)$ に制限している (ただし $n$ はテーブルサイズ) \citep{Skarupke2017}．
-
-これらの特徴をまとめると，表\ref{table_hashT_cmp}のようになる．
-
-\begin{table}[hbtp]
-  \begin{center}
-    \fontsize{9pt}{10pt}\selectfont
-    \caption{各実装の比較．}
-    \begin{tabular}{ccccccc} \hline
-      \begin{tabular}{c}Implementation of\\hash table\end{tabular} & Algorism & Insert & \begin{tabular}{c}Successful\\search\end{tabular} & \begin{tabular}{c}Unsuccessful\\search\end{tabular} & Erase & \begin{tabular}{c}Memory\\efficiency\end{tabular} \rule[0pt]{0pt}{15pt} \\ \hline
-      std::unorderd\_map           & Open hashing $^{a)}$   & bad   & bad  & bad  & bad   & good   \\ 
-      google::dense\_hash\_map     & Closed hashing $^{b)}$ & good  & good & good & good  & medium \\
-      ska::flat\_hash\_map         & Closed hashing $^{c)}$ & good  & good & good & good  & bad    \\ \hline
-    \end{tabular}
-    \\ 
-    $^{a)}$ Chaining, 
-    $^{b)}$ Quadratic probing,
-    $^{c)}$ Robin Hood hashing (One of the linear probing)
-    \label{table_hashT_cmp}
-  \end{center}
-\end{table}
-
 
 \section{研究目的}
 ハッシュテーブルにおいて，
