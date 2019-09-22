@@ -42,7 +42,7 @@ load factor が 100 \% まで達していないことを示している．
 {\bf google::dense\_hash\_map} は
 load factor が 50 \% に削減されているにも関わらず，
 std::unordered\_map 前後のメモリ使用量を示しており，
-key の一部を空符号や削除符号として使用する実装の特性が現れている．
+キーの一部を空符号や削除符号として使用する実装の特性が現れている．
 {\bf sstd::CHashT}，{\bf sstd::IpCHashT (as maxLF50)}，{\bf ska::flat\_hash\_map} は，
 いずれもほぼ同じメモリ使用量を示している．
 図\ref{fig_bench_LF}より，

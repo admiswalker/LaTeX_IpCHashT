@@ -3,7 +3,7 @@
 
 従来の Closed hashing では，
 衝突ないし probing によりハッシュ値が使用中の場合，
-本来１回目の探査でアクセスできるはずの key であっても，
+本来１回目の探査でアクセスできるはずのキーであっても，
 probing により衝突を解決しなくてはならない．
 そこで，要素挿入時に，要素位置を整理して挿入する手法を提案する．
 これは．挿入時間を犠牲に search 速度を向上させることを意味する．
@@ -29,7 +29,7 @@ unsuccessful search を優先するオプションについてそれぞれ実装
 品質は多数のテストコードにより担保した．
 
 In-place hash table (以下，IpCHashT) では図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
-各要素には key-value pair の他に，linked list のための prev 要素と next 要素を持つ．
+各要素には key-value ペアの他に，linked list のための prev 要素と next 要素を持つ．
 T\_shift には unsigned int 型を用い，相対位置による linked list を構成する．
 これは，ポインタ接続におけるメモリ消費量が無視できないためである．
 \footnote{
@@ -55,7 +55,7 @@ struct element{
 };
 \end{lstlisting}
 \caption{
-  IpCHashT 要素の C++ 擬似構造体．T\_key は key の型，T\_val は val の型である．
+  IpCHashT 要素の C++ 擬似構造体．T\_key はキーの型，T\_val は val の型である．
   T\_shift は doubly linked list に用いる型で，uint8 または uint16 を指定する．
   uint16 より大きな型を指定するメリットは殆どない．
   prev は 前の要素までの相対距離を，next は 次の要素までの相対距離を表す．
@@ -148,9 +148,9 @@ Open hashing を用いたハッシュテーブルの説明では，
 連続したメモリアドレス上に doubly linked list を構築するには，
 メモリ自体を手動で管理する必要がある．
 
-key-value pair を１つ挿入するには，
+key-value ペアを１つ挿入するには，
 次の 1) 〜 4) の場合を考える．
-1) key のハッシュ値が示す配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
+1) キーのハッシュ値が示す配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
 2) 既に要素が挿入されており，chain の間に空きがある場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
 3) chain の間に空きがない場合は，図\ref{fig_IpCHashT_insert_hard_case03}のように末尾に空きを探し挿入する．
 4) 挿入先の要素が異なるハッシュ値を持つ要素の退避先に使用されている場合は，
@@ -258,7 +258,7 @@ template <class T_key, class T_val>
 通常，linked list の要素を削除するには，要素を削除した上で，ポインタを繋ぎ変えればよい．
 しかし，IpCHashT では，幾つかの場合を考慮する必要がある．
 
-key-value pair を１つ削除するには，
+key-value ペアを１つ削除するには，
 次の 1) 〜 4) と，メモリの断片化を防ぐ処理として 5) を考える．
 1) 単一要素の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に削除する．
 2) 末尾要素を削除する場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように要素と locator を削除する．
@@ -279,7 +279,7 @@ chain の要素間に空きができ，断片化する場合がある．これ�
 \section{配列の末尾処理}
 
 要素の衝突が発生した際，Closed hashing では，
-現在より後のアドレスに key-value pair を格納することで衝突を解決する．
+現在より後のアドレスに key-value ペアを格納することで衝突を解決する．
 しかし，ハッシュ値が配列の末尾を示した場合は，
 退避先の配列要素が存在しない．
 この場合，配列の末尾に達した場合は，
@@ -349,7 +349,7 @@ load factor の上限値が安定しない．
 
 \section{ハッシュ値の計算}
 
-ハッシュテーブルでは，key からハッシュ値を生成し，テーブルサイズに収まるように丸める．
+ハッシュテーブルでは，キーからハッシュ値を生成し，テーブルサイズに収まるように丸める．
 このとき，剰余演算を用いて丸めることが多い．
 剰余演算を用いる場合には，ハッシュ値とテーブルサイズが互いに素となるよう素数にするのが望ましい \citep{石畑1989}．
 しかしながら，
