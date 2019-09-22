@@ -19,8 +19,8 @@ probing により衝突を解決しなくてはならない．
 今回は，
 新たに挿入操作に soft insertion を採用した．
 検索操作においても，
-Successful search を優先するオプションと，
-Unsuccessful search を優先するオプションについてそれぞれ実装と評価を行う．
+successful search を優先するオプションと，
+unsuccessful search を優先するオプションについてそれぞれ実装と評価を行う．
 また，テーブルサイズによってパディングサイズを動的に変更することで，
 テーブルサイズが小さい場合に load factor が低下する問題に対処する．
 加えて，テンプレートを用いて実装するにあたり，
@@ -175,8 +175,8 @@ chain 間に空きがあるかを調べるには，線形探査を行う．
 
 \section{探査}
 挿入済みの要素を探査するには，図\ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
-図\ref{alg_find_sm}は Successful search を優先した設定であり，
-図\ref{alg_find_usm}は Unsuccessful search を優先した設定である．
+図\ref{alg_find_sm}は successful search を優先した設定であり，
+図\ref{alg_find_usm}は unsuccessful search を優先した設定である．
 
 \begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
