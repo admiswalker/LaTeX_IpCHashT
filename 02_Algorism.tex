@@ -1,14 +1,23 @@
 \chapter{アルゴリズム}
 \label{chap_Algorism}
 
-従来の Closed hashing では，
-衝突ないし probing によりハッシュ値が使用中の場合，
-本来１回目の探査でアクセスできるはずのキーであっても，
-probing により衝突を解決しなくてはならない．
-そこで，要素挿入時に，要素位置を整理して挿入する手法を提案する．
-これは．挿入時間を犠牲に search 速度を向上させることを意味する．
-一般に，要素を先頭から末尾までただ辿る場合は，singly linked list を用いる．
-今回は，後から挿入位置を整理するため，doubly linked list を用いる．
+Linear probing や quadratic probing など
+従来の closed hashing では，
+ハッシュ先が重複していない場合でも，
+別のキーの退避先として配列要素が使用中の場合，
+本来 1 回目の探査でアクセスできるキーであっても，
+probing により衝突を解決しなければならない．
+Robin Hood hashing は，1 回でアクセスできる位置に要素を移動できるものの，
+ハッシュ先の重複 \footnote{secondary clustering．} に対しては，linear probing が必要となる．
+
+本研究では，
+ハッシュ先が別のキーの退避先として利用されてしまう primary clustering に付随した問題に対して，
+逆方向リストを辿ることで，要素が使用済みの場合でも適切に移動し，
+ハッシュ先が必ず 1 つ目の要素となるように調整する．
+また，平均探査回数を削減するため，
+順方向リストにより，次に探査すべき配列インデックスを示す．
+%メモリ使用量を削減するため，リストは uint8 または uint16 により相対位置を記録し，
+これら順方向と逆方向を合わせて双方向リスト構造とする．
 
 これらの提案は，本質的に \cite{ADMIS2017} で行った提案と同じものである．
 以下，
@@ -16,26 +25,27 @@ probing により衝突を解決しなくてはならない．
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
 図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
 \cite{ADMIS2017} に由来する図である．
-今回は，
-新たに挿入操作に soft insertion を採用した．
-検索操作においても，
+ただし，本研究では，
+挿入アルゴリズムに新しく soft insertion を採用している．
+探査においても，
 successful search を優先するオプションと，
 unsuccessful search を優先するオプションについてそれぞれ実装と評価を行う．
-また，テーブルサイズによってパディングサイズを動的に変更することで，
-テーブルサイズが小さい場合に load factor が低下する問題に対処する．
+また，パディングサイズは従来固定であったが，
+テーブルサイズによってパディングサイズを動的に変更することで，
+テーブルサイズが小さい場合に最大 load factor が低下する問題に対処する．
 加えて，テンプレートを用いて実装するにあたり，
 ソフトウェアをフルスクラッチで書き直した．
-要素の挿入においては，操作手順を再検討し，より簡潔な実装とした．
-品質は多数のテストコードにより担保した．
+要素の挿入においては，操作手順を再検討し，より簡潔な実装とする．
 
-In-place hash table (以下，IpCHashT) では図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
+In-place chained hash table (以下，IpCHashT) では，図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
 各要素には key-value ペアの他に，linked list のための prev 要素と next 要素を持つ．
-T\_shift には unsigned int 型を用い，相対位置による linked list を構成する．
-これは，ポインタ接続におけるメモリ消費量が無視できないためである．
+T\_shift には uint8 または uint16 型を用い，相対位置による doubly linked list を構成する．
+これは，ポインタ接続におけるメモリ消費量が無視できないためである
 \footnote{
   例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
   テープルサイズの 50\% が doubly linked list に由来する．
 }．
+\\
 
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
@@ -110,10 +120,10 @@ struct element{
   \label{fig_IpCHashT_insert_introspection}
 \end{figure}
 
-本章で示す図は，
+本章で示す図\ref{fig_IpCHashT_fig_description}〜\ref{fig_IpCHashT_deletion_case06}は，
 青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
-また，図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}で用いる記号を
-図\ref{fig_IpCHashT_fig_description}に示す．
+図\ref{fig_IpCHashT_fig_description}では，
+図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号を説明している．
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
 丸印ひとつ一つが配列要素を，
 双方向に張られた２つの矢印が doubly linked list を表す．
