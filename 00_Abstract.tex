@@ -91,7 +91,7 @@ primary clustering に分類される，
 優先的に挿入されるように，挿入済みの要素を入れ替えるアルゴリズムを提案する．
 これには，
 挿入済みの要素が，何処に挿入されるべきであったかを把握する必要がある．
-このため，ハッシュテーブルには双方向リスト構造を用いる．
+このため，ハッシュテーブルには双方向リスト\footnote{英名：doubly linked list．} 構造を用いる．
 通常のリスト構造は，ポインタを用いるため，
 アドレスの保持に 64 bits のメモリ空間を消費する\footnote{64 bits CPU の場合．}．
 これは，key に uint64，value に uint64 を用いる場合，
@@ -99,11 +99,13 @@ primary clustering に分類される，
 そのため，双方向リスト構造は，
 要素の接続をアドレスではなく uint8 または uint16 を用いた相対位置による in-place 実装により実現した．
 
-結果，
-挿入速度と引き換えに，
-従来よりも高速な successful search と unsuccessful search を実現し，
-高い load factor による高いメモリ効率と，
-要素の削除と追加による性能低下の少ないハッシュテーブルのアルゴリズムを開発した．
+key-value ペアにそれぞれ uint64 を用いた結果，
+双方向リスト構造に uint8 を用いた場合は，
+テーブルサイズ $10^2〜10^{7}$ において，従来手法よりも高速な successful search または unsuccessful search を実現した．
+また，
+uint16 を用いた場合は，Closed hashing として従来手法より 30 \%\footnote{従来の 75 \% のメモリ使用率．} 程度高いメモリ効率と，
+サイズが $10^7〜10^{8.3}$ の巨大なテーブルにおいて，高い successful search または従来手法より高速な unsuccessful search を実現した．
+
 
 
 
