@@ -54,12 +54,12 @@ Load factor が高い場合には，
 そのため，load factor が低い場合には，リハッシュ以外の方法で衝突を解決する．
 
 リハッシュ以外の衝突解決策は，主に 2 種類に大別される．
-1 つ目は Chaining に代表される Open hashing\footnote{別名：Closed addressing．} である．
+1 つ目は chaining に代表される open hashing\footnote{別名：closed addressing．} である．
 衝突が発生した際，新しく 1 要素分のメモリ領域を確保し，片方向リスト\footnote{英名：singly linked list．} により現在の要素に追加する．
 この手法は，
 要素の削除と追加を繰り返す場合でも安定して動作する一方，
 要素をポインタにより接続するため，アドレス空間が不連続となり CPU キャッシュが効き難い．
-2 つ目は Linear probing や Quadratic probing に代表される Closed hashing\footnote{別名：Open addressing．} である．
+2 つ目は linear probing や quadratic probing に代表される closed hashing\footnote{別名：open addressing．} である．
 衝突が発生した際，それぞれの探査規則に従い，隣接する空き要素に値を格納する．
 Linear probing は，隣接する $1, 2, 3, ... k$ 番目の要素に線形探査し，空き要素に値を格納する．
 配列が隙間なく埋まった場合は，
@@ -79,8 +79,8 @@ Quadratic probing は，隣接する $1^2, 2^2, 3^2, ... k^2$ 番目の要素を
 %課題とする特性は次の通りである．
 
 本研究では，
-新しい Closed hashing アルゴリズムを扱う．
-本研究で対象とする Closed hashing の課題は，
+新しい closed hashing アルゴリズムを扱う．
+本研究で対象とする closed hashing の課題は，
 primary clustering に分類される，
 これにまでに挿入したキーのハッシュ先とは衝突していないにも関わらず，
 既に，別の隣接要素の退避先として使用されている場合である，

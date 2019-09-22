@@ -4,28 +4,29 @@
 ハッシュテーブルの挙動を理解する上で，
 数理モデルの示す理論的な計算量は大きな助けとなる．
 図\ref{fig_taocp_v3_fig44}に\cite{knuth1998}よる比較を示す．
-L は Linear probing,
-U は Quadratic probing \footnote{$M \rightarrow \infty$ において，Quadratic probing と Double hashing は Uniform hashing と等価．}，
-S は Separate chaining の結果を示す．
-図\ref{fig_taocp_v3_fig44}から分かるように，
-load factor が高くなるに従い，
-平均 probe 数は上昇する傾向が見られ，
-特に Linear probing では顕著である．
-Quadratic probing では，
-幾らか改善されるが，
-いずれも
-unsuccessful search においては $\alpha = 0.65$ 前後，
-successful search においても $\alpha = 0.85$ 前後において，
-急激に平均 probe 数が増加する．
-この特性は，ハッシュテーブルの load factor が閾値を超えると，
-著しく性能が悪化することを意味する．
-したがって，性能が悪化する手前で load factor を制限する必要がある．
+L は linear probing,
+U は quadratic probing \footnote{$M \rightarrow \infty$ において，quadratic probing と double hashing は uniform hashing と等価．}，
+S は separate chaining である．
+図\ref{fig_taocp_v3_fig44}が示すように，
+load factor が高くなるにつれて，
+平均探査回数は上昇する傾向が見られる．
+この特性は，
+特に linear probing で顕著であるが，
+quadratic probing では幾らか改善されている．
+しかし，いずれのアルゴリズムも
+unsuccessful search では $\alpha = 0.65$ 前後，
+successful search でも $\alpha = 0.85$ 前後において，
+急激に平均探査回数が増加している
+\footnote{
+  したがって，性能が悪化する手前でリハッシュし，性能悪化を防ぐことが一般的である．
+  なお，リハッシュする load factor は，実装依存である．
+}．
 一方で，chaining を利用する C, S, SO については，
 性能悪化は限られることが分かる．
 このとき，
-C は Coalesced Chaining\footnote{Closed hashing の一種で singly linked list により，次に辿る要素を示す．}，
-S は Separate chaining，
-SO は Separate chaining with ordered lists である．
+C は coalesced chaining\footnote{Closed hashing の一種で singly linked list により，次に辿る要素を示す．}，
+S は separate chaining，
+SO は separate chaining with ordered lists である．
 
 % Coalesced Chaining
 % https://www.youtube.com/watch?v=9SPhD49ePXg
@@ -46,7 +47,8 @@ SO は Separate chaining with ordered lists である．
   \includegraphics[width=10cm]{./fig/taocp_v3_fig44.png}
   \caption{
     Comparison of collision resolution methods: limiting values of the average number of probes as $M \rightarrow \infty$ \citep{knuth1998}.
-    N は要素数，M はテーブルサイズを表す．
+    $N$ is a number of elements on the table. $M$ is the table size.
+%    N は要素数，M はテーブルサイズを表す．
   }
   \label{fig_taocp_v3_fig44}
 \end{figure}
@@ -64,15 +66,16 @@ SO は Separate chaining with ordered lists である．
 {\bf std::unorderd\_map}
 \samepage \\ \indent
 C++ 標準のハッシュテーブル．
-メモリ効率を重視しており速度は遅い．
-load factor は，しばしば 100 \% を超過する．
+メモリ効率を重視しているため挿入・探査・削除速度は遅い．
+アルゴリズムは separate chaining である．
+\\
 
 {\bf google::dense\_hash\_map}
 \samepage \\ \indent
-探査が最も高速な実装の内の 1 つで，\cite{sparsehash2005}に含まれる．
-スループットで 250 query/$\mu$s 程度
-\footnote{AMD Ryzen7 1700 (8C/16T) 3.7 GHz の場合．詳細は，第\ref{chap_Results}章を参照．}
-の探査速度を持つことから，
+探査が最も高速な実装の内の 1 つで，\cite{sparsehash2005}に収録されている．
+
+ハッシュテーブルが L2 キャッシュに収まるとき，
+探査速度は 250 query/$\mu$s 程度 \footnote{AMD Ryzen7 1700 (8C/16T) 3.7 GHz の場合．詳細は，第\ref{chap_Results}章を参照．} であり，
 探査 1 回の実行時間は 4 ns
 \footnote{
   $
@@ -82,7 +85,7 @@ load factor は，しばしば 100 \% を超過する．
     = 4 {\rm [ns \slash query]}
   $
 }
-である．このとき，3.7 GHz の CPU では単位 clock あたりの実行時間が，
+である．このとき，3.7 GHz の CPU では単位クロックあたりの実行時間が，
 $2.7 \times 10^{-1}$ [ns/clock]
 \footnote{
   $
@@ -93,31 +96,32 @@ $2.7 \times 10^{-1}$ [ns/clock]
   $
 }
 であるから，1 回の探査で消費する CPU cycle は
-15 clock 程度
-\footnote{
+15 clock 程度 \footnote
+{
   $
     \frac{ 4 {\rm [ns/query]} }{ 2.7 \times 10^{-1} {\rm [ns/clock]} }
     = \frac{ 4 }{ 2.7 \times 10^{-1} } {\rm [clock/query]}
     \simeq 15 {\rm [clock/query]}
   $
-}
-である．
+} である．
 
 いくつかのハッシュテーブルでは，
-キーのハッシュ値をテーブルサイズに丸めるために剰余演算を用いる．
-整数除算に必要な CPU cycle は 14--46 clocks 程度
+キーのハッシュ値をテーブルサイズに丸めるために剰余演算を用いており，
+整数除算に必要な CPU cycle は 14\textasciitilde 46 clocks 程度
 \footnote{
   \cite{AgnerFog2018}より AMD Ryzen7 1700 の場合．
 }
-であるから，dense\_hash\_map の実行時間に対して計算量が大きい．
-実際に，
-dense\_hash\_map では，整数除算をしておらず，
-ハッシュ値の LSB \footnote{Least Significant Bit の略記．最下位ビットのこと．} から
-テーブルサイズ分の bit 数だけ bit mask 演算により取り出している．
+である．
+これは，dense\_hash\_map の実行時間に対して計算量が大きい．
+実装を確認すると，dense\_hash\_map では整数除算をしておらず，
+ハッシュ値の最下位ビット\footnote{英名：Least Significant Bit (LSB)．} から
+テーブルサイズ分のビット数だけビットマスク演算により取り出している．
 これを実現するため，テーブルサイズは常に 2 のべき乗となるように制御されている．
 
-また，メモリ使用量を削減するため，空マークを登録する必要があり，キーとして使用できない．
-削除マークについても同様で，キーとメモリを共有しているため，削除が必要な場合は，削除マークを登録する必要があり，キーとして使用できなくなる．
+また，キーの 1 つを空マークとして登録する必要があり，キーとして使用できなくなる．
+要素の削除が必要な場合は，削除マークも登録する必要があり，同様にキーとして使用できなくなる．
+この実装は，メモリ使用量の削減と，それに伴うキャッシュ効率の向上，また，要素探査時のコードの単純化と分岐予測精度の向上が期待される．
+\\
 
 {\bf ska::flat\_hash\_map}
 \samepage \\ \indent
