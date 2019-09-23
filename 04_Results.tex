@@ -42,12 +42,12 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 ``Separate chaining with list head cells''
 \footnote{``Separate chaining with linked lists'' がテーブルにポインタしか持たず，
 ポインタで接続した先から初めて key-value ペアを持つのに対して，
-``Separate chaining with list head cells'' ではテーブルにも key-value ペアを内包する．} の実装の一つ．
+``Separate chaining with list head cells'' ではテーブルにも key-value ペアを格納する．} の実装の一つ．
 アルゴリズム比較用のサンプル実装として，
 最もシンプルなハッシュテーブルアルゴリズムの一つを選択した．
 本実装では，
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
-全要素数がテーブルサイズを超える場合に，リハッシュする．
+テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
+全要素数がテーブルサイズを超える場合はリハッシュする．
 \leavevmode \newline
 
 %
@@ -55,9 +55,9 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 \samepage\newline\indent
 提案アルゴリズムの実装の一つ．
 uint8 により linked list を構成する．
-load factor の最大値を 50 \% に制限している．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
-{\rm bench.hpp} 内で {\rm iHashT\_u8h} の別名により定義されている．
+Load factor の最大値を 50 \% に制限している．
+テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
+{\rm bench.hpp} 内では別名として {\rm iHashT\_u8h} を定義する．
 \leavevmode \newline
 
 %
@@ -65,9 +65,9 @@ load factor の最大値を 50 \% に制限している．
 \samepage\newline\indent
 提案アルゴリズムの実装の一つ．
 uint8 により linked list を構成する．
-load factor に制限はなく，link 距離が uint8 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
-{\rm bench.hpp} 内で {\rm iHashT\_u8} の別名により定義されている．
+Load factor の制限はなく，link 距離が ``${\rm uint8} の最大値 - 1 = 254$'' を超えるか，テーブルが全て埋まるまで要素を挿入する．
+テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
+{\rm bench.hpp} 内では別名として {\rm iHashT\_u8f} を定義する．
 \leavevmode \newline
 
 %
@@ -75,9 +75,9 @@ load factor に制限はなく，link 距離が uint8 の幅を超えるか，�
 \samepage\newline\indent
 提案アルゴリズムの実装の一つ．
 uint16 により linked list を構成する．
-load factor に制限はなく，link 距離が uint16 の幅を超えるか，テーブルが全て埋まるまで要素を挿入する．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
-{\rm bench.hpp} 内で {\rm iHashT\_u16} の別名により定義されている．
+Load factor の制限はなく，link 距離が ``$uint16 の最大値 - 1 = 65534$'' を超えるか，テーブルが全て埋まるまで要素を挿入する．
+テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
+{\rm bench.hpp} 内では別名として {\rm iHashT\_u16} を定義する．
 \leavevmode \newline
 
 %
@@ -85,10 +85,10 @@ load factor に制限はなく，link 距離が uint16 の幅を超えるか，�
 \samepage\newline\indent
 Quadratic probing の実装の一つ．
 メモリ効率が高く，探査速度が速い一方，
-キーの値の一つを空マークに，削除を行う場合はもう一つを削除マークとして予約する必要がある．
-予約された値は，キーとして使用できない．
-予約には，set\_empty\_key() 関数と set\_deleted\_key() 関数を用いる．
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号とする．
+キーの値の一つを空マークに，削除を行う場合は更にもう一つのキー値を削除マークとして登録する必要がある．
+登録された値は，キーとして使用できない．
+登録には set\_empty\_key() 関数と set\_deleted\_key() 関数を用いる．
+テーブルサイズは $2^k-1\ \ (k=1,2,...)$ であり，ハッシュ値の最下位 $k$ ビットを配列インデックスとしている．
 \leavevmode \newline
 
 %
@@ -96,20 +96,19 @@ Quadratic probing の実装の一つ．
 \samepage\newline\indent
 Robin Hood Hashing の実装の一つ．
 ska::power\_of\_two\_std\_hash<uint64> オプションにより，
-テーブルサイズを 2 のべき乗とし，ハッシュ値の下位ビットをテーブル番号としている．
-
+テーブルサイズを $2^k-1\ \ (k=1,2,...)$ としており，ハッシュ値の最下位 $k$ ビットを配列インデックスとしている．
 \leavevmode \newline
 
 
 \section{結果}
 ここでは，sstd::IpCHashT の linked list 長に uint8 と uint16 を用いた設定，load factor の最大値を 50 \% に制限した設定に加えて，
-要素探査時に successful search を優先した設定と，unsuccessful search を優先した設定についてベンチマークする．
+要素探査時に successful search を優先する設定と，unsuccessful search を優先する設定についてベンチマークする．
 \leavevmode \newline
 
 %
-{\bf Loadfactor}
+{\bf 最大 Loadfactor}
 \samepage\newline\indent
-load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す．
+最大 load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す．
 \leavevmode \newline
 
 %
@@ -123,9 +122,9 @@ load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 \samepage\newline\indent
 挿入速度とテーブルサイズの関係を図
 \ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す．
-挿入処理において，Hard insertion では find() 関数を用いるが，Soft insertion では，find() 関数を用いない．
-本ベンチマークでは，Soft insertion を用いる．
-したがって，successful search と unuccessful search オプションによる違いはない．
+挿入処理において，hard insertion では find() 関数を用いるが，soft insertion では，find() 関数を用いない．
+本ベンチマークでは，soft insertion のみを用いている．
+したがって，successful search major option と unuccessful search major option による違いはない．
 \leavevmode \newline
 
 %
@@ -134,9 +133,9 @@ load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す�
 探査速度とテーブルサイズの関係を図
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
 \ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
-コンパイル時 sstd::IpCHashT に successful search を優先するオプションを指定した結果が
+コンパイル時 sstd::IpCHashT に successful search major option を指定した結果が
 図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}であり，
-コンパイル時 sstd::IpCHashT に unsuccessful search を優先するオプションを指定した結果が
+コンパイル時 sstd::IpCHashT に unsuccessful search major option を指定した結果が
 図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}である．
 \leavevmode \newline
 
