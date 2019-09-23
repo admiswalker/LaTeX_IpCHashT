@@ -152,15 +152,6 @@ Open hashing を用いたハッシュテーブルの説明では，
 可能な限り連続した位置に配置することで逐次的局所性を，
 それぞれ高め，キャッシュミスを削減する．
 
-%通常の open hashing による chaining であれば，
-%新しく確保したメモリアドレスをポインタにより接続するため，
-%挿入済みの要素がメモリ上の何処に存在するかを考慮する必要はなく，
-%メモリ管理は malloc 関数に任せればよい．
-%しかし今回のように，
-%連続したメモリアドレス上に doubly linked list を構築する，
-%closed hashing による chaining を実現するには，
-%ある程度メモリを自前で管理する必要がある．
-
 key-value ペアを１つ挿入するには，
 次の 1) 〜 4) の場合を考える．
 1) ハッシュ先の配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
@@ -185,13 +176,21 @@ chain 間に空きがあることを調べるには，線形探査を行う．
 また，要素削除を伴う場合においても，挿入コストが高いため推奨しない．
 これは，要素の削除と再挿入によるメモリ断片化への耐性を捨て，
 実装コストの低減と，挿入の高速化を優先している．
-\newpage
 
 \section{探査}
 
 挿入済みの要素を探査するには，図\ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
-図\ref{alg_find_sm}は successful search を優先した設定であり，
-図\ref{alg_find_usm}は unsuccessful search を優先した設定である．
+図\ref{alg_find_sm}は successful search を優先した設定であり，以降，successful search major option と呼ぶ．
+図\ref{alg_find_usm}は unsuccessful search を優先した設定であり，以降，unsuccessful search major option と呼ぶ．
+
+図\ref{alg_find_usm}の unsuccessful search major option は，
+キーの比較コストによって successful search major option の結果より悪化することが十分に考えられるが，
+比較コストの低いキーの場合には，unsuccessful search 時の分岐が少なく，高い性能が期待される．
+実際に，分岐予測の失敗におけるペナルティは，10\textasciitilde 20 clock \footnote
+{
+  付録，図\ref{fig_part101_infographics}の ``Wrong'' branch of ``if'' (branch misprediction) を参照．
+}
+程度であり，無視できない．
 
 \begin{figure}%[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
@@ -275,15 +274,15 @@ template <class T_key, class T_val>
 
 key-value ペアを１つ削除するには，
 次の 1) 〜 4) と，メモリの断片化を防ぐ処理として 5) を考える．
-1) 単一要素の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に削除する．
-2) 末尾要素を削除する場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように要素と locator を削除する．
+1) 単一要素の場合は，図\ref{fig_IpCHashT_deletion_case01}のように単に削除する．
+2) 末尾要素を削除する場合は，図\ref{fig_IpCHashT_deletion_case02}のように要素と locator を削除する．
 3) 先頭の要素が削除された場合，探査不能としないため，先頭に別の要素をつなぎ替える必要がある．
-図\ref{fig_IpCHashT_insert_hard_case03}では，断片化を防ぐために，末尾のデータを先頭へ移動させている．
-4) chain の中間要素を削除する場合は，図\ref{fig_IpCHashT_insert_hard_case04}のように末尾要素を移動させる．
+図\ref{fig_IpCHashT_deletion_case03}では，断片化を防ぐために，末尾のデータを先頭へ移動させている．
+4) chain の中間要素を削除する場合は，図\ref{fig_IpCHashT_deletion_case04}のように末尾要素を移動させる．
 5) 別の削除処理によって，末尾の要素が移動すると，
-図\ref{fig_IpCHashT_insert_hard_case05}，\ref{fig_IpCHashT_insert_hard_case06}のように，
+図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}のように，
 chain の要素間に空きができ，断片化する場合がある．これを
-図\ref{fig_IpCHashT_insert_hard_case05}，\ref{fig_IpCHashT_insert_hard_case06}に示す操作を繰り返すことにより修正する．
+図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}に示す操作を繰り返すことにより修正する．
 ただし，空き要素の探査は線形探査する必要がある．
 また，要素を移動させる度に別の chain に空きができる可能性があるため，再帰的に行う必要がある．
 この処理は，実行コストが高いため推奨しない．
@@ -293,7 +292,7 @@ chain の要素間に空きができ，断片化する場合がある．これ�
 % \section{断片化}
 \section{配列の末尾処理}
 
-要素の衝突が発生した際，Closed hashing では，
+要素の衝突が発生した際，closed hashing では，
 現在より後のアドレスに key-value ペアを格納することで衝突を解決する．
 しかし，ハッシュ値が配列の末尾を示した場合は，
 退避先の配列要素が存在しない．
