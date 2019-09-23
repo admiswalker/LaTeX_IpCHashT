@@ -1,10 +1,7 @@
 \chapter{実装}
 \label{chap_Implementation}
 
-実装した内容について説明する．
-実装上の注意等あればそれも説明する．
-ベンチマーク周りの実装も軽く説明する．
-\leavevmode \newline
+第\ref{chap_Results}章で使用するベンチマーク用コードについて説明する．
 
 \section{ベンチマーク用コード}
 
@@ -53,17 +50,18 @@
     $^{a)}$ The protocol is "https".
   \end{center}
 \end{table}
-% std::unordered_map<uint64,uint64>
-% sstd::CHashT<uint64,uint64>
-% sstd::IpCHashT<uint64,uint64>
-% google::dense_hash_map<uint64,uint64>
-% ska::flat_hash_map<uint64,uint64,ska::power_of_two_std_hash<uint64>>
 
 %\leavevmode \newline
 %\leavevmode \newline
 %\leavevmode \newline
 
 \newpage
+{\bf 環境}
+\samepage\newline\indent
+環境は Ubuntu を想定しており，コンパイルには G++ が必要である．
+また，グラフのプロットには Python インタプリタと matplotlib が必要となる．
+\\
+
 {\bf 実行手順}
 \samepage\newline\indent
 実行手順は，図\ref{fig_command}に示す通りである．
@@ -79,78 +77,47 @@
   }
   \label{fig_command}
 \end{figure}
-%\texttt{
-%  \colorbox{black}{
-%    \hbox to49zw{
-%      \color{white}
-%      \begin{tabular}{l}
-%        \$ git clone git@github.com:admiswalker/InPlaceChainedHashTable-IpCHashT- \\
-%        \$ cd ./InPlaceChainedHashTable-IpCHashT-\\
-%        \$ make\\
-%      \end{tabular}
-%      \hfil}
-%  }
-%}
-%  % colorbox: http://osksn2.hep.sci.osaka-u.ac.jp/~naga/miscellaneous/tex/tex-tips7.html
-%  % fonts:  http://ideas.paunix.org/latex/latex_6_fontstyle.htm
 
+{\bf sstd::IpCHashT のオプション}
+\samepage\newline\indent
+sstd::IpCHashT は，多数のオプションを備えており，ベンチマークで使用するオプションについては，
+表\ref{table_alias}に示す alias を IpCHashT.hpp に定義する．
+なお，IpCHashT\_u16 については，最大 load factor を 50 \% にする意味がないため，alias は設けない．
+他のオプションは，IpCHashT.hpp に定義されており，\#define マクロにより，soft insertion か hard insertion と，
+素数サイズのテーブルを用いて剰余演算するか，サイズ $2^k-1\ \ (k=1,2,...)$ のテーブルを用いてビットマスクするかを選択できる．
 
+\begin{table}[h]
+  \begin{center}
+    \fontsize{9pt}{10pt}\selectfont
+    \caption{sstd::IpCHashT aliases.}
+    \begin{tabular}{c|ccc} \hline
+      %                         Options
+      Alias          & T\_shift & Maximum load factor [\%] \rule[0pt]{0pt}{10pt} & Search option \\ \hline
+      IpCHashT\_u8hS & uint8    &  50 (half)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u8fS & uint8    & 100 (full)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u16S & uint16   & 100 (full)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u8hU & uint8    &  50 (half)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u8fU & uint8    & 100 (full)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u16U & uint16   & 100 (full)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\ \hline
+    \end{tabular}
+    \label{table_alias}
+  \end{center}
+\end{table}
+%\\
 
-\section{ベンチマークの仕様}
+{\bf ベンチマークのオプション}
+\samepage\newline\indent
+ベンチマークのオプションは，bench.hpp に定義されている．
+Successful search major option か Unsuccessful search major option かの選択は，コメントアウトにより手動で行う．
 
-ベンチマークにおける，
-レイテンシとスループットの測定条件について説明する．
-\leavevmode \newline
+軽いテストを行うには，limitSize を 5000000 として \$ make, \$ ./exe\_bench を実行すると，./tmpBench ディレクトリが生成され，10 分程で ベンチマーク結果が保存される．
+グラフのスケールが合っていない場合は，plots.py を調整する必要がある．
 
-ハッシュテーブルの特性と
-各操作における性能の測定条件について説明する．
-\leavevmode \newline
-
-{\bf 挿入}
-\samepage \\ \indent
-レイテンシの測定条件について説明する．
-\leavevmode \newline
-
-{\bf 探査}
-\samepage \\ \indent
-レイテンシの測定条件について説明する．
-\leavevmode \newline
-
-{\bf 削除}
-\samepage \\ \indent
-レイテンシの測定条件について説明する．
-\leavevmode \newline
-
-{\bf load factor}
-\samepage \\ \indent
-レイテンシの測定条件について説明する．
-\leavevmode \newline
-
-{\bf メモリ使用量}
-\samepage \\ \indent
-レイテンシの測定条件について説明する．
-\leavevmode \newline
-
-
-
-
-
-%
-% 第 3 章では，ベンチマークの実装がどのようであるかを説明し，
-% 第 4 章では，その測定結果を，
-% 第 5 章では，測定結果の考察を示す．．
-%
-
-
-
-
-
-
-
-
-
-
-
+本投稿に示すベンチマークは，limitSize を 200000000，loopNum を 100 として，\$ make, \$ ./exe\_bench を実行すると，
+tmpBench 内にベンチマーク結果の CSV ファイルが生成され，
+次に \$ ./exe\_sProc を実行すると，CSV ファイルから中央値が計算され，グラフとして出力される．
+各ベンチマークの CSV ファイルを生成するには 2 日程掛かる．
+loopNum は 25 程度でも綺麗な結果が得られるため，まずは 25 で試すとよい．
 
 
 
