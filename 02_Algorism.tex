@@ -287,7 +287,7 @@ chain の要素間に空きができ，断片化する場合がある．これ�
 また，要素を移動させる度に別の chain に空きができる可能性があるため，再帰的に行う必要がある．
 この処理は，実行コストが高いため推奨しない．
 
-以上を勘案して，1) 〜 4) の操作を実装する．
+以上を勘案して，1) 〜 4) の操作を実装する．5) は実装しない．
 
 % \section{断片化}
 \section{配列の末尾処理}
@@ -332,7 +332,8 @@ load factor の上限は上がらない，
 \[
   a: {\rm threshold}, \ \ 
   {\rm pSize}: {\rm padding \ size}, \ \ 
-  {\rm tSize: table \ size}
+  {\rm tSize}: {\rm table \ size}, \ \ 
+  {\rm limit}: {\rm limit \ of \ T\_shift \ size}
 \]
 とすればよい．
 しかし，
@@ -350,6 +351,7 @@ load factor の上限は上がらない，
   b: {\rm bias}, \ \ 
   {\rm pSize}: {\rm padding \ size}, \ \ 
   {\rm tSize}: {\rm table \ size}
+  {\rm limit}: {\rm limit \ of \ T\_shift \ size}
 \]
 をパディングの調整に用いる．
 
