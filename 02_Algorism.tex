@@ -16,10 +16,13 @@ Robin Hood hashing は，1 回でアクセスできる位置に要素を移動�
 ハッシュ先が必ず 1 つ目の要素となるように調整する．
 また，平均探査回数を削減するため，
 順方向リストにより，次に探査すべき配列インデックスを示す．
-%メモリ使用量を削減するため，リストは uint8 または uint16 により相対位置を記録し，
+メモリ使用量を削減するため，リストは int 型により相対位置を記録し，
 これら順方向と逆方向を合わせて双方向リスト構造とする．
+以上のアルゴリズムを実現したハッシュテーブルを，
+In-place chained hash table と呼ぶこととし，
+以降，省略して IpCHashT と表記する．
 
-これらの提案は，本質的に \cite{ADMIS2017} で行った提案と同じものである．
+IpCHashT のデータ構造における提案は，本質的に \cite{ADMIS2017} の提案と同様である．
 以下，
 図\ref{fig_IpCHashT_struct}，
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
@@ -29,15 +32,15 @@ Robin Hood hashing は，1 回でアクセスできる位置に要素を移動�
 挿入アルゴリズムに新しく soft insertion を採用している．
 探査においても，
 successful search を優先するオプションと，
-unsuccessful search を優先するオプションについてそれぞれ実装と評価を行う．
+unsuccessful search を優先するオプションについて新たに実装と評価を行う．
 また，パディングサイズは従来固定であったが，
 テーブルサイズによってパディングサイズを動的に変更することで，
 テーブルサイズが小さい場合に最大 load factor が低下する問題に対処する．
 加えて，テンプレートを用いて実装するにあたり，
-ソフトウェアをフルスクラッチで書き直した．
+ソフトウェアをフルスクラッチで書き直す．
 要素の挿入においては，操作手順を再検討し，より簡潔な実装とする．
 
-In-place chained hash table (以下，IpCHashT) では，図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
+IpCHashT では，図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
 各要素には key-value ペアの他に，linked list のための prev 要素と next 要素を持つ．
 T\_shift には uint8 または uint16 型を用い，相対位置による doubly linked list を構成する．
 これは，ポインタ接続におけるメモリ消費量が無視できないためである
@@ -45,7 +48,7 @@ T\_shift には uint8 または uint16 型を用い，相対位置による doub
   例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
   テープルサイズの 50\% が doubly linked list に由来する．
 }．
-\\
+\leavevmode \newline
 
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
@@ -82,12 +85,12 @@ struct element{
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_01.pdf}
   \caption{
     図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号．
-    ``Ope.''は，実行順序を意味し，``Ope. 0'' は初期状態を表す．
+    ``Ope.''は，実行順序を表し，``Ope. 0'' の場合は初期状態を意味する．
     下向き矢印は，ハッシュ値の示す配列アドレス上に置かれる．
     各要素は，丸１つと prev locator １つ，next locator １つで構成されるが，
     接続が無い場合 locator は省略される．
     点線で書かれた丸は空の要素を表し，緑の枠線と矢印は要素の移動を表す．
-    バツ印は linked list の削除を意味する．
+    バツ印は linked list の削除表す．
     配色は，青色を初期状態，赤色を要素の挿入・削除動作，緑色を要素の移動，と分かれている．
   }
   \label{fig_IpCHashT_fig_description}
@@ -130,65 +133,67 @@ struct element{
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
 ２辺を共有した四角形の連なりにより表現されることが多い．
-同様に，IpCHashT では，配列要素を図\ref{fig_IpCHashT_apparence}のように抽象化して表すが，
-一見すると隣接した連続構造であっても，
-実際には，図\ref{fig_IpCHashT_insert_introspection}のように，
-各要素が断続的なアドレス空間上に存在することがある．
+同様に，本研究では IpCHashT の配列要素を抽象化して表すが，
+一見すると図\ref{fig_IpCHashT_apparence}のように隣接した連続構造であっても，
+実際には，図\ref{fig_IpCHashT_insert_introspection}のように各要素が断続的なアドレス空間上に存在することがある．
 
 %\leavevmode \newline
 %\leavevmode \newline
 %\vspace{-1cm}
 \section{挿入}
 
-高い検索性能を達成するためには，
+高い探査性能を達成するためには，
 命令数を削減するだけでなく，
 キャッシュミスを抑える必要がある．
-一般に，CPU は配列の連続アクセスに対して，
+一般に，CPU は配列アクセスに対して，
 参照の局所性を利用してキャッシングする．
-ここでは，
-必要な要素を配列に隙間なく詰め込むことが，
-空間的局所性と逐次的局所性を高め，
-キャッシュミスを削減する．
+そのため，
+必要な要素を配列に隙間なく詰め込むことで空間的局所性を，
+可能な限り連続した位置に配置することで逐次的局所性を，
+それぞれ高め，キャッシュミスを削減する．
 
-通常の Chaining であれば，
-新しく確保したメモリアドレスをポインタにより接続するため，
-挿入済みの要素がメモリ上の何処に存在するかを考慮する必要はなく，
-メモリの確保自体も malloc 関数に任せればよい．
-しかし今回のように，
-連続したメモリアドレス上に doubly linked list を構築するには，
-メモリ自体を手動で管理する必要がある．
+%通常の open hashing による chaining であれば，
+%新しく確保したメモリアドレスをポインタにより接続するため，
+%挿入済みの要素がメモリ上の何処に存在するかを考慮する必要はなく，
+%メモリ管理は malloc 関数に任せればよい．
+%しかし今回のように，
+%連続したメモリアドレス上に doubly linked list を構築する，
+%closed hashing による chaining を実現するには，
+%ある程度メモリを自前で管理する必要がある．
 
 key-value ペアを１つ挿入するには，
 次の 1) 〜 4) の場合を考える．
-1) キーのハッシュ値が示す配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
-2) 既に要素が挿入されており，chain の間に空きがある場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
+1) ハッシュ先の配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
+2) 既に要素が挿入されており chain の間に空きがある場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
 3) chain の間に空きがない場合は，図\ref{fig_IpCHashT_insert_hard_case03}のように末尾に空きを探し挿入する．
 4) 挿入先の要素が異なるハッシュ値を持つ要素の退避先に使用されている場合は，
 図\ref{fig_IpCHashT_insert_hard_case04}〜\ref{fig_IpCHashT_insert_hard_case11}のように挿入する．
 要素の退避先と locator の再接続先との兼ね合いのため，4) には多くの場合分けが必要となる．
 
-chain 間に空きがあるかを調べるには，線形探査を行う．
+chain 間に空きがあることを調べるには，線形探査を行う．
 これには，対象の要素を全て調べ上げる必要があり，処理に時間が掛かる．
 また，11 通りの場合分けを全て実装するには非常に手間も掛かる．
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}に示す場合分けは，
-任意の箇所に空きが合った場合を考慮している．
-要素削除なく挿入する場合には，メモリの断片化は発生しないため，
+任意の箇所に空きがあることを考慮している．
+しかし，要素削除なく挿入する場合には，メモリの断片化は発生しないため，
 必要な場合分けは
 図\ref{fig_IpCHashT_insert_hard_case01}，
 \ref{fig_IpCHashT_insert_hard_case03}，
 \ref{fig_IpCHashT_insert_hard_case06}，
 \ref{fig_IpCHashT_insert_hard_case11}
-の５通りに限定される．
-また，要素削除を伴う場合においても，挿入コストが大きくなるため，推奨しない．
-これは，実装コストの低減および，挿入の高速化と引き換えに，
-要素の削除と再挿入によるメモリ断片化への耐性を捨てることを意味する．
+の 5 通りである．
+また，要素削除を伴う場合においても，挿入コストが高いため推奨しない．
+これは，要素の削除と再挿入によるメモリ断片化への耐性を捨て，
+実装コストの低減と，挿入の高速化を優先している．
+\newpage
 
 \section{探査}
+
 挿入済みの要素を探査するには，図\ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
 図\ref{alg_find_sm}は successful search を優先した設定であり，
 図\ref{alg_find_usm}は unsuccessful search を優先した設定である．
 
-\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{figure}%[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val>
 (bool, T_val) find(T_key key_in){
