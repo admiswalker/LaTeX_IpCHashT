@@ -1,7 +1,8 @@
-\chapter*{Appendix／付録} % 章番号を出さない
-\addcontentsline{toc}{chapter}{Appendix／付録} % 目次に載せる
+\chapter*{付録} % 章番号を出さない
+\addcontentsline{toc}{chapter}{付録} % 目次に載せる
 
 %Appendix／付録．
+ここでは，図\ref{fig_part101_infographics}に，CPU が各演算に対して消費する clock 数を示す．
 
 % 付録は chapter の 1 つとして作りますが、章番号は表示しません。
 % また付録の 1 つずつはアルファベットで番号付けをするのが一般的です。
@@ -14,7 +15,8 @@
 \setcounter{table}{0} % 表番号
 \renewcommand{\thetable}{\Alph{section}.\arabic{table}}
 
-\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\section{CPU が各演算に消費する clock 数}
+\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
   \centering
   \includegraphics[width=17.25cm]{./fig/part101_infographics_v08.png}
   \caption{

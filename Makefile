@@ -7,7 +7,7 @@ MAIN = main
 SRCDIR = ./*.tex
 BIBDIR = ./*.bib
 
-FIGDIR = ./fig $(FIGDIR_doc)
+FIGDIR = ./fig
 FIGPNG = $(FIGDIR)/*.png
 FIGPDF = $(FIGDIR)/*.pdf
 
@@ -85,9 +85,9 @@ all:
 
 .PHONY: clean
 clean:
-	-rm -f $(TEMPDIR)/.fuse_hidden*
+	@(find . -name ".fuse_hidden*" -type f | xargs rm -rf)
 	-rm -rf $(TEMPDIR)
-	-rm -f $(TARGET) $(XBBS) ./*.log .fuse_hidden*
+	-rm -f $(TARGET) $(XBBS) ./*.log
 	@(cd ./fig_algo; make clean)
 	@(cd ./fig_odg; make clean)
 
