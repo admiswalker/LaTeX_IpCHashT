@@ -75,7 +75,9 @@ sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 ただし，図\ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
 ここでは，$2.0\times10^8$ に初期化されたテーブル
 \footnote{
-  正確には，$2.0\times10^8$ より大きな 2 の累乗の内，最も小さい値として，134217727 となる．
+  正確には，$2.0\times10^8$ より大きな 2 の累乗の内，最も小さい値として，268435455 となる．
+  実際にリハッシュしている区間は $1.250\times10^8〜1.375\times10^8$ であり，
+  load factor が50 \% となる要素数 134217727 を含んでいる．
 }
 に対する速度を示す．
 まず，{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
