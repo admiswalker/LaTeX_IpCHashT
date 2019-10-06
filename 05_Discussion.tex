@@ -68,8 +68,6 @@ sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 
 {\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf sstd::IpCHashT (uint16)}の
 理論値なメモリ使用量と図\ref{fig_bench_memory}に示す実測値を比較する．
-%ここで，要素数を elems とする．
-%key, value に uint64 を用いるとき，
 まず，{\bf google::dense\_hash\_map}は，
 \begin{eqnarray*}
   {\rm memory\ size|_{type=dense\_hash\_map}} &=& ({\rm key\ size} + {\rm value\ size}) \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
@@ -77,39 +75,19 @@ sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
   &=& (8 + 8) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
   &=& 32 \times {\rm elements} {\rm\ [Byte]}
 \end{eqnarray*}
-となる．同様に，{\bf sstd::IpCHashT (uint8, maxLF50)}は，
-\begin{eqnarray*}
-  {\rm memory\ size|_{type=IpCHashT (uint8, maxLF50)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
-                                              & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
-  &=& ({\rm uint64} + {\rm uint64} + {\rm uint8} + {\rm uint8}) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
-  &=& (8 + 8 + 1 + 1) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
-  &=& 36 \times {\rm elements} {\rm\ [Byte]}
-\end{eqnarray*}
-となる．{\bf sstd::IpCHashT (uint16, maxLF100)}は，
-\begin{eqnarray*}
-  {\rm memory\ size|_{type=IpCHashT (uint16, maxLF100)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
-                                               & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
-  &=& ({\rm uint64} + {\rm uint64} + {\rm uint16} + {\rm uint16}) \times ({\rm elements} / 1.0) {\rm\ [Byte]}\\
-  &=& (8 + 8 + 2 + 2) \times {\rm elements} {\rm\ [Byte]}\\
-  &=& 20 \times {\rm elements} {\rm\ [Byte]}
-\end{eqnarray*}
 となる．
-
-{\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint8, maxLF50)}の理論比を考えると，
-\begin{eqnarray*}
-  \frac{32 \times {\rm elements} {\rm\ [Byte]}}{36 \times {\rm elements} {\rm\ [Byte]}}
-  = \frac{8}{9}\approx& 0.89
-\end{eqnarray*}
-となる．実測値は，図\ref{fig_bench_memory}より，要素数 $1.5\times 10^8$ のとき，8 GB と 12 GB であるから，
-\begin{eqnarray*}
-  \frac{8 {\rm\ [GByte]}}{12 {\rm\ [GByte]}}
-  = \frac{2}{3}\approx& 0.67
-\end{eqnarray*}
-となる．したがって，理論値と実測値は一致しない．
-これは，配列のアラインメントの問題だと考えられ，
-IpCHashT では，コンパイル時に 2 つの uint8 のアラインメントが uint64 境界に合致するように，パディングされていると考えられる．
-したがって，アラインメントを考慮して理論値を再計算すると，
-{\bf sstd::IpCHashT (uint8, maxLF50)}を，
+また，
+コンパイラは配列アラインメントを大きい方に一致させるため，
+sstd::IpCHashT の uint8 や uint16 は，next probe と prev probe を合わせて uint64 として確保される．
+このため，{\bf sstd::IpCHashT (uint8, maxLF50)}は，
+% アラインメントを考慮しない場合は下記．
+%\begin{eqnarray*}
+%  {\rm memory\ size|_{type=IpCHashT (uint8, maxLF50)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
+%                                              & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
+%  &=& ({\rm uint64} + {\rm uint64} + {\rm uint8} + {\rm uint8}) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+%  &=& (8 + 8 + 1 + 1) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+%  &=& 36 \times {\rm elements} {\rm\ [Byte]}
+%\end{eqnarray*}
 \begin{eqnarray*}
   {\rm memory\ size|_{type=IpCHashT (uint8, maxLF50)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
                                               & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
@@ -119,15 +97,15 @@ IpCHashT では，コンパイル時に 2 つの uint8 のアラインメント�
   &=& 24 \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
   &=& 48 \times {\rm elements} {\rm\ [Byte]}
 \end{eqnarray*}
-とすると，
-\begin{eqnarray*}
-  \frac{32 \times {\rm elements} {\rm\ [Byte]}}{48 \times {\rm elements} {\rm\ [Byte]}}
-  = \frac{2}{3}\approx& 0.67
-\end{eqnarray*}
-となる．したがって，理論値と実測値は一致する．
-
-{\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint16, maxLF100)}の理論比についても同等であり，
-64 bits 境界を考えて，{\bf sstd::IpCHashT (uint16, maxLF100)} の理論値を
+となる．同様に {\bf sstd::IpCHashT (uint16, maxLF100)}は，
+% アラインメントを考慮しない場合は下記．
+%\begin{eqnarray*}
+%  {\rm memory\ size|_{type=IpCHashT (uint16, maxLF100)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
+%                                               & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
+%  &=& ({\rm uint64} + {\rm uint64} + {\rm uint16} + {\rm uint16}) \times ({\rm elements} / 1.0) {\rm\ [Byte]}\\
+%  &=& (8 + 8 + 2 + 2) \times {\rm elements} {\rm\ [Byte]}\\
+%  &=& 20 \times {\rm elements} {\rm\ [Byte]}
+%\end{eqnarray*}
 \begin{eqnarray*}
   {\rm memory\ size|_{type=IpCHashT (uint16, maxLF100)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
                                               & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
@@ -136,7 +114,22 @@ IpCHashT では，コンパイル時に 2 つの uint8 のアラインメント�
   &=& (8 + 8 + 8) \times {\rm elements} {\rm\ [Byte]}\\
   &=& 24 \times {\rm elements} {\rm\ [Byte]}
 \end{eqnarray*}
-となり，
+となる．
+
+{\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint8, maxLF50)}の理論比を考えると，
+\begin{eqnarray*}
+  \frac{32 \times {\rm elements} {\rm\ [Byte]}}{48 \times {\rm elements} {\rm\ [Byte]}}
+  = \frac{2}{3}\approx& 0.67
+\end{eqnarray*}
+となる．
+実測値は，図\ref{fig_bench_memory}より，要素数 $1.5\times 10^8$ のとき，8 GB と 12 GB であるから，
+\begin{eqnarray*}
+  \frac{8 {\rm\ [GByte]}}{12 {\rm\ [GByte]}}
+  = \frac{2}{3}\approx& 0.67
+\end{eqnarray*}
+となる．したがって，理論値と実測値は一致する．
+
+{\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint8, maxLF50)}の理論比を考えると，
 \begin{eqnarray*}
   \frac{24 \times {\rm elements} {\rm\ [Byte]}}{32 \times {\rm elements} {\rm\ [Byte]}}
   = \frac{3}{4}= 0.75
