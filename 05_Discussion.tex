@@ -5,6 +5,7 @@
 \leavevmode \newline
 
 %
+%\section{最大 load factor}
 {\bf 最大 load factor}
 \samepage\newline\indent
 図\ref{fig_bench_LF}に示す，最大 load factor とテーブルサイズの関係について考察する．
@@ -25,6 +26,7 @@ load factor が単調に減少していく．
 \leavevmode \newline
 
 %
+%\section{メモリ使用量}
 {\bf メモリ使用量}
 \samepage\newline\indent
 図\ref{fig_bench_memory}に示す，メモリ使用量とテーブルサイズの関係について考察する．
@@ -34,8 +36,8 @@ load factor が単調に減少していく．
 これは，std::unordered\_map が要素ごとにメモリを確保することを示す．
 また，リハッシュ時のピークも小さいことから，
 アルゴリズムは ``Separate chaining with linked lists'' であると推察される．
-{\bf sstd::IpCHashT (as uint16 and maxLF100)} は
-広い区間で最も高いメモリ効率を示しており，
+{\bf sstd::IpCHashT (uint16, maxLF100)} は
+殆どの区間で最も高いメモリ効率を示しており，
 図\ref{fig_bench_LF}で示した最大 load factor の高さを反映する結果となった．
 一部，他のハッシュテーブルとは異なるタイミングでリハッシュが発生しており，
 load factor が 100 \% まで達していないことを示している．
@@ -44,7 +46,7 @@ load factor が 50 \% に制限されているにも関わらず，
 std::unordered\_map 前後のメモリ使用量を示しており，
 キーの一部を空符号や削除符号として使用することで，
 メモリ効率を高める実装の特性が現れている．
-{\bf sstd::CHashT}，{\bf sstd::IpCHashT (as maxLF50)}，{\bf ska::flat\_hash\_map} は，
+{\bf sstd::CHashT}，{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf ska::flat\_hash\_map} は，
 いずれもほぼ同じメモリ使用量を示している．
 図\ref{fig_bench_LF}より，
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上の最大 load factor を維持しているものの，
@@ -55,17 +57,66 @@ Load factor の高い区間において，
 ハッシュ先が衝突した分のメモリを動的に確保している．
 
 \noindent
-{\bf sstd::IpCHashT (as maxLF50)}，{\bf ska::flat\_hash\_map} は
+{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf ska::flat\_hash\_map} は
 探査速度を得るため，単位要素あたり最も多くのメモリを消費しており，
 std::unordered\_map と比較して 1.5 倍程度となる．
 実利用に際しては，このメモリ使用量を許容できるかどうかが，
 一つの課題となる．
-{\bf sstd::IpCHashT (as uint8 maxLF100)} は
+{\bf sstd::IpCHashT (uint8, maxLF100)} は
 sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
 およそ中間でリハッシュする挙動を示している．
+
+{\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf sstd::IpCHashT (uint16)}の
+理論値なメモリ使用量と図\ref{fig_bench_memory}に示す実測値を比較する．
+%ここで，要素数を elems とする．
+%key, value に uint64 を用いるとき，
+まず，{\bf google::dense\_hash\_map}は，最大 load factor 50 \% であるから，
+\begin{eqnarray*}
+  {\rm memory\ size|_{type=dense\_hash\_map}} &=& ({\rm key\ size} + {\rm value\ size}) \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
+  &=& ({\rm uint64} + {\rm uint64}) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+  &=& (8 + 8) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+  &=& 16 \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+  &=& 32 \times {\rm elements} {\rm\ [Byte]}
+\end{eqnarray*}
+となる．同様に，{\bf sstd::IpCHashT (uint8, maxLF50)}は，
+\begin{eqnarray*}
+  {\rm memory\ size|_{type=IpCHashT (uint8, maxLF50)}} &=& ({\rm key\ size} + {\rm value\ size} + {\rm next\ probe\ size} + {\rm prev\ probe\ size})\\
+                                              & & \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
+  &=& ({\rm uint64} + {\rm uint64} + {\rm uint8} + {\rm uint8}) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+  &=& (8 + 8 + 1 + 1) \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+  &=& 18 \times ({\rm elements} / 0.5) {\rm\ [Byte]}\\
+  &=& 36 \times {\rm elements} {\rm\ [Byte]}
+\end{eqnarray*}
+となる．この比は，
+\begin{eqnarray*}
+  \frac{32 \times {\rm elements} {\rm\ [Byte]}}{36 \times {\rm elements} {\rm\ [Byte]}}
+  = \frac{8}{9}\approx& 0.89
+\end{eqnarray*}
+となる．実測値は， $0.75$ と一致しない．
+
+図\ref{fig_bench_memory_preAlloc}に示す，
+ハッシュテーブルのサイズを事前指定して初期化した場合の，
+メモリ使用量とテーブルサイズの関係について考察する．
+この例では，
+{\bf sstd::CHashT} が，テーブルサイズの増加に伴い，緩やかにメモリ使用量を増加させていることが分かる．
+図\ref{fig_bench_memory} において，メモリ使用量の変化が折れ線のように見えるのは，
+メモリ使用量を測定する際に解像度が不足していると考えられる．
+また，
+{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} について，
+テーブルサイズは $2\times10^7$ より大きい最小の $2^k-1 (1,2,...)$ であるから，
+$2^{26}-1 = 33554431$ とわかる．
+これは，load factor が 50 \% のとき，
+$33554431/2=16777215.5$ であり，
+リハッシュが区間 $1.625\times10^7〜1.75\times10^7$ で発生していることにより裏付けられる．
+一方で，{\bf google::dense\_hash\_map} は load factor を50 \% に制御するが，
+メモリ使用量は，
+テーブルサイズを指定して初期化した場合，倍の $2^{27}-1$ とわかる．
+
+50 \% 以上まで要素を挿入していることが分かる．
 \leavevmode \newline
 
 %
+%\section{挿入速度}
 {\bf 挿入速度}
 \samepage\newline\indent
 図\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す，挿入速度とテーブルサイズの関係について考察する．
@@ -113,6 +164,7 @@ load factor の高い領域において，線形探査は大きく効率を落�
 \leavevmode \newline
 
 %
+%\section{探査速度}
 {\bf 探査速度}
 \samepage\newline\indent
 図
@@ -164,6 +216,7 @@ google::dense\_hash\_map の \textasciitilde4 倍程度高速に動作してい�
 \leavevmode \newline
 
 %
+%\section{削除速度}
 {\bf 削除速度}
 \samepage\newline\indent
 図\ref{fig_bench_erase_sm}，\ref{fig_bench_erase_um}に示す，削除速度とテーブルサイズの関係について考察する．

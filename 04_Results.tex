@@ -114,7 +114,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 %
 {\bf メモリ使用量}
 \samepage\newline\indent
-メモリ使用量とテーブルサイズの関係を図\ref{fig_bench_memory}に示す．
+メモリ使用量とテーブルサイズの関係を図\ref{fig_bench_memory}，\ref{fig_bench_memory_preAlloc}に示す．
 \leavevmode \newline
 
 %
@@ -133,10 +133,10 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 探査速度とテーブルサイズの関係を図
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
 \ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
-コンパイル時 sstd::IpCHashT に successful search major option を指定した結果が
-図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}であり，
-コンパイル時 sstd::IpCHashT に unsuccessful search major option を指定した結果が
-図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}である．
+図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}は，
+コンパイル時 sstd::IpCHashT に successful search major option を指定した結果，
+図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}は，
+コンパイル時 sstd::IpCHashT に unsuccessful search major option を指定した結果である．
 \leavevmode \newline
 
 %
@@ -145,8 +145,8 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 削除速度とテーブルサイズの関係を図
 \ref{fig_bench_erase_sm}，
 \ref{fig_bench_erase_um}に示す．
-図\ref{fig_bench_erase_sm}は successful search を優先した設定，
-図\ref{fig_bench_erase_um}は unsuccessful search を優先した設定である．
+図\ref{fig_bench_erase_sm}は successful search major option を指定した結果，
+図\ref{fig_bench_erase_um}は unsuccessful search major option を指定した結果である．
 \leavevmode \newline
 
 %\newpage
@@ -180,8 +180,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\begin{figure}[]
-\begin{figure}[b]
+\newpage
+\begin{figure}[]
+%\begin{figure}[b]
 %  \vspace{-0mm}
   \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
   \caption{
@@ -194,7 +195,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 %%%
 
-\begin{figure}[h]
+\begin{figure}[]
 %  \vspace{-5mm}
   \hspace{-1mm}
   \includegraphics[scale=0.24]{./fig_bench/usedMemory.pdf}
@@ -212,13 +213,30 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 %  \vspace{-10mm}
 \end{figure}
 
+\begin{figure}[h]
+%  \vspace{-5mm}
+  \hspace{-1mm}
+  \includegraphics[scale=0.24]{./fig_bench/usedMemory_preAlloc.pdf}
+  \caption{
+    Allocated memory size, which is one sample raw data.
+    In this measurement, each hash table is pre-allocated with $2.0\times10^7$.
+    Peaks of memory size indicate rehash timmings.
+    And the width of peaks is measurement interval.
+    This means that the actual waveform is more sharp.
+    ska::flat\_hash\_map while it is hard to see, is plotted on the same place of sstd::IpCHashT (as maxLF50).
+    {\bf ATTENTION: The table size of this graph is 10 times smaller than the others.}
+  }
+  \label{fig_bench_memory_preAlloc}
+%  \vspace{-10mm}
+\end{figure}
+
 %%%
 
 \begin{figure}[h]
   \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
   \caption{
     Total time of insertion, which is a median value of 100 samples, using pre-allocated table.
-    In this measurement, hash tables are initialized by $2.0\times10^8$ and inserted.
+    In this measurement, each hash table is pre-allocated with $2.0\times10^8$.
     sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $1.25\textasciitilde.375\times10^8$.
     And sstd::IpCHash (as uint8 and maxLF100) is rehashing around $1.375\textasciitilde2.0\times10^8$.
   }
