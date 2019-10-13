@@ -202,11 +202,10 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \caption{
     Allocated memory size, which is one sample raw data.
     Peaks of memory size indicate rehash timmings.
-    And the width of peaks is measurement interval.
-    This means that the actual waveform is more sharp.
+    And the width of peaks is measurement interval since the ture peak is as narrow as one step of x axis.
     std::unordered\_map seems to allocating memory each by insertion.
     sstd::IpCHashTs are moved the timming of rehashing back and forth by the influence of maximum load factor.
-    ska::flat\_hash\_map while it is hard to see, is plotted on the same place of sstd::IpCHashT (as maxLF50).
+    ska::flat\_hash\_map while it is hard to see, is plotted on the same place of sstd::IpCHashT (uint8, maxLF50).
   }
   \label{fig_bench_memory}
 %  \vspace{-10mm}
@@ -218,11 +217,12 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \includegraphics[scale=0.24]{./fig_bench/usedMemory_preAlloc.pdf}
   \caption{
     Allocated memory size, which is one sample raw data.
-    In this measurement, each hash table is pre-allocated with $2.0\times10^7$.
-    Peaks of memory size indicate rehash timmings.
-    And the width of peaks is measurement interval.
-    This means that the actual waveform is more sharp.
-    ska::flat\_hash\_map while it is hard to see, is plotted on the same place of sstd::IpCHashT (as maxLF50).
+    In this measurement, each hash table is pre-allocated with $2.0\times10^8$.
+%    Peak of memory size indicate rehash timmings.
+%    And the width of peaks is measurement interval since the ture peak is as narrow as one step of x axis.
+    sstd::IpCHashT (uint8, maxLF100), while it is hard to see, is plotted on the same place of sstd::IpCHashT (uint8, maxLF50).
+    ska::flat\_hash\_map is initializing its table size with $2.0\times10^8$ and the others are initializing their table size with $2.0\times10^8$ as a containable size.
+    This means that the one with a rehashing peak is ska::flat\_hash\_map.
   }
   \label{fig_bench_memory_preAlloc}
 %  \vspace{-10mm}
@@ -231,21 +231,22 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 %%%
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/TMP_insert_et_preAlloc_med.pdf}
   \caption{
+    {\bf \color{red}TODO: replace this benchmark after calculating 100 sample.}
     Total time of insertion, which is a median value of 100 samples, using pre-allocated table.
     In this measurement, each hash table is pre-allocated with $2.0\times10^8$.
-    sstd::IpCHash (as maxLF50) and ska::flat\_hash\_map are rehashing around $1.25\textasciitilde.375\times10^8$.
-    And sstd::IpCHash (as uint8 and maxLF100) is rehashing around $1.375\textasciitilde2.0\times10^8$.
+    A discontinuous value around $1.25\textasciitilde.375\times10^8$ represents rehashing of ska::flat\_hash\_map.
+    This is due to differences in the algorithms that determine the initial table size.
   }
   \label{fig_bench_insert_preAlloc}
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/TMP_insert_et_med.pdf}
   \caption{
-    Total time of insertion, which is a median value of 100 samples, with rehashing table.
-    Chaining type of hash tables like sstd::CHashT and sstd::IpCHashT are slow down its insertion speed as the load factor increase.
+    {\bf \color{red}TODO: replace this benchmark after calculating 100 sample.} Total time of insertion, which is a median value of 100 samples, with rehashing table.
+    Chaining type of hash tables like, sstd::CHashT and sstd::IpCHashTs (especially uint16-maxLF100 option), are slow down its insertion speed as the load factor increase.
   }
   \label{fig_bench_insert_wRehash}
 \end{figure}
@@ -255,9 +256,10 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \includegraphics[scale=0.24]{./fig_bench/insert_med.pdf}
   \caption{
     Insertion speed, which is a median value of 100 samples.
-    Rehash time is included in the valleys.
-    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
-    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
+    The spikes formed by the valleys represent rehashings.
+    The CPU cache line is around $1.0\times10^5$ elements for 4 MB L2 cache and around $1.0\times10^6$ elements for 16 MB L3 cache on AMD Ryzen7 1700.
+%    About $1.0\times10^5$ elements will consume totally 4 MB of L2 cache,
+%    and about $1.0\times10^6$ elements will consume totally 16 MB of L3 cache on AMD Ryzen7 1700.
   }
   \label{fig_bench_insert}
 \end{figure}
