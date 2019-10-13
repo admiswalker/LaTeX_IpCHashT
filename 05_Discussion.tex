@@ -151,13 +151,18 @@ $2^k-1|_{k=28} = 268435455$ としていることがわかる．
 実際に，リハッシュ区間は $1.250\times10^8〜1.375\times10^8$ であり，
 load factor が 50 \% となる要素数 $268435455/2=134217727.5$ を含んでいる．
 一方で，
-{\bf std::unordered\_map} や {\bf sstd::CHashT}，{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf google::dense\_hash\_map} は，
-挿入可能な要素数が $2\times10^8$ となるように制御されているため，リハッシュは発生していない．
+{\bf std::unordered\_map} や {\bf sstd::CHashT}，{\bf sstd::IpCHashTs}，{\bf google::dense\_hash\_map} は，
+リハッシュせずに挿入可能な要素数が $2\times10^8$ となるように制御されている．
+このとき，
+図\ref{fig_bench_memory}と図\ref{fig_bench_memory_preAlloc}の比較から
+{\bf sstd::CHashT}，{\bf sstd::IpCHashTs}，{\bf google::dense\_hash\_map} は
+ほぼ倍の $2^k-1|_{k=29}$ に，
+{\bf std::unordered\_map} は  $2^k-1|_{k=29}$ よりは小さいサイズに，それぞれ初期化されていると考えられる．
 加えて，
 {\bf sstd::CHashT} は，
-テーブルサイズの増加に伴い，緩やかにメモリ使用量を増加させていることが分かる．
+テーブルサイズの増加に伴い，緩やかにメモリ使用量を増加させている．
 このため，図\ref{fig_bench_memory} において，メモリ使用量の変化が折れ線に見えるのは，
-メモリ使用量を測定する際の解像度不足と考えられる．
+メモリ使用量測定時の解像度不足と考えられる．
 \leavevmode \newline
 
 %
@@ -169,32 +174,35 @@ load factor が 50 \% となる要素数 $268435455/2=134217727.5$ を含んで�
 図\ref{fig_bench_insert_preAlloc} は，
 テーブルのメモリを事前に確保した場合の挿入速度の累積時間である．
 ただし，図\ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
-ここでは，$2.0\times10^8$ に初期化されたテーブル
-\footnote{
-  正確には，$2.0\times10^8$ より大きな $2^k-1\ (k=1,2,...)$ の内，最も小さい値として $2^k-1|_{k=28} = 268435455$ となる．
-  実際に ska::flat\_hash\_map がリハッシュしている区間は $1.250\times10^8〜1.375\times10^8$ であり，
-  load factor が50 \% となる要素数 $268435455/2=134217727.5$ を含んでいる．
-}
-に対する速度を示す．
-まず，{\bf sstd::IpCHashT (uint8, maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
-{\bf google::dense\_hash\_map} についても，同じタイミングで load factor が 50 \% を超えているはずであるが，
-事前にテーブルサイズを指定した場合には，リハッシュしないように制御されている様子が伺える．
-{\bf \color{red}メモ：この項目，以前削除してしまった，ベンチマークの図を挿入して，メモリ使用量が変化していないことから densh\_hash\_map がいろいろ制御されていることを示す．}
-{\bf sstd::IpCHashT (uint8, maxLF100)} については，
-uint8 型により構成された doubly linked list の最大範囲を超えた時点でリハッシュが発生している．
-{\bf std::unordered\_map} は他のハッシュテーブルより 2\textasciitilde 3.5 倍程度遅い結果となった．
-std::unordered\_map 以外のハッシュテーブルについて，計算量の違いは軽微である．
+ここでは，$2.0\times10^8$ に初期化されたハッシュテーブルの速度を示す．
+先の{\bf メモリ使用量}の項目で示した通り，
+{\bf ska::flat\_hash\_map}は実テーブルサイズが $2.0\times10^8$ より大きな最小の $2^k-1\ (k=1,2,...)$ となるように，
+それ以外のハッシュテーブルはリハッシュせずに挿入可能な要素数が $2.0\times10^8$ となるように，それぞれ制御されている．
+まず，{\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしているとわかる．
+$2.0\times10^8$ 要素挿入時の経過時間は，
+概ね，
+{\bf sstd::IpCHashT (uint8, maxLF50)}・{\bf sstd::IpCHashT (uint8, maxLF100)}・{\bf google::dense\_hash\_map}と，
+{\bf sstd::IpCHashT (uint16, maxLF100)}・{\bf ska::flat\_hash\_map}と，
+{\bf sstd::CHashT}と，
+{\bf std::unordered\_map} に別れる．
+挿入速度は，図\ref{fig_bench_insert}のようなテーブルサイズに依存するため，一概には言えないが，
+{\bf sstd::IpCHashT (uint16, maxLF100)}では load factor の増加に従い，挿入に時間が掛かっている．
+また，
+{\bf sstd::CHashT}や，特に{\bf std::unordered\_map}は，堅調に時間が掛かっている．
 
 図\ref{fig_bench_insert_wRehash} は，
 テーブルサイズを 0 で初期化した場合の挿入速度の累積時間である．
 図\ref{fig_bench_insert_preAlloc} と比較して，
 {\bf sstd::CHashT} と {\bf sstd::IpCHashT (uint16, maxLF100)} の累積時間の増加が顕著である．
-これは，sstd::CHashT については，リハッシュそのものに時間が掛かっているためであり，
-sstd::IpCHashT (uint16, maxLF100) については，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
-なお，他の条件の sstd::IpCHashT は，比較的 load factor の低い領域を使用するため，影響は軽微である．
+sstd::CHashT では，そもそもの挿入が遅い分リハッシュにも時間が掛かっている．
+また，sstd::IpCHashT (uint16, maxLF100) では，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
+なお，他の条件の sstd::IpCHashT は，比較的 load factor の低い領域を使用するため，線形探査の影響は軽微である．
 {\bf std::unordered\_map} は，挿入とリハッシュの両方に時間が掛かっていることが伺える．
-{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf sstd::IpCHashT (uint8, maxLF100)}，{\bf ska::flat\_hash\_map}，{\bf google::dense\_hash\_map} に
-ついては，計算量の違いは軽微である．
+これは，{\bf sstd::CHashT}と同じ傾向である．
+この中で，{\bf google::dense\_hash\_map} は最も高い性能を示した．
+計算量の観点からは，
+{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf sstd::IpCHashT (uint8, maxLF100)}，{\bf ska::flat\_hash\_map}，{\bf google::dense\_hash\_map} は
+同程度のオーダーであると考えられる．
 
 図\ref{fig_bench_insert} は，
 テーブルサイズと挿入速度の関係である．
