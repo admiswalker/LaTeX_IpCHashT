@@ -59,7 +59,8 @@
 {\bf 環境}
 \samepage\newline\indent
 環境は Ubuntu を想定しており，コンパイルには G++ が必要である．
-本体のビルドには Make で十分であるが，Google Test のビルドに CMake が必要となる．
+本体のビルドには Make が，
+Google Test のビルドに CMake が必要となる．
 また，グラフのプロットには Python インタプリタと matplotlib が必要となる．
 \\
 
@@ -93,13 +94,15 @@ sstd::IpCHashT は，多数のオプションを備えており，ベンチマ�
     \caption{sstd::IpCHashT aliases.}
     \begin{tabular}{c|ccc} \hline
       %                         Options
-      Alias          & T\_shift & Maximum load factor [\%] \rule[0pt]{0pt}{10pt} & Search option \\ \hline
-      IpCHashT\_u8hS & uint8    &  50 (half)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
-      IpCHashT\_u8fS & uint8    & 100 (full)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
-      IpCHashT\_u16S & uint16   & 100 (full)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
-      IpCHashT\_u8hU & uint8    &  50 (half)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
-      IpCHashT\_u8fU & uint8    & 100 (full)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
-      IpCHashT\_u16U & uint16   & 100 (full)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\ \hline
+      Alias           & T\_shift & Maximum load factor [\%] \rule[0pt]{0pt}{10pt} & Search option \\ \hline
+      IpCHashT\_u8hS  & uint8    &  50 (half)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u8fS  & uint8    & 100 (full)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u16hS & uint16   &  50 (half)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u16fS & uint16   & 100 (full)                                     &   Successful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u8hU  & uint8    &  50 (half)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u8fU  & uint8    & 100 (full)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u16hU & uint16   &  50 (half)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\
+      IpCHashT\_u16fU & uint16   & 100 (full)                                     & Unsuccessful search major option \rule[0pt]{0pt}{10pt} \\ \hline
     \end{tabular}
     \label{table_alias}
   \end{center}
