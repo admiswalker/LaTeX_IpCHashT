@@ -12,17 +12,17 @@
 {\bf std::unordered\_map} はテーブルサイズ $10^2$ 未満で load factor が低いものの，
 区間 $10^2〜10^8$ において，高い load factor を示している．
 {\bf sstd::CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持している．
-{\bf sstd::IpCHashT (as maxLF50)}，{\bf google::dense\_hash\_map}，{\bf ska::flat\_hash\_map} は，
+{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf google::dense\_hash\_map}，{\bf ska::flat\_hash\_map} は，
 load factor が制限されており，50 \% に留まっている．
-{\bf sstd::IpCHashT (as uint8 and maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の load factor を示す．
+{\bf sstd::IpCHashT (uint8, maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の load factor を示す．
 テーブルサイズが $4\times10^2$ を超える辺りから，linked list の長さが ``${\rm uint8} の最大値 - 1=254$'' に制限されている影響により，
 load factor が単調に減少していく．
-{\bf sstd::IpCHashT (as uint16 and maxLF100)} は区間 $10^1〜10^8$ に渡り 97.5 \% 以上を維持している．
+{\bf sstd::IpCHashT (uint16, maxLF100)} は区間 $10^1〜10^8$ に渡り 97.5 \% 以上を維持している．
 なお，実際には 100 サンプルの中央値のため，
-特に sstd::CHashT と sstd::IpCHashT (as uint8 and maxLF100) では，
+特に sstd::CHashT と sstd::IpCHashT (uint8, maxLF100) では，
 特にテーブルサイズが $10^3$ 未満の場合において，ある程度揺らぎがある．
 なお，sstd::IpCHashT の実装はいずれもパディングされる配列長を load factor の計算に加算している．
-このため，{\bf sstd::IpCHashT (as maxLF50)} では端数が発生し，丁度に 50 \% とはならない．
+このため，{\bf sstd::IpCHashT (uint8, maxLF50)} では端数が発生し，丁度に 50 \% とはならない．
 \leavevmode \newline
 
 %
@@ -63,7 +63,7 @@ std::unordered\_map と比較して 1.5 倍程度となる．
 実利用に際しては，このメモリ使用量を許容できるかどうかが，
 一つの課題となる．
 {\bf sstd::IpCHashT (uint8, maxLF100)} は
-sstd::IpCHashT (as maxLF50) と sstd::IpCHashT (as uint16 maxLF100) の
+sstd::IpCHashT (uint8, maxLF50) と sstd::IpCHashT (uint16, maxLF100) の
 およそ中間でリハッシュする挙動を示している．
 
 {\bf google::dense\_hash\_map}と{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf sstd::IpCHashT (uint16)}の
@@ -143,24 +143,21 @@ sstd::IpCHashT の uint8 や uint16 は，next probe と prev probe を合わせ
 
 
 図\ref{fig_bench_memory_preAlloc}に示す，
-ハッシュテーブルのサイズを事前指定して初期化した場合の，
+ハッシュテーブルのサイズを $2\times10^8$ で初期化した場合の，
 メモリ使用量とテーブルサイズの関係について考察する．
-この例では，
-{\bf sstd::CHashT} が，テーブルサイズの増加に伴い，緩やかにメモリ使用量を増加させていることが分かる．
-図\ref{fig_bench_memory} において，メモリ使用量の変化が折れ線のように見えるのは，
-メモリ使用量を測定する際に解像度が不足していると考えられる．
-また，
-{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} について，
-テーブルサイズは $2\times10^7$ より大きい最小の $2^k-1 (1,2,...)$ であるから，
-$2^{26}-1 = 33554431$ とわかる．
-これは，load factor が 50 \% のとき，
-$33554431/2=16777215.5$ であり，
-リハッシュが区間 $1.625\times10^7〜1.75\times10^7$ で発生していることにより裏付けられる．
-一方で，{\bf google::dense\_hash\_map} は load factor を50 \% に制御するが，
-メモリ使用量は，
-テーブルサイズを指定して初期化した場合，倍の $2^{27}-1$ とわかる．
-
-50 \% 以上まで要素を挿入していることが分かる．
+{\bf ska::flat\_hash\_map} は，
+テーブルサイズを $2\times10^8$ より大きな最小の $2^k-1 (1,2,...)$ として初期化していおり，
+$2^k-1|_{k=28} = 268435455$ としていることがわかる．
+実際に，リハッシュ区間は $1.250\times10^8〜1.375\times10^8$ であり，
+load factor が 50 \% となる要素数 $268435455/2=134217727.5$ を含んでいる．
+一方で，
+{\bf std::unordered\_map} や {\bf sstd::CHashT}，{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf google::dense\_hash\_map} は，
+挿入可能な要素数が $2\times10^8$ となるように制御されているため，リハッシュは発生していない．
+加えて，
+{\bf sstd::CHashT} は，
+テーブルサイズの増加に伴い，緩やかにメモリ使用量を増加させていることが分かる．
+このため，図\ref{fig_bench_memory} において，メモリ使用量の変化が折れ線に見えるのは，
+メモリ使用量を測定する際の解像度不足と考えられる．
 \leavevmode \newline
 
 %
@@ -174,16 +171,16 @@ $33554431/2=16777215.5$ であり，
 ただし，図\ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
 ここでは，$2.0\times10^8$ に初期化されたテーブル
 \footnote{
-  正確には，$2.0\times10^8$ より大きな 2 の累乗の内，最も小さい値として，268435455 となる．
-  実際にリハッシュしている区間は $1.250\times10^8〜1.375\times10^8$ であり，
-  load factor が50 \% となる要素数 134217727 を含んでいる．
+  正確には，$2.0\times10^8$ より大きな $2^k-1\ (k=1,2,...)$ の内，最も小さい値として $2^k-1|_{k=28} = 268435455$ となる．
+  実際に ska::flat\_hash\_map がリハッシュしている区間は $1.250\times10^8〜1.375\times10^8$ であり，
+  load factor が50 \% となる要素数 $268435455/2=134217727.5$ を含んでいる．
 }
 に対する速度を示す．
-まず，{\bf sstd::IpCHashT (as maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
+まず，{\bf sstd::IpCHashT (uint8, maxLF50)} と {\bf ska::flat\_hash\_map} は load factor が 50 \% を超えた時点でリハッシュしている．
 {\bf google::dense\_hash\_map} についても，同じタイミングで load factor が 50 \% を超えているはずであるが，
 事前にテーブルサイズを指定した場合には，リハッシュしないように制御されている様子が伺える．
 {\bf \color{red}メモ：この項目，以前削除してしまった，ベンチマークの図を挿入して，メモリ使用量が変化していないことから densh\_hash\_map がいろいろ制御されていることを示す．}
-{\bf sstd::IpCHashT (as uint8 and maxLF100)} については，
+{\bf sstd::IpCHashT (uint8, maxLF100)} については，
 uint8 型により構成された doubly linked list の最大範囲を超えた時点でリハッシュが発生している．
 {\bf std::unordered\_map} は他のハッシュテーブルより 2\textasciitilde 3.5 倍程度遅い結果となった．
 std::unordered\_map 以外のハッシュテーブルについて，計算量の違いは軽微である．
@@ -191,22 +188,22 @@ std::unordered\_map 以外のハッシュテーブルについて，計算量の
 図\ref{fig_bench_insert_wRehash} は，
 テーブルサイズを 0 で初期化した場合の挿入速度の累積時間である．
 図\ref{fig_bench_insert_preAlloc} と比較して，
-{\bf sstd::CHashT} と {\bf sstd::IpCHashT (as uint16)} の累積時間の増加が顕著である．
+{\bf sstd::CHashT} と {\bf sstd::IpCHashT (uint16, maxLF100)} の累積時間の増加が顕著である．
 これは，sstd::CHashT については，リハッシュそのものに時間が掛かっているためであり，
-sstd::IpCHashT (as uint16) については，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
+sstd::IpCHashT (uint16, maxLF100) については，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
 なお，他の条件の sstd::IpCHashT は，比較的 load factor の低い領域を使用するため，影響は軽微である．
 {\bf std::unordered\_map} は，挿入とリハッシュの両方に時間が掛かっていることが伺える．
-{\bf sstd::IpCHashT (as maxLF50)}，{\bf sstd::IpCHashT (as uint8 and maxLF100)}，{\bf ska::flat\_hash\_map}，{\bf google::dense\_hash\_map} に
+{\bf sstd::IpCHashT (uint8, maxLF50)}，{\bf sstd::IpCHashT (uint8, maxLF100)}，{\bf ska::flat\_hash\_map}，{\bf google::dense\_hash\_map} に
 ついては，計算量の違いは軽微である．
 
 図\ref{fig_bench_insert} は，
 テーブルサイズと挿入速度の関係である．
 キャッシュの変わり目を除き，広い区間で {\bf ska::flat\_hash\_map} が高い性能を示している．
 {\bf google::dense\_hash\_map} は，L2 キャッシュに乗る区間 $10^2〜 10^5$ では，ska::flat\_hash\_map に次ぐ速度を示すものの，
-L3 キャッシュ外となる区間 $10^6〜 10^8$ では，sstd::IpCHashT (as maxLF50) と入れ替わる結果となった．
-{\bf sstd::IpCHashT (as maxLF50)} は，その挿入アルゴリズムの複雑さの割に高速な挿入である．
+L3 キャッシュ外となる区間 $10^6〜 10^8$ では，sstd::IpCHashT (uint8, maxLF50) と入れ替わる結果となった．
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，その挿入アルゴリズムの複雑さの割に高速な挿入である．
 これは，結局のところ，挿入操作が単なる線形探査であるためである．
-しかしながら，{\bf sstd::IpCHashT (as uint8 and maxLF100)} と {\bf sstd::IpCHashT (as uint16)} の示す通り，
+しかしながら，{\bf sstd::IpCHashT (uint8, maxLF100)} と {\bf sstd::IpCHashT (uint16, maxLF100)} の示す通り，
 load factor の高い領域において，線形探査は大きく効率を落としている．
 {\bf sstd::CHashT} は L2，L3 キャッシュの外へ格納が増えるにしたがい，大きく速度を落としている．
 \leavevmode \newline
@@ -224,10 +221,10 @@ load factor の高い領域において，線形探査は大きく効率を落�
 まず，successful search の速度，図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}について考察する．
 
 Successful major option を指定した速度は，図\ref{fig_bench_find_s_sm} である．
-{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，
 L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 区間 $10^2〜10^7$ の殆どに渡り最速で探査している．
-{\bf sstd::IpCHashT (as uint16)} は図\ref{fig_bench_memory} に示すように
+{\bf sstd::IpCHashT (uint16, maxLF100)} は図\ref{fig_bench_memory} に示すように
 google::dense\_hash\_map の 75 \% のメモリ使用量であるにも関わらず，
 L3 キャッシュ内から CPU キャッシュ外の区間 $1.5\times10^5〜3.5\times10^7$ において，
 同程度の速度を保持している．
@@ -235,7 +232,7 @@ L3 キャッシュ内から CPU キャッシュ外の区間 $1.5\times10^5〜3.5
 google::dense\_hash\_map の方が高速に動作している．
 
 Unsuccessful major option を指定した速度は，図\ref{fig_bench_find_us_sm} である．
-{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，
 L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 区間 $10^2〜10^7$ の殆どに渡り 1\textasciitilde 2 番目の探査速度を保持している．
 一方で，その他のオプションの sstd::IpCHashT は，優位性のある速度に達していない．
@@ -244,22 +241,22 @@ L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 次に，unuccessful search の速度，図\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}について考察する．
 
 Successful major option を指定した速度は，図\ref{fig_bench_find_s_um} である．
-{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，
 区間 $1.0\times10^2〜1.5\times10^5$ において，高速に動作するが，
 区間 $1.5\times10^5〜1.5\times10^7$ においては，{\bf ska::flat\_hash\_map} が長い区間において，最速を保持している．
 区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い
-{\bf sstd::IpCHashT (as uint8 and maxLF100)} や {\bf sstd::IpCHashT (as uint16)} が最速を保持している．
+{\bf sstd::IpCHashT (uint8, maxLF100)} や {\bf sstd::IpCHashT (uint16, maxLF100)} が最速を保持している．
 なお，図\ref{fig_taocp_v3_fig44} (a) に示すように，Separate Chaining は，本質的に unsuccessful search に強く，
 一部区間では，{\bf sstd::CHashT} であっても，google::dense\_hash\_map を上回る速度を示している．
 
 Unsuccessful major option を指定した速度は，図\ref{fig_bench_find_us_um} である．
-{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，
 特に L1, L2 キャッシュに収まる区間 $1.0\times10^2〜1.5\times10^5$ では，
 google::dense\_hash\_map の \textasciitilde4 倍程度高速に動作している．
 また，
 区間 $1.5\times10^5〜1.5\times10^7$ でも \textasciitilde3 倍程度高速に動作している．
 一方で，
-区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い {\bf sstd::IpCHashT (as uint16)} が速度を伸ばした．
+区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い {\bf sstd::IpCHashT (uint16, maxLF100)} が速度を伸ばした．
 図\ref{fig_bench_find_us_um}の結果は特に，Chaining 系のアルゴリズムが高速に動作する結果となった．
 \leavevmode \newline
 
@@ -281,7 +278,7 @@ unsuccessful major option を指定した場合の違いについて考察する
 
 {\bf google::dense\_hash\_map} は，
 区間 $1.0\times10^1〜2.0\times10^8$ のほぼ全てにおいて最速を保持している．
-{\bf sstd::IpCHashT (as uint8 and maxLF50)} は，
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，
 L2 キャッシュ内の区間 $2.0\times10^2〜1.5\times10^5$ において，
 ska::flat\_hash\_map より高速に動作するものの，
 区間 $1.5\times10^2〜2.0\times10^8$ においては，
