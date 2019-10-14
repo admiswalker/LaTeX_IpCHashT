@@ -195,8 +195,8 @@ $2.0\times10^8$ 要素挿入時の経過時間は，
 図\ref{fig_bench_insert_preAlloc} と比較して，
 {\bf sstd::CHashT} と {\bf sstd::IpCHashT (uint16, maxLF100)} の累積時間の増加が顕著である．
 sstd::CHashT では，そもそもの挿入が遅い分リハッシュにも時間が掛かっている．
-また，sstd::IpCHashT (uint16, maxLF100) では，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
-なお，他の条件の sstd::IpCHashT は，比較的 load factor の低い領域を使用するため，線形探査の影響は軽微である．
+また，sstd::IpCHashT (uint16, maxLF100) では，load factor の増加に伴い，空き要素の線形走査に時間が掛かるためである．
+なお，他の条件の sstd::IpCHashT は，比較的 load factor の低い領域を使用するため，線形走査の影響は軽微である．
 {\bf std::unordered\_map} は，挿入とリハッシュの両方に時間が掛かっていることが伺える．
 これは，{\bf sstd::CHashT}と同じ傾向である．
 この中で，{\bf google::dense\_hash\_map} は最も高い性能を示した．
@@ -206,13 +206,14 @@ sstd::CHashT では，そもそもの挿入が遅い分リハッシュにも時�
 
 図\ref{fig_bench_insert} は，
 テーブルサイズと挿入速度の関係である．
-キャッシュの変わり目を除き，広い区間で {\bf ska::flat\_hash\_map} が高い性能を示している．
-{\bf google::dense\_hash\_map} は，L2 キャッシュに乗る区間 $10^2〜 10^5$ では，ska::flat\_hash\_map に次ぐ速度を示すものの，
-L3 キャッシュ外となる区間 $10^6〜 10^8$ では，sstd::IpCHashT (uint8, maxLF50) と入れ替わる結果となった．
-{\bf sstd::IpCHashT (uint8, maxLF50)} は，その挿入アルゴリズムの複雑さの割に高速な挿入である．
-これは，結局のところ，挿入操作が単なる線形探査であるためである．
+キャッシュの変わり目を除き，{\bf google::dense\_hash\_map}及び{\bf ska::flat\_hash\_map} が広い区間で高い性能を示している．
+%{\bf google::dense\_hash\_map} は，L2 キャッシュに乗る区間 $10^2〜 10^5$ では，ska::flat\_hash\_map に次ぐ速度を示すものの，
+%L3 キャッシュ外となる区間 $10^6〜 10^8$ では，sstd::IpCHashT (uint8, maxLF50) と入れ替わる結果となった．
+{\bf sstd::IpCHashT (uint8, maxLF50)} は，
+これに次ぐ性能を示しており，その挿入アルゴリズムの複雑さの割に高速な挿入である．
+これは，結局のところ，挿入操作が単なる線形走査であるためである．
 しかしながら，{\bf sstd::IpCHashT (uint8, maxLF100)} と {\bf sstd::IpCHashT (uint16, maxLF100)} の示す通り，
-load factor の高い領域において，線形探査は大きく効率を落としている．
+load factor の高い領域において，線形走査による空き領域の探査は大きく効率を落としている．
 {\bf sstd::CHashT} は L2，L3 キャッシュの外へ格納が増えるにしたがい，大きく速度を落としている．
 \leavevmode \newline
 

@@ -161,7 +161,7 @@ key-value ペアを１つ挿入するには，
 図\ref{fig_IpCHashT_insert_hard_case04}〜\ref{fig_IpCHashT_insert_hard_case11}のように挿入する．
 要素の退避先と locator の再接続先との兼ね合いのため，4) には多くの場合分けが必要となる．
 
-chain 間に空きがあることを調べるには，線形探査を行う．
+chain 間に空きは，線形走査により調べる．
 これには，対象の要素を全て調べ上げる必要があり，処理に時間が掛かる．
 また，11 通りの場合分けを全て実装するには非常に手間も掛かる．
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}に示す場合分けは，
@@ -283,7 +283,7 @@ key-value ペアを１つ削除するには，
 図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}のように，
 chain の要素間に空きができ，断片化する場合がある．これを
 図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}に示す操作を繰り返すことにより修正する．
-ただし，空き要素の探査は線形探査する必要がある．
+ただし，空き要素の探査は線形走査する必要がある．
 また，要素を移動させる度に別の chain に空きができる可能性があるため，再帰的に行う必要がある．
 この処理は，実行コストが高いため推奨しない．
 
@@ -483,7 +483,7 @@ google::dense\_hash\_map と同様に，
   \caption{
     Deletion case05.
     削除時の断片化を低減する処理．
-    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+    空き要素を線形走査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case05}
 %\end{figure}
@@ -493,7 +493,7 @@ google::dense\_hash\_map と同様に，
   \caption{
     Deletion case06.
     削除時の断片化を低減する処理．
-    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+    空き要素を線形走査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case06}
 \end{figure}

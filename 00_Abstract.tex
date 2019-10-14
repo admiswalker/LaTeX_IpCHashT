@@ -68,7 +68,7 @@ Load factor が高い場合には，
 要素をポインタにより接続するため，アドレス空間が不連続となり CPU キャッシュが効き難い．
 2 つ目は linear probing や quadratic probing に代表される closed hashing\footnote{別名：open addressing．} である．
 衝突が発生した際，それぞれの探査規則に従い，隣接する空き要素に値を格納する．
-Linear probing は，隣接する $1, 2, 3, ... k$ 番目の要素に線形探査し，空き要素に値を格納する．
+Linear probing は，隣接する $1, 2, 3, ... k$ 番目の要素を線形走査し，空き要素に値を格納する．
 配列が隙間なく埋まった場合は，
 境界が分からず探査時間は大きく増加する．これを primary clustering と呼ぶ．
 % \footnote{Primary clustering と呼ぶ}．
