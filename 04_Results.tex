@@ -231,9 +231,8 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 %%%
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/TMP_insert_et_preAlloc_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/insert_et_preAlloc_med.pdf}
   \caption{
-    {\bf \color{red}TODO: replace this benchmark after calculating 100 sample.}
     Total time of insertion, which is a median value of 100 samples, using pre-allocated table.
     In this measurement, each hash table is pre-allocated with $2.0\times10^8$.
     A discontinuous value around $1.25\textasciitilde.375\times10^8$ represents rehashing of ska::flat\_hash\_map.
@@ -243,9 +242,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.24]{./fig_bench/TMP_insert_et_med.pdf}
+  \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
   \caption{
-    {\bf \color{red}TODO: replace this benchmark after calculating 100 sample.} Total time of insertion, which is a median value of 100 samples, with rehashing table.
+    Total time of insertion, which is a median value of 100 samples, with rehashing table.
     Chaining type of hash tables like, sstd::CHashT and sstd::IpCHashTs (especially uint16-maxLF100 option), are slow down its insertion speed as the load factor increase.
   }
   \label{fig_bench_insert_wRehash}
