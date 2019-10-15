@@ -129,7 +129,8 @@ Load factor は，探査速度向上のため 50 \% に制限されている．
 {\bf ska::flat\_hash\_map}
 \samepage \\ \indent
 Robin Hood hashing の実装の内の一つ．
-条件次第で dense\_hash\_map より探査が高速であることを謳う．
+条件によっては dense\_hash\_map より探査が高速である．
+{\bf \color{red}メモ:どのような条件で最も高速であるか，引用して書く．例：XX において，YY という条件で，dense\_hash\_map より高い探査性能を示すことが報告されている．}
 Robin Hood hashing は衝突解決法の一つで，
 singly linked list によりハッシュ先のテーブルアドレスを示しており，
 次の要素位置を示す coalesced chaining とは singly linked list の使い方が逆である．
@@ -169,7 +170,7 @@ closed hashing 系のアルゴリズムよりも平均探査回数が少ない�
 Closed hashing 系のアルゴリズムは，
 primary clustering による，平均探査回数の悪化が発生し易い．
 Primary clustering は特に linear probing で顕著であり，
-このため，ska::flat\_hash\_map では探査回数を制限している．
+このため，flat\_hash\_map では探査回数を制限している．
 Quadratic probing では primary clustering の影響は小さいものの，
 要素を隣接する $1^2, 2^2, 3^2, ... k^2$ 番目の配列に格納するため，
 距離が遠い程キャッシュミスし易い．

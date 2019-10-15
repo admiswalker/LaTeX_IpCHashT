@@ -101,7 +101,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 
 \section{結果}
-ここでは，sstd::IpCHashT の linked list 長に uint8 と uint16 を用いた設定，load factor の最大値を 50 \% に制限した設定に加えて，
+ここでは，IpCHashT の linked list 長に uint8 と uint16 を用いた設定，load factor の最大値を 50 \% に制限した設定に加えて，
 要素探査時に successful search を優先する設定と，unsuccessful search を優先する設定についてベンチマークする．
 \leavevmode \newline
 
@@ -134,9 +134,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
 \ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
 図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}は，
-コンパイル時 sstd::IpCHashT に successful search major option を指定した結果，
+コンパイル時 IpCHashT に successful search major option を指定した結果，
 図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}は，
-コンパイル時 sstd::IpCHashT に unsuccessful search major option を指定した結果である．
+コンパイル時 IpCHashT に unsuccessful search major option を指定した結果である．
 \leavevmode \newline
 
 %
@@ -187,8 +187,8 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \includegraphics[scale=0.24]{./fig_bench/maxLoadFactor_med.pdf}
   \caption{
     Maximum load factor which is median value of 100 samples.
-    Maximum load factor of std::IpHashT (as maxLF100) is limitted by its maximum length of shift\_T.
-    Maximum load factor of std::IpHashT (as maxLF50), google::dense\_hash\_map and ska::flat\_hash\_map is artificially limited by 50 \%.
+    Maximum load factor of IpHashT (uint16, maxLF100) is limitted by its maximum length of shift\_T.
+    Maximum load factor of IpHashT (uint8, maxLF50), dense\_hash\_map and flat\_hash\_map is artificially limited by 50 \%.
   }
   \label{fig_bench_LF}
 \end{figure}
@@ -203,9 +203,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
     Allocated memory size, which is one sample raw data.
     Peaks of memory size indicate rehash timmings.
     And the width of peaks is measurement interval since the ture peak is as narrow as one step of x axis.
-    std::unordered\_map seems to allocating memory each by insertion.
-    sstd::IpCHashTs are moved the timming of rehashing back and forth by the influence of maximum load factor.
-    ska::flat\_hash\_map while it is hard to see, is plotted on the same place of sstd::IpCHashT (uint8, maxLF50).
+    unordered\_map seems to allocating memory each by insertion.
+    IpCHashTs are moved the timming of rehashing back and forth by the influence of maximum load factor.
+    flat\_hash\_map while it is hard to see, is plotted on the same place of IpCHashT (uint8, maxLF50).
   }
   \label{fig_bench_memory}
 %  \vspace{-10mm}
@@ -220,9 +220,9 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
     In this measurement, each hash table is pre-allocated with $2.0\times10^8$.
 %    Peak of memory size indicate rehash timmings.
 %    And the width of peaks is measurement interval since the ture peak is as narrow as one step of x axis.
-    sstd::IpCHashT (uint8, maxLF100), while it is hard to see, is plotted on the same place of sstd::IpCHashT (uint8, maxLF50).
-    ska::flat\_hash\_map is initializing its table size with $2.0\times10^8$ and the others are initializing their table size with $2.0\times10^8$ as a containable size.
-    This means that the one with a rehashing peak is ska::flat\_hash\_map.
+    IpCHashT (uint8, maxLF100), while it is hard to see, is plotted on the same place of IpCHashT (uint8, maxLF50).
+    flat\_hash\_map is initializing its table size with $2.0\times10^8$ and the others are initializing their table size with $2.0\times10^8$ as a containable size.
+    This means that the one with a rehashing peak is flat\_hash\_map.
   }
   \label{fig_bench_memory_preAlloc}
 %  \vspace{-10mm}
@@ -235,7 +235,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \caption{
     Total time of insertion, which is a median value of 100 samples, using pre-allocated table.
     In this measurement, each hash table is pre-allocated with $2.0\times10^8$.
-    A discontinuous value around $1.25\textasciitilde.375\times10^8$ represents rehashing of ska::flat\_hash\_map.
+    A discontinuous value around $1.25\textasciitilde.375\times10^8$ represents rehashing of flat\_hash\_map.
     This is due to differences in the algorithms that determine the initial table size.
   }
   \label{fig_bench_insert_preAlloc}
@@ -245,7 +245,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
   \includegraphics[scale=0.24]{./fig_bench/insert_et_med.pdf}
   \caption{
     Total time of insertion, which is a median value of 100 samples, with rehashing table.
-    Chaining type of hash tables like, sstd::CHashT and sstd::IpCHashTs (especially uint16-maxLF100 option), are slow down its insertion speed as the load factor increase.
+    Chaining type of hash tables like, CHashT and IpCHashTs (especially uint16-maxLF100 option), are slow down its insertion speed as the load factor increase.
   }
   \label{fig_bench_insert_wRehash}
 \end{figure}

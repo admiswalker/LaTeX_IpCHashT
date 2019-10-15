@@ -365,7 +365,7 @@ load factor の上限は上がらない，
 定数 $a$, $b$ の最適値はともかくとして，
 実用に耐えうる定数を探すだけであれば，
 実験的に求められる．
-これには，図\ref{fig_bench_LF}に示す sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100) の load factor が最大となる，
+これには，図\ref{fig_bench_LF}に示す IpCHashT<uint64,uint64> (uint8, maxLF100) の load factor が最大となる，
 最小のパディングサイズを探せばよい．
 例えば，$a=18$, \ $b=35$, \ ${\rm limit}=254$ である．
 なお，254 以上のパディングは，少なくともテーブルサイズ $10^0〜10^{8.3}$ において，
@@ -380,7 +380,7 @@ load factor の上限は上がらない，
 第\ref{chap_Introduction}章で示したように，
 整数除算は探査速度が至上命題となる場合には，あまりにも遅い．
 したがって，
-google::dense\_hash\_map と同様に，
+dense\_hash\_map と同様に，
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，
 ハッシュ値の最下位 $k$ ビットだけをビットマスクにより取り出して，
 配列インデックスとする．

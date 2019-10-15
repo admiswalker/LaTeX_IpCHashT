@@ -112,7 +112,7 @@ sstd::IpCHashT は，多数のオプションを備えており，ベンチマ�
 {\bf ベンチマークのオプション}
 \samepage\newline\indent
 ベンチマークのオプションは，bench.hpp に定義されている．
-Successful search major option か Unsuccessful search major option かの選択は，コメントアウトにより手動で行う．
+Successful search major option か unsuccessful search major option かの選択は，コメントアウトにより手動で行う．
 
 軽くテストする場合は，limitSize を $5\times 10^6$ として \$ make, \$ ./exe\_bench を実行すると，
 ./tmpBench ディレクトリが生成され，10 分程で ベンチマーク結果が保存される．
@@ -123,9 +123,5 @@ Successful search major option か Unsuccessful search major option かの選択
 次に \$ ./exe\_sProc を実行すると，CSV ファイルから中央値が計算され，グラフとして出力される．
 中央値を用いるのは，分布の形状が不明なこと，平均処理ではグラフのエッジが潰れること，ベンチマーク中の外れ値を除去することが目的である．
 loopNum は 25 程度でも綺麗な結果が得られるため，まずは $25$ で試すとよい．
-なお，''Allocated memory size'' だけは，メモリ量の都合により ${\rm limitSize}=2\times10^7$ でベンチマークする．
-
-
-
 
 
