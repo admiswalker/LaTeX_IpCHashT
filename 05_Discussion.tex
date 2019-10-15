@@ -211,10 +211,10 @@ sstd::CHashT では，そもそもの挿入が遅い分リハッシュにも時�
 %L3 キャッシュ外となる区間 $10^6〜 10^8$ では，sstd::IpCHashT (uint8, maxLF50) と入れ替わる結果となった．
 {\bf sstd::IpCHashT (uint8, maxLF50)} は，
 これに次ぐ性能を示しており，
-複雑な挿入アルゴリズムの割に高速な挿入である．
-これは，結局のところ，挿入操作が単なる線形走査であるためである．
+複雑な挿入アルゴリズムの割に高速である．
+これは，結局のところ，巨視的には挿入操作が単なる線形走査のためである．
 しかしながら，{\bf sstd::IpCHashT (uint8, maxLF100)} と {\bf sstd::IpCHashT (uint16, maxLF100)} の示す通り，
-load factor の高い領域において，線形走査による空き領域の探査は大きく効率を落としている．
+線形走査による空き領域の探査は load factor の高い領域において大きく効率を落としている．
 {\bf sstd::CHashT} は L2，L3 キャッシュの外へ格納が増えるにしたがい，大きく速度を落としている．
 \leavevmode \newline
 
@@ -223,12 +223,12 @@ load factor の高い領域において，線形走査による空き領域の�
 {\bf 探査速度}
 \samepage\newline\indent
 図
-\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
-\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す，
+\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}，
+\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}に示す，
 探査速度とテーブルサイズの関係について考察する．
 
 %%%
-まず，successful search の速度，図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}について考察する．
+まず，successful search の速度，図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}について考察する．
 
 Successful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_s_sm} である．
 {\bf sstd::IpCHashT (uint8, maxLF50)} は，
@@ -242,27 +242,27 @@ L3 キャッシュ内から CPU キャッシュ外の区間 $1.5\times10^5〜3.5
 非常にテーブルサイズの大きな区間 $3.5\times10^7〜2.0\times10^8$ においては
 google::dense\_hash\_map の方が高速に動作している．
 
-Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_us_sm} である．
+Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_s_um} である．
 {\bf sstd::IpCHashT (uint8, maxLF50)} は，
 L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 区間 $10^2〜10^7$ の殆どに渡り 1\textasciitilde 2 番目の探査速度を保持している．
 一方で，その他のオプションの sstd::IpCHashT は，優位性のある速度に達していない．
 
 %%%
-次に，unuccessful search の速度，図\ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}について考察する．
+次に，unuccessful search の速度，図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}について考察する．
 
-Successful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_s_um} である．
+Successful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_us_sm} である．
 {\bf sstd::IpCHashT (uint8, maxLF50)} は，
-区間 $1.0\times10^2〜1.5\times10^5$ において，高速に動作するが，
-区間 $1.5\times10^5〜1.5\times10^7$ においては，{\bf ska::flat\_hash\_map} が長い区間において，最速を保持している．
+区間 $1.0\times10^2〜1.5\times10^5$ において高速に動作するが，
+区間 $1.5\times10^5〜1.5\times10^7$ においては {\bf ska::flat\_hash\_map} が最速である．
 区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い
-{\bf sstd::IpCHashT (uint8, maxLF100)} や {\bf sstd::IpCHashT (uint16, maxLF100)} が最速を保持している．
-なお，図\ref{fig_taocp_v3_fig44} (a) に示すように，Separate Chaining は，本質的に unsuccessful search に強く，
-一部区間では，{\bf sstd::CHashT} であっても，google::dense\_hash\_map を上回る速度を示している．
+{\bf sstd::IpCHashT (uint8, maxLF100)} や {\bf sstd::IpCHashT (uint16, maxLF100)} が最速である．
+なお，図\ref{fig_taocp_v3_fig44} (a) に示すように，Separate Chaining はアルゴリズム上 unsuccessful search に強く，
+一部区間では {\bf sstd::CHashT} であっても google::dense\_hash\_map を上回る速度を示している．
 
 Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_us_um} である．
 {\bf sstd::IpCHashT (uint8, maxLF50)} は，
-特に L1, L2 キャッシュに収まる区間 $1.0\times10^2〜1.5\times10^5$ では，
+特に L1, L2 キャッシュに収まる区間 $1.0\times10^2〜1.5\times10^5$ において，
 google::dense\_hash\_map の \textasciitilde4 倍程度高速に動作している．
 また，
 区間 $1.5\times10^5〜1.5\times10^7$ でも \textasciitilde3 倍程度高速に動作している．
