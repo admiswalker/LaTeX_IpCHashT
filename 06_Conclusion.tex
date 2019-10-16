@@ -83,15 +83,16 @@ dense\_hash\_map の 75 \% のメモリ使用量であることを鑑みれば�
 
 ただし，
 挿入速度に関しては，
-図\ref{fig_bench_insert} が示す通り，
-load factor が高い場合に，極端に速度が低下するため，
-図\ref{fig_bench_insert_wRehash} のように，
-リハッシュを伴う要素の挿入には，
-dense\_hash\_map の 1.7 倍程度の時間が掛かる．
+図\ref{fig_bench_insert} が示す通り load factor が高い場合に極端に速度が低下するため，
+図\ref{fig_bench_insert_wRehash} のようなリハッシュを伴う要素の挿入には，
+dense\_hash\_map の 2.1 倍程度
+\footnote{
+  $2.0\times 10^8$ 要素を挿入するとき，$52.5 {\rm[sec]}/ 25.0{\rm[sec]}=2.1$ 倍の速度差が発生している．
+}
+の時間が掛かる．
 もちろん，図\ref{fig_bench_insert_preAlloc} のように，
-事前にハッシュテーブルが初期化されており，
-load factor の比較的小さな領域を使用する場合には，
-この限りではない．
+事前にハッシュテーブルが初期化されている場合，この差は小さくなり，
+load factor の比較的小さな領域を使用する場合には，差異は軽微である．
 
 削除速度に関しては，
 図\ref{fig_bench_erase_sm} に示す通り，
@@ -128,16 +129,34 @@ CHashT よりは速い，程度の速度を保っている．
 これらの結果から，少なくとも，AMD Ryzen7 1700 上では，key type と value type が uint64 のハッシュテーブルについて，次のことが言える．
 {\bf IpCHashT (uint8, maxLF50, successful search major option)} は，successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．
 {\bf IpCHashT (uint8, maxLF50, unsuccessful search major option)} は，successful search の区間 $10^2〜10^7$ で優れた結果を，
-successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長く，使い勝手が良い．
-一方で，メモリ効率は高くなく，$10^7〜2.0\times10^8$ の巨大なハッシュテーブの場合は，大きく性能を落とす．
+successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長い．
+一方で，メモリ効率は高くなく，$10^7〜2.0\times10^8$ の巨大なハッシュテーブでは大きく性能を落とす．
+また，図\ref{alg_find_sm}，図\ref{alg_find_usm}より，
+successful search major option よりもキーの比較回数が多いため，
+キーの比較コストが大きな型では，探査速度の低下が予測される．
 {\bf IpCHashT (uint16, maxLF100, successful search major option)} は，最も高いメモリ効率を示し，
 successful search の区間 $10^5〜10^{8.3}$ において，安定した性能を示す．
 {\bf IpCHashT (uint16, maxLF100, unsuccessful search major option)} は，最も高いメモリ効率を示し，
 unsuccessful search の区間 $10^7〜10^{8.3}$ で最も優れた結果を出す．
-{\bf dense\_hash\_map} は，successful search の区間 $10^2〜10^{8.3}$ の測定範囲ほぼ全域に渡り，よい性能を示す．
-特に，巨大なテーブルの場合でも，速度低下が緩やかである．また，メモリ効率もよい．
-一方で，unuccessful search については，非常に遅い結果となった．
-また，要素の空きや削除を示すキーを登録する必要があり，登録したキーはキーとして扱えなくなる．
+
+以上より，IpCHashT の doubly linked list の in-place 実装による chaining のアルゴリズムの closed hashing 化は，
+図\ref{fig_taocp_v3_fig44}から期待されたように，
+その他のハッシュテーブルと比較して低い average number of probes となることを，
+ベンチマークにより実証した．
+特に unsuccessful search において見込まれていた，理論上は他のアルゴリズムより突出して高い探査性上も実証された．
+これらにより，世界最速の探査性能を持つハッシュテーブルアルゴリズムの一つを提案し，
+実装とベンチマークにより実証した．
+
+%ハッシュテーブルの性能は，key type や value type，テーブルサイズ等により異なる．
+%ここでは，AMD Ryzen7 1700 上では，key type と value type が uint64 のハッシュテーブル
+%このように，
+%IpCHashT が区間 $10^2〜10^7$ に渡り，高い性能を示すことを示した．
+
+
+%{\bf dense\_hash\_map} は，successful search の区間 $10^2〜10^{8.3}$ の測定範囲ほぼ全域に渡り，よい性能を示す．
+%特に，巨大なテーブルの場合でも，速度低下が緩やかである．また，メモリ効率もよい．
+%一方で，unuccessful search については，非常に遅い結果となった．
+%また，要素の空きや削除を示すキーを登録する必要があり，登録したキーはキーとして扱えなくなる．
 
 
 
