@@ -65,8 +65,22 @@ struct element{
 };
 \end{lstlisting}
 \caption{
-  psude.
-  \protect\linebreak IpCHashT 要素の C++ 擬似構造体．T\_key はキーの型，T\_val は val の型である．
+  Pseudo C++ data structure for IpCHashT element. ``T\_key'' is a key type and ``T\_val'' is val a value type.
+  ``T\_shift'' is used for double linked lists and specifies uint8 or uint16.
+  Specifying a type larger than uint16 has little merit.
+  ``prev'' indicates the distance from the previous element and 
+  ``next'' indicates the distance from next element.
+  Unlike the address in the pointer, the link list is expressed in the interval $[0, {\rm max(T\_shift)}-1]$,
+  then max(T\_shift) is the maximum possible value of T\_shift type.
+  ``$0$'' indicates itself and ``${\rm max(T\_shift)}-1$'' is the maximum link distance.
+  There is no method to link outside of a section.
+  ``max(T\_shift)'' is reserved for prev, and ``prev==max(T\_shift)'' indicates that the element is empty.
+  ``prev==0'' indicates that the element is the head of the linked list,
+  and ``next==0'' indicates that the element is the tail of the linked list.
+  \\
+  %%%
+  {\bf 図\ref{fig_IpCHashT_struct}}
+  IpCHashT 要素の C++ 擬似構造体．T\_key はキーの型，T\_val は val の型である．
   T\_shift は双方向リストに用いる型で，uint8 または uint16 を指定する．
   uint16 より大きな型を指定するメリットは殆どない．
   prev は 前の要素までの相対距離を，next は 次の要素までの相対距離を表す．
