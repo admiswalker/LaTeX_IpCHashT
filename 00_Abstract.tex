@@ -111,12 +111,11 @@ primary clustering により，
 そのため，双方向リスト構造は，
 要素の接続をポインタではなく uint8 または uint16 を用いた相対位置による in-place 実装により実現した．
 
-key-value ペアにそれぞれ uint64 を用いた結果，
-双方向リスト構造に uint8 を用いた場合は，
+Key と value に uint64 を用いた結果として，
+uint8 を双方向リスト構造に用いた場合は，
 テーブルサイズ $10^2〜10^{7}$ において，従来手法よりも高速な successful search または unsuccessful search を実現した．
-また，
-uint16 を用いた場合は，closed hashing として従来手法より 30 \%\footnote{従来の 75 \% のメモリ使用率．} 程度高いメモリ効率と，
-サイズが $10^7〜10^{8.3}$ の巨大なテーブルにおいて，高い successful search または従来手法より高速な unsuccessful search を実現した．
+uint16 を用いた場合は，closed hashing として従来手法より 25 \%\footnote{従来の 75 \% のメモリ使用率．} 程度高いメモリ効率を実現した．
+また，サイズが $10^7〜10^{8.3}$ の巨大なテーブルにおいて，高い successful search または従来手法より高速な unsuccessful search を実現した．
 {\bf \color{red}メモ:ニュアンスが微妙なので，最後にもう一度調整する．}
 
 
