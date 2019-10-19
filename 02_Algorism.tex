@@ -8,26 +8,25 @@ Linear probing や quadratic probing など
 本来 1 回目の探査でアクセスできるキーであっても，
 probing により衝突を解決しなければならない．
 Robin Hood hashing は，1 回でアクセスできる位置に要素を移動できるものの，
-ハッシュ先の重複 \footnote{secondary clustering．} に対しては線形探査が必要となる．
+ハッシュ先の重複\footnote{secondary clustering．} に対しては線形探査が必要となる．
 
 本研究では，
 ハッシュ先が別のキーの退避先として利用されてしまう primary clustering に付随した問題に対して，
-逆方向リストを辿ることで，要素が使用済みの場合でも適切に移動し，
+逆方向にリストを辿ることで，要素が使用済みの場合でも適切に移動し，
 ハッシュ先が必ず 1 つ目の要素となるように調整する．
-また，平均探査回数を削減するため，
-順方向リストにより，次に探査すべき配列インデックスを示す．
+また，要素探査時は，
+順方向にリストを辿ることで平均探査回数を削減する．
 メモリ使用量を削減するため，リストは int 型により相対位置を記録し，
 これら順方向と逆方向を合わせて双方向リスト構造とする．
-以上のアルゴリズムを実現したハッシュテーブルを，
-In-place chained hash table と呼ぶこととし，
-以降，省略して IpCHashT と表記する．
+以上のアルゴリズムを実現するハッシュテーブルを in-place chained hash table と呼ぶこととし，
+以降，IpCHashT と略記する．
 
 IpCHashT のデータ構造における提案は，本質的に \cite{ADMIS2017} の提案と同様である．
 以下，
 図\ref{fig_IpCHashT_struct}，
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
 図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
-\cite{ADMIS2017} に由来する図である．
+\cite{ADMIS2017} に由来する．
 ただし，本研究では，
 挿入アルゴリズムに新しく soft insertion を採用している．
 探査においても，
@@ -36,8 +35,6 @@ unsuccessful search を優先するオプションについて新たに実装と
 また，パディングサイズは従来固定であったが，
 テーブルサイズによってパディングサイズを動的に変更することで，
 テーブルサイズが小さい場合に最大 load factor が低下する問題に対処する．
-加えて，テンプレートを用いて実装するにあたり，
-ソフトウェアをフルスクラッチで書き直す．
 要素の挿入においては，操作手順を再検討し，より簡潔な実装とする．
 
 IpCHashT では，図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
@@ -68,7 +65,8 @@ struct element{
 };
 \end{lstlisting}
 \caption{
-  IpCHashT 要素の C++ 擬似構造体．T\_key はキーの型，T\_val は val の型である．
+  psude.
+  \protect\linebreak IpCHashT 要素の C++ 擬似構造体．T\_key はキーの型，T\_val は val の型である．
   T\_shift は双方向リストに用いる型で，uint8 または uint16 を指定する．
   uint16 より大きな型を指定するメリットは殆どない．
   prev は 前の要素までの相対距離を，next は 次の要素までの相対距離を表す．

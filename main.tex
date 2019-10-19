@@ -1,7 +1,10 @@
-%\documentclass[twoside,openright,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
-\documentclass[oneside,openright,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
-%\documentclass[report,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
-%\documentclass[openany,uplatex]{jsbook} % oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
+%\documentclass[oneside,openright,uplatex]{jsbook} 
+\documentclass[oneside,openany,uplatex]{jsbook}
+%\documentclass[twoside,openright,uplatex]{jsbook}
+%\documentclass[twoside,openany,uplatex]{jsbook}
+%\documentclass[report,uplatex]{jsbook}
+%\documentclass[openany,uplatex]{jsbook}
+% oneside: 章ごとに改ページ．twoside: 章の初めが右側となるように改ページ．
 
 % jsbookで余白が広すぎるのを直す
 % 参照 https://oku.edu.mie-u.ac.jp/~okumura/jsclasses/
@@ -101,7 +104,13 @@
 %\setlength\floatsep{0pt}         % 図と図の間の余白
 %\setlength\textfloatsep{0pt}     % 本文と図の間の余白
 %\setlength\intextsep{0pt}        % 本文中の図の余白
-\setlength\abovecaptionskip{-3pt} % 図とキャプションの間の余白
+\setlength\abovecaptionskip{0pt} % 図とキャプションの間の余白
+
+\usepackage{caption}
+\captionsetup[figure]{format=plain, labelformat=simple, labelsep=period, font=normalsize} %\captionsetup[figure]{format=plain, labelformat=simple, labelsep=period, font=footnotesize}
+\renewcommand{\figurename}{\bf Figure} % \renewcommand{\figurename}{Fig.}
+\captionsetup[table]{format=plain, labelformat=simple, labelsep=period, font=normalsize} % \captionsetup[table]{format=plain, labelformat=simple, labelsep=period, font={sc, footnotesize}}
+\renewcommand{\tablename}{\bf Table}
 
 %\usepackage{here} % \begin{figure}[H]
 
