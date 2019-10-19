@@ -24,7 +24,7 @@ successful search でも $\alpha = 0.85$ 前後において，
 一方で，chaining を利用する C, S, SO については，
 性能悪化は限られることが分かる．
 このとき，
-C は coalesced chaining\footnote{Closed hashing の一種で singly linked list により，次に辿る要素を示す．}，
+C は coalesced chaining\footnote{Closed hashing の一種で片方向リストにより，次に辿る要素を示す．}，
 S は separate chaining，
 SO は separate chaining with ordered lists である．
 
@@ -132,8 +132,8 @@ Robin Hood hashing の実装の内の一つ．
 条件によっては dense\_hash\_map より探査が高速である．
 {\bf \color{red}メモ:どのような条件で最も高速であるか，引用して書く．例：XX において，YY という条件で，dense\_hash\_map より高い探査性能を示すことが報告されている．}
 Robin Hood hashing は衝突解決法の一つで，
-singly linked list によりハッシュ先のテーブルアドレスを示しており，
-次の要素位置を示す coalesced chaining とは singly linked list の使い方が逆である．
+片方向リストによりハッシュ先のテーブルアドレスを示しており，
+次の要素位置を示す coalesced chaining とは片方向リストの使い方が逆である．
 本来の挿入位置が分かるため，
 要素挿入時に，より近い位置へ要素が移動するよう調整できる．
 探査時には，ハッシュ先になるべく近い位置へ移動させられた要素を linear probing により照合する．
@@ -179,7 +179,7 @@ Quadratic probing では primary clustering の影響は小さいものの，
 primary clustering の影響を完全に避けるために chain 構造を採用し，
 高いキャッシュ効率を得るために closed hashing を用いる．
 このとき，closed hashing に chain 構造を実現するために，
-doubly linked list を in-place 実装する．
+双方向リストを in-place 実装する．
 これにより，従来より高い探査性能を持つハッシュテーブルを実現することが目的である．
 
 

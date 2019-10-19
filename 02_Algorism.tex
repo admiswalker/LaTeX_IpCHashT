@@ -42,11 +42,11 @@ unsuccessful search を優先するオプションについて新たに実装と
 
 IpCHashT では，図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
 各要素には key-value ペアの他に，linked list のための prev 要素と next 要素を持つ．
-T\_shift には uint8 または uint16 型を用い，相対位置による doubly linked list を構成する．
+T\_shift には uint8 または uint16 型を用い，相対位置による双方向リストを構成する．
 これは，ポインタ接続におけるメモリ消費量が無視できないためである
 \footnote{
   例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
-  テープルサイズの 50\% が doubly linked list に由来する．
+  テープルサイズの 50\% が双方向リストに由来する．
 }．
 \leavevmode \newline
 
@@ -69,7 +69,7 @@ struct element{
 \end{lstlisting}
 \caption{
   IpCHashT 要素の C++ 擬似構造体．T\_key はキーの型，T\_val は val の型である．
-  T\_shift は doubly linked list に用いる型で，uint8 または uint16 を指定する．
+  T\_shift は双方向リストに用いる型で，uint8 または uint16 を指定する．
   uint16 より大きな型を指定するメリットは殆どない．
   prev は 前の要素までの相対距離を，next は 次の要素までの相対距離を表す．
   ポインタにおけるアドレスとは異なり，区間 [0, max(T\_shift) - 1] の範囲でリンクを表現する．
@@ -129,7 +129,7 @@ struct element{
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号を説明している．
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
 丸印ひとつ一つが配列要素を，
-双方向に張られた２つの矢印が doubly linked list を表す．
+双方向に張られた２つの矢印が双方向リストを表す．
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
 ２辺を共有した四角形の連なりにより表現されることが多い．

@@ -50,7 +50,7 @@ unordered\_map 前後のメモリ使用量を示しており，
 いずれもほぼ同じメモリ使用量を示している．
 図\ref{fig_bench_LF}より，
 {\bf CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上の最大 load factor を維持しているものの，
-ポインタによる singly linked list の構築には，1 要素あたり 8 Byte\footnote{64 bits CPU のため．} 必要としており，
+ポインタによる片方向リストの構築には，1 要素あたり 8 Byte\footnote{64 bits CPU のため．} 必要としており，
 多くのメモリを消費する結果となった．
 Load factor の高い区間において，
 メモリ使用量が増加しており，

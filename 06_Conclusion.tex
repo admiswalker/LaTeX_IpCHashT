@@ -4,7 +4,7 @@
 %結論について記述する．
 
 本投稿では，
-doubly linked list 構造を内包する closed hashing アルゴリズムとして，
+双方向リスト構造を内包する closed hashing アルゴリズムとして，
 In-place Chained Hash Table を提案した．
 図\ref{fig_taocp_v3_fig44}に示すように，
 chaining 系のアルゴリズムは，successful search に加え，
@@ -131,15 +131,15 @@ CHashT よりは速い，程度の速度を保っている．
 {\bf IpCHashT (uint8, maxLF50, unsuccessful search major option)} は，successful search の区間 $10^2〜10^7$ で優れた結果を，
 successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長い．
 一方で，メモリ効率は高くなく，$10^7〜2.0\times10^8$ の巨大なハッシュテーブでは大きく性能を落とす．
-また，図\ref{alg_find_sm}，図\ref{alg_find_usm}より，
-successful search major option よりもキーの比較回数が多いため，
+また，図\ref{alg_find_sm}，図\ref{alg_find_usm}で示されるように，
+successful search major option よりもキーの比較回数が多くなるため，
 キーの比較コストが大きな型では，探査速度の低下が予測される．
 {\bf IpCHashT (uint16, maxLF100, successful search major option)} は，最も高いメモリ効率を示し，
 successful search の区間 $10^5〜10^{8.3}$ において，安定した性能を示す．
 {\bf IpCHashT (uint16, maxLF100, unsuccessful search major option)} は，最も高いメモリ効率を示し，
 unsuccessful search の区間 $10^7〜10^{8.3}$ で最も優れた結果を出す．
 
-以上より，IpCHashT の doubly linked list の in-place 実装による chaining のアルゴリズムの closed hashing 化は，
+以上より，IpCHashT の双方向リスト構造の in-place 実装による chaining のアルゴリズムの closed hashing 化は，
 図\ref{fig_taocp_v3_fig44}から期待されたように，
 その他のハッシュテーブルと比較して低い average number of probes となることを，
 ベンチマークにより実証した．
