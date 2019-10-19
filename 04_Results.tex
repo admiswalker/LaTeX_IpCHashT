@@ -42,9 +42,9 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 ``Separate chaining with list head cells''
 \footnote{``Separate chaining with linked lists'' がテーブルにポインタしか持たず，
 ポインタで接続した先から初めて key-value ペアを持つのに対して，
-``Separate chaining with list head cells'' ではテーブルにも key-value ペアを格納する．} の実装の一つ．
+``Separate chaining with list head cells'' ではテーブルにも key-value ペアを格納する．} の実装の 1 つ．
 アルゴリズム比較用のサンプル実装として，
-最もシンプルなハッシュテーブルアルゴリズムの一つを選択した．
+最もシンプルなハッシュテーブルアルゴリズムの 1 つを選択した．
 本実装では，
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
 全要素数がテーブルサイズを超える場合はリハッシュする．
@@ -53,7 +53,7 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF50)}
 \samepage\newline\indent
-提案アルゴリズムの実装の一つ．
+提案アルゴリズムの実装の 1 つ．
 uint8 により linked list を構成する．
 Load factor の最大値を 50 \% に制限している．
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
@@ -63,7 +63,7 @@ Load factor の最大値を 50 \% に制限している．
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100)}
 \samepage\newline\indent
-提案アルゴリズムの実装の一つ．
+提案アルゴリズムの実装の 1 つ．
 uint8 により linked list を構成する．
 Load factor の制限はなく，link 距離が ``${\rm uint8} の最大値 - 1 = 254$'' を超えるか，テーブルが全て埋まるまで要素を挿入する．
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
@@ -73,7 +73,7 @@ Load factor の制限はなく，link 距離が ``${\rm uint8} の最大値 - 1 
 %
 {\bf sstd::IpCHashT<uint64,uint64> (as uint16 and maxLF100)}
 \samepage\newline\indent
-提案アルゴリズムの実装の一つ．
+提案アルゴリズムの実装の 1 つ．
 uint16 により linked list を構成する．
 Load factor の制限はなく，link 距離が ``$uint16 の最大値 - 1 = 65534$'' を超えるか，テーブルが全て埋まるまで要素を挿入する．
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
@@ -83,9 +83,9 @@ Load factor の制限はなく，link 距離が ``$uint16 の最大値 - 1 = 655
 %
 {\bf google::dense\_hash\_map<uint64,uint64>}
 \samepage\newline\indent
-Quadratic probing の実装の一つ．
+Quadratic probing の実装の 1 つ．
 メモリ効率が高く，探査速度が速い一方，
-キーの値の一つを空マークに，削除を行う場合は更にもう一つのキー値を削除マークとして登録する必要がある．
+キーの値の 1 つを空マークに，削除を行う場合は更にもう 1 つのキー値を削除マークとして登録する必要がある．
 登録された値は，キーとして使用できない．
 登録には set\_empty\_key() 関数と set\_deleted\_key() 関数を用いる．
 テーブルサイズは $2^k-1\ \ (k=1,2,...)$ であり，ハッシュ値の最下位 $k$ ビットを配列インデックスとしている．
@@ -94,7 +94,7 @@ Quadratic probing の実装の一つ．
 %
 {\bf ska::flat\_hash\_map<uint64,uint64,ska::power\_of\_two\_std\_hash<uint64>>}
 \samepage\newline\indent
-Robin Hood Hashing の実装の一つ．
+Robin Hood Hashing の実装の 1 つ．
 ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ としており，ハッシュ値の最下位 $k$ ビットを配列インデックスとしている．
 \leavevmode \newline

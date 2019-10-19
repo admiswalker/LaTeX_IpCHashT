@@ -8,7 +8,7 @@ Linear probing や quadratic probing など
 本来 1 回目の探査でアクセスできるキーであっても，
 probing により衝突を解決しなければならない．
 Robin Hood hashing は，1 回でアクセスできる位置に要素を移動できるものの，
-ハッシュ先の重複 \footnote{secondary clustering．} に対しては，linear probing が必要となる．
+ハッシュ先の重複 \footnote{secondary clustering．} に対しては線形探査が必要となる．
 
 本研究では，
 ハッシュ先が別のキーの退避先として利用されてしまう primary clustering に付随した問題に対して，
@@ -87,7 +87,7 @@ struct element{
     図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号．
     ``Ope.''は，実行順序を表し，``Ope. 0'' の場合は初期状態を意味する．
     下向き矢印は，ハッシュ値の示す配列アドレス上に置かれる．
-    各要素は，丸１つと prev locator １つ，next locator １つで構成されるが，
+    各要素は，丸 1 つと prev locator 1 つ，next locator 1 つで構成されるが，
     接続が無い場合 locator は省略される．
     点線で書かれた丸は空の要素を表し，緑の枠線と矢印は要素の移動を表す．
     バツ印は linked list の削除表す．
@@ -128,7 +128,7 @@ struct element{
 図\ref{fig_IpCHashT_fig_description}では，
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号を説明している．
 図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
-丸印ひとつ一つが配列要素を，
+丸印ひとつ 1 つが配列要素を，
 双方向に張られた２つの矢印が双方向リストを表す．
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
@@ -152,7 +152,7 @@ Open hashing を用いたハッシュテーブルの説明では，
 可能な限り連続した位置に配置することで逐次的局所性を，
 それぞれ高め，キャッシュミスを削減する．
 
-key-value ペアを１つ挿入するには，
+key-value ペアを 1 つ挿入するには，
 次の 1) 〜 4) の場合を考える．
 1) ハッシュ先の配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
 2) 既に要素が挿入されており chain の間に空きがある場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
@@ -161,7 +161,7 @@ key-value ペアを１つ挿入するには，
 図\ref{fig_IpCHashT_insert_hard_case04}〜\ref{fig_IpCHashT_insert_hard_case11}のように挿入する．
 要素の退避先と locator の再接続先との兼ね合いのため，4) には多くの場合分けが必要となる．
 
-chain 間に空きは，線形走査により調べる．
+chain 間に空きは，線形探査により調べる．
 これには，対象の要素を全て調べ上げる必要があり，処理に時間が掛かる．
 また，11 通りの場合分けを全て実装するには非常に手間も掛かる．
 図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}に示す場合分けは，
@@ -272,7 +272,7 @@ template <class T_key, class T_val>
 通常，linked list の要素を削除するには，要素を削除した上で，ポインタを繋ぎ変えればよい．
 しかし，IpCHashT では，幾つかの場合を考慮する必要がある．
 
-key-value ペアを１つ削除するには，
+key-value ペアを 1 つ削除するには，
 次の 1) 〜 4) と，メモリの断片化を防ぐ処理として 5) を考える．
 1) 単一要素の場合は，図\ref{fig_IpCHashT_deletion_case01}のように単に削除する．
 2) 末尾要素を削除する場合は，図\ref{fig_IpCHashT_deletion_case02}のように要素と locator を削除する．
@@ -283,7 +283,7 @@ key-value ペアを１つ削除するには，
 図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}のように，
 chain の要素間に空きができ，断片化する場合がある．これを
 図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}に示す操作を繰り返すことにより修正する．
-ただし，空き要素の探査は線形走査する必要がある．
+ただし，空き要素の探査は線形探査する必要がある．
 また，要素を移動させる度に別の chain に空きができる可能性があるため，再帰的に行う必要がある．
 この処理は，実行コストが高いため推奨しない．
 
@@ -483,7 +483,7 @@ dense\_hash\_map と同様に，
   \caption{
     Deletion case05.
     削除時の断片化を低減する処理．
-    空き要素を線形走査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case05}
 %\end{figure}
@@ -493,7 +493,7 @@ dense\_hash\_map と同様に，
   \caption{
     Deletion case06.
     削除時の断片化を低減する処理．
-    空き要素を線形走査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case06}
 \end{figure}
