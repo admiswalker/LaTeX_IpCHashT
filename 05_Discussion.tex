@@ -8,7 +8,7 @@
 %\section{最大 load factor}
 {\bf 最大 load factor}
 \samepage\newline\indent
-図\ref{fig_bench_LF}に示す，最大 load factor とテーブルサイズの関係について考察する．
+Fig. \ref{fig_bench_LF}に示す，最大 load factor とテーブルサイズの関係について考察する．
 {\bf unordered\_map} はテーブルサイズ $10^2$ 未満で load factor が低いものの，
 区間 $10^2〜10^8$ において，高い load factor を示している．
 {\bf CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上を維持している．
@@ -29,7 +29,7 @@ load factor が単調に減少していく．
 %\section{メモリ使用量}
 {\bf メモリ使用量}
 \samepage\newline\indent
-図\ref{fig_bench_memory}に示す，メモリ使用量とテーブルサイズの関係について考察する．
+Fig. \ref{fig_bench_memory}に示す，メモリ使用量とテーブルサイズの関係について考察する．
 複数のピークはリハッシュを示す．
 ピークは幅を持っているが，これは測定間隔に等しく，実際には要素 1 つ分の幅しか持たない．
 {\bf unordered\_map} は要素数にしたがって，ほぼ線形にメモリ使用量を増加させている．
@@ -38,7 +38,7 @@ load factor が単調に減少していく．
 アルゴリズムは ``Separate chaining with linked lists'' であると推察される．
 {\bf IpCHashT (uint16, maxLF100)} は
 殆どの区間で最も高いメモリ効率を示しており，
-図\ref{fig_bench_LF}で示した最大 load factor の高さを反映する結果となった．
+Fig. \ref{fig_bench_LF}で示した最大 load factor の高さを反映する結果となった．
 一部，他のハッシュテーブルとは異なるタイミングでリハッシュが発生しており，
 load factor が 100 \% まで達していないことを示している．
 {\bf dense\_hash\_map} は
@@ -48,7 +48,7 @@ unordered\_map 前後のメモリ使用量を示しており，
 メモリ効率を高める実装の特性が現れている．
 {\bf CHashT}，{\bf IpCHashT (uint8, maxLF50)}，{\bf flat\_hash\_map} は，
 いずれもほぼ同じメモリ使用量を示している．
-図\ref{fig_bench_LF}より，
+Fig. \ref{fig_bench_LF}より，
 {\bf CHashT} は区間 $10^1〜10^8$ に渡り 72.5 \% 以上の最大 load factor を維持しているものの，
 ポインタによる片方向リストの構築には，1 要素あたり 8 Byte\footnote{64 bits CPU のため．} 必要としており，
 多くのメモリを消費する結果となった．
@@ -67,7 +67,7 @@ IpCHashT (uint8, maxLF50) と IpCHashT (uint16, maxLF100) の
 およそ中間でリハッシュする挙動を示している．
 
 {\bf dense\_hash\_map}と{\bf IpCHashT (uint8, maxLF50)}，{\bf IpCHashT (uint16)}の
-理論値なメモリ使用量と図\ref{fig_bench_memory}に示す実測値を比較する．
+理論値なメモリ使用量とFig. \ref{fig_bench_memory}に示す実測値を比較する．
 まず，{\bf dense\_hash\_map}は，
 \begin{eqnarray*}
   {\rm memory\ size|_{type=dense\_hash\_map}} &=& ({\rm key\ size} + {\rm value\ size}) \times ({\rm elements} / {\rm max\ load\ factor}) {\rm\ [Byte]}\\
@@ -122,7 +122,7 @@ IpCHashT の uint8 や uint16 は，next probe と prev probe を合わせて ui
   = \frac{2}{3}\approx& 0.67
 \end{eqnarray*}
 となる．
-実測値は，図\ref{fig_bench_memory}より，要素数 $1.5\times 10^8$ のとき，8 GB と 12 GB であるから，
+実測値は，Fig. \ref{fig_bench_memory}より，要素数 $1.5\times 10^8$ のとき，8 GB と 12 GB であるから，
 \begin{eqnarray*}
   \frac{8 {\rm\ [GByte]}}{12 {\rm\ [GByte]}}
   = \frac{2}{3}\approx& 0.67
@@ -134,7 +134,7 @@ IpCHashT の uint8 や uint16 は，next probe と prev probe を合わせて ui
   \frac{24 \times {\rm elements} {\rm\ [Byte]}}{32 \times {\rm elements} {\rm\ [Byte]}}
   = \frac{3}{4}= 0.75
 \end{eqnarray*}
-となる．実測値は，図\ref{fig_bench_memory}より，要素数 $1.5\times 10^8$ のとき，6 GB と 8 GB であるから，
+となる．実測値は，Fig. \ref{fig_bench_memory}より，要素数 $1.5\times 10^8$ のとき，6 GB と 8 GB であるから，
 \begin{eqnarray*}
   \frac{6 {\rm\ [GByte]}}{8 {\rm\ [GByte]}}
   = \frac{3}{4}= 0.75
@@ -142,7 +142,7 @@ IpCHashT の uint8 や uint16 は，next probe と prev probe を合わせて ui
 となる．したがって，理論値と実測値は一致する．
 
 
-図\ref{fig_bench_memory_preAlloc}に示す，
+Fig. \ref{fig_bench_memory_preAlloc}に示す，
 ハッシュテーブルのサイズを $2\times10^8$ で初期化した場合の，
 メモリ使用量とテーブルサイズの関係について考察する．
 {\bf flat\_hash\_map} は，
@@ -154,14 +154,14 @@ load factor が 50 \% となる要素数 $268435455/2=134217727.5$ を含んで�
 {\bf unordered\_map} や {\bf CHashT}，{\bf IpCHashTs}，{\bf dense\_hash\_map} は，
 リハッシュせずに挿入可能な要素数が $2\times10^8$ となるように制御されている．
 このとき，
-図\ref{fig_bench_memory}と図\ref{fig_bench_memory_preAlloc}の比較から
+Fig. \ref{fig_bench_memory}とFig. \ref{fig_bench_memory_preAlloc}の比較から
 {\bf CHashT}，{\bf IpCHashTs}，{\bf dense\_hash\_map} は
 ほぼ倍の $2^k-1|_{k=29}$ に，
 {\bf unordered\_map} は  $2^k-1|_{k=29}$ よりは小さいサイズに，それぞれ初期化されていると考えられる．
 加えて，
 {\bf CHashT} は，
 テーブルサイズの増加に伴い，緩やかにメモリ使用量を増加させている．
-このため，図\ref{fig_bench_memory} において，メモリ使用量の変化が折れ線に見えるのは，
+このため，Fig. \ref{fig_bench_memory} において，メモリ使用量の変化が折れ線に見えるのは，
 メモリ使用量測定時の解像度不足と考えられる．
 \leavevmode \newline
 
@@ -169,11 +169,11 @@ load factor が 50 \% となる要素数 $268435455/2=134217727.5$ を含んで�
 %\section{挿入速度}
 {\bf 挿入速度}
 \samepage\newline\indent
-図\ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す，挿入速度とテーブルサイズの関係について考察する．
+Fig. \ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す，挿入速度とテーブルサイズの関係について考察する．
 
-図\ref{fig_bench_insert_preAlloc} は，
+Fig. \ref{fig_bench_insert_preAlloc} は，
 テーブルのメモリを事前に確保した場合の挿入速度の累積時間である．
-ただし，図\ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
+ただし，Fig. \ref{fig_bench_insert} のように，挿入速度はテーブルサイズに依存しており，
 ここでは，$2.0\times10^8$ に初期化されたハッシュテーブルの速度を示す．
 先の{\bf メモリ使用量}の項目で示した通り，
 {\bf flat\_hash\_map}は実テーブルサイズが $2.0\times10^8$ より大きな最小の $2^k-1\ (k=1,2,...)$ となるように，
@@ -185,14 +185,14 @@ $2.0\times10^8$ 要素挿入時の経過時間は，
 {\bf IpCHashT (uint16, maxLF100)}・{\bf flat\_hash\_map}と，
 {\bf CHashT}と，
 {\bf unordered\_map} に別れる．
-挿入速度は，図\ref{fig_bench_insert}のようなテーブルサイズに依存するため，一概には言えないが，
+挿入速度は，Fig. \ref{fig_bench_insert}のようなテーブルサイズに依存するため，一概には言えないが，
 {\bf IpCHashT (uint16, maxLF100)}では load factor の増加に従い，挿入に時間が掛かっている．
 また，
 {\bf CHashT}や，特に{\bf unordered\_map}は，堅調に時間が掛かっている．
 
-図\ref{fig_bench_insert_wRehash} は，
+Fig. \ref{fig_bench_insert_wRehash} は，
 テーブルサイズを 0 で初期化した場合の挿入速度の累積時間である．
-図\ref{fig_bench_insert_preAlloc} と比較して，
+Fig. \ref{fig_bench_insert_preAlloc} と比較して，
 {\bf CHashT} と {\bf IpCHashT (uint16, maxLF100)} の累積時間の増加が顕著である．
 CHashT では，そもそもの挿入が遅い分リハッシュにも時間が掛かっている．
 また，IpCHashT (uint16, maxLF100) では，load factor の増加に伴い，空き要素の線形探査に時間が掛かるためである．
@@ -204,7 +204,7 @@ CHashT では，そもそもの挿入が遅い分リハッシュにも時間が�
 {\bf IpCHashT (uint8, maxLF50)}，{\bf IpCHashT (uint8, maxLF100)}，{\bf flat\_hash\_map}，{\bf dense\_hash\_map} は
 同程度のオーダーであると考えられる．
 
-図\ref{fig_bench_insert} は，
+Fig. \ref{fig_bench_insert} は，
 テーブルサイズと挿入速度の関係である．
 キャッシュの変わり目を除き，{\bf dense\_hash\_map}及び{\bf flat\_hash\_map} が広い区間で高い性能を示している．
 %{\bf dense\_hash\_map} は，L2 キャッシュに乗る区間 $10^2〜 10^5$ では，flat\_hash\_map に次ぐ速度を示すものの，
@@ -222,19 +222,19 @@ CHashT では，そもそもの挿入が遅い分リハッシュにも時間が�
 %\section{探査速度}
 {\bf 探査速度}
 \samepage\newline\indent
-図
+Fig. 
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}，
 \ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}に示す，
 探査速度とテーブルサイズの関係について考察する．
 
 %%%
-まず，successful search の速度，図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}について考察する．
+まず，successful search の速度，Fig. \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}について考察する．
 
-Successful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_s_sm} である．
+Successful major option をコンパイル時に IpCHashT へ指定した速度は，Fig. \ref{fig_bench_find_s_sm} である．
 {\bf IpCHashT (uint8, maxLF50)} は，
 L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 区間 $10^2〜10^7$ の殆どに渡り最速の探査性能を示す．
-{\bf IpCHashT (uint16, maxLF100)} は図\ref{fig_bench_memory} に示すように
+{\bf IpCHashT (uint16, maxLF100)} はFig. \ref{fig_bench_memory} に示すように
 dense\_hash\_map の 75 \% のメモリ使用量であるにも関わらず，
 L3 キャッシュ内から CPU キャッシュ外の区間 $1.5\times10^5〜3.5\times10^7$ において，
 同程度の速度を保持している．
@@ -242,25 +242,25 @@ L3 キャッシュ内から CPU キャッシュ外の区間 $1.5\times10^5〜3.5
 非常にテーブルサイズの大きな区間 $3.5\times10^7〜2.0\times10^8$ においては
 dense\_hash\_map の方が高速に動作している．
 
-Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_s_um} である．
+Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，Fig. \ref{fig_bench_find_s_um} である．
 {\bf IpCHashT (uint8, maxLF50)} は，
 L2 キャッシュから溢れるテーブルサイズ $10^5$ 前後を除き，
 区間 $10^2〜10^7$ の殆どに渡り 1\textasciitilde 2 番目の探査速度を保持している．
 一方で，その他のオプションの IpCHashT は，優位性のある速度に達していない．
 
 %%%
-次に，unuccessful search の速度，図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}について考察する．
+次に，unuccessful search の速度，Fig. \ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}について考察する．
 
-Successful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_us_sm} である．
+Successful major option をコンパイル時に IpCHashT へ指定した速度は，Fig. \ref{fig_bench_find_us_sm} である．
 {\bf IpCHashT (uint8, maxLF50)} は，
 区間 $1.0\times10^2〜1.5\times10^5$ において高速に動作するが，
 区間 $1.5\times10^5〜1.5\times10^7$ においては {\bf flat\_hash\_map} が最速である．
 区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い
 {\bf IpCHashT (uint8, maxLF100)} や {\bf IpCHashT (uint16, maxLF100)} が最速である．
-なお，図\ref{fig_taocp_v3_fig44} (a) に示すように，Separate Chaining はアルゴリズム上 unsuccessful search に強く，
+なお，Fig. \ref{fig_taocp_v3_fig44} (a) に示すように，Separate Chaining はアルゴリズム上 unsuccessful search に強く，
 一部区間では {\bf CHashT} であっても dense\_hash\_map を上回る速度を示している．
 
-Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，図\ref{fig_bench_find_us_um} である．
+Unsuccessful major option をコンパイル時に IpCHashT へ指定した速度は，Fig. \ref{fig_bench_find_us_um} である．
 {\bf IpCHashT (uint8, maxLF50)} は，
 特に L1, L2 キャッシュに収まる区間 $1.0\times10^2〜1.5\times10^5$ において，
 dense\_hash\_map の \textasciitilde4 倍程度高速に動作している．
@@ -268,21 +268,21 @@ dense\_hash\_map の \textasciitilde4 倍程度高速に動作している．
 区間 $1.5\times10^5〜1.5\times10^7$ でも \textasciitilde3 倍程度高速に動作している．
 一方で，
 区間 $1.5\times10^7〜2.0\times10^8$ においては，よりメモリ効率の高い {\bf IpCHashT (uint16, maxLF100)} が速度を伸ばした．
-図\ref{fig_bench_find_us_um}の結果は特に，Chaining 系のアルゴリズムが高速に動作する結果となった．
+Fig. \ref{fig_bench_find_us_um}の結果は特に，Chaining 系のアルゴリズムが高速に動作する結果となった．
 \leavevmode \newline
 
 %
 %\section{削除速度}
 {\bf 削除速度}
 \samepage\newline\indent
-図\ref{fig_bench_erase_sm}，\ref{fig_bench_erase_um}に示す，削除速度とテーブルサイズの関係について考察する．
+Fig. \ref{fig_bench_erase_sm}，\ref{fig_bench_erase_um}に示す，削除速度とテーブルサイズの関係について考察する．
 
 まず，速度の違いについて，
 successful major option を指定した場合と，
 unsuccessful major option を指定した場合の違いについて考察する．
 このベンチマークでは，存在する key-value ペアを削除しているため，
-図\ref{fig_bench_erase_sm}に示す successful search を優先する設定が，
-図\ref{fig_bench_erase_um}に示す unsuccessful search を優先する設定より高速に処理すると期待されたが，
+Fig. \ref{fig_bench_erase_sm}に示す successful search を優先する設定が，
+Fig. \ref{fig_bench_erase_um}に示す unsuccessful search を優先する設定より高速に処理すると期待されたが，
 明白な違いは認められなかった．
 これは，単に計算量がオーダーで異なるため，
 違いが埋もれていると考えられる．

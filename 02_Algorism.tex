@@ -23,9 +23,9 @@ Robin Hood hashing は，1 回でアクセスできる位置に要素を移動�
 
 IpCHashT のデータ構造における提案は，本質的に \cite{ADMIS2017} の提案と同様である．
 以下，
-図\ref{fig_IpCHashT_struct}，
-図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
-図\ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
+Fig. \ref{fig_IpCHashT_struct}，
+Fig. \ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
+Fig. \ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
 \cite{ADMIS2017} に由来する．
 ただし，本研究では，
 挿入アルゴリズムに新しく soft insertion を採用している．
@@ -37,7 +37,7 @@ unsuccessful search を優先するオプションについて新たに実装と
 テーブルサイズが小さい場合に最大 load factor が低下する問題に対処する．
 要素の挿入においては，操作手順を再検討し，より簡潔な実装とする．
 
-IpCHashT では，図\ref{fig_IpCHashT_struct}に示すデータ構造を備える．
+IpCHashT では，Fig. \ref{fig_IpCHashT_struct}に示すデータ構造を備える．
 各要素には key-value ペアの他に，linked list のための prev 要素と next 要素を持つ．
 T\_shift には uint8 または uint16 型を用い，相対位置による双方向リストを構成する．
 これは，ポインタ接続におけるメモリ消費量が無視できないためである
@@ -82,7 +82,7 @@ struct element{
 \begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_01.pdf}
   \caption{
-    図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号．
+    Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号．
     ``Ope.''は，実行順序を表し，``Ope. 0'' の場合は初期状態を意味する．
     下向き矢印は，ハッシュ値の示す配列アドレス上に置かれる．
     各要素は，丸 1 つと prev locator 1 つ，next locator 1 つで構成されるが，
@@ -109,10 +109,10 @@ struct element{
 %\begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_04.pdf}
   \caption{
-    図\ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
+    Fig. \ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
     同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
     灰色の枠線が配列を表す．
-    青字の linked list は図\ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
+    青字の linked list はFig. \ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
     赤字の linked list は間に挿入された別の chain である．
     この例では，手前に空き要素があるにも関わらず，
     青字の linked list の末尾が不用意に遠い場所に格納されており，
@@ -121,19 +121,19 @@ struct element{
   \label{fig_IpCHashT_insert_introspection}
 \end{figure}
 
-本章で示す図\ref{fig_IpCHashT_fig_description}〜\ref{fig_IpCHashT_deletion_case06}は，
+本章で示すFig. \ref{fig_IpCHashT_fig_description}〜\ref{fig_IpCHashT_deletion_case06}は，
 青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
-図\ref{fig_IpCHashT_fig_description}では，
-図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号を説明している．
-図\ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
+Fig. \ref{fig_IpCHashT_fig_description}では，
+Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号を説明している．
+Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
 丸印ひとつ 1 つが配列要素を，
 双方向に張られた２つの矢印が双方向リストを表す．
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
 ２辺を共有した四角形の連なりにより表現されることが多い．
 同様に，本研究では IpCHashT の配列要素を抽象化して表すが，
-一見すると図\ref{fig_IpCHashT_apparence}のように隣接した連続構造であっても，
-実際には，図\ref{fig_IpCHashT_insert_introspection}のように各要素が断続的なアドレス空間上に存在することがある．
+一見するとFig. \ref{fig_IpCHashT_apparence}のように隣接した連続構造であっても，
+実際には，Fig. \ref{fig_IpCHashT_insert_introspection}のように各要素が断続的なアドレス空間上に存在することがある．
 
 %\leavevmode \newline
 %\leavevmode \newline
@@ -152,21 +152,21 @@ Open hashing を用いたハッシュテーブルの説明では，
 
 key-value ペアを 1 つ挿入するには，
 次の 1) 〜 4) の場合を考える．
-1) ハッシュ先の配列が空の場合は，図\ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
-2) 既に要素が挿入されており chain の間に空きがある場合は，図\ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
-3) chain の間に空きがない場合は，図\ref{fig_IpCHashT_insert_hard_case03}のように末尾に空きを探し挿入する．
+1) ハッシュ先の配列が空の場合は，Fig. \ref{fig_IpCHashT_insert_hard_case01}のように単に要素を詰める．
+2) 既に要素が挿入されており chain の間に空きがある場合は，Fig. \ref{fig_IpCHashT_insert_hard_case02}のように間に挿入する．
+3) chain の間に空きがない場合は，Fig. \ref{fig_IpCHashT_insert_hard_case03}のように末尾に空きを探し挿入する．
 4) 挿入先の要素が異なるハッシュ値を持つ要素の退避先に使用されている場合は，
-図\ref{fig_IpCHashT_insert_hard_case04}〜\ref{fig_IpCHashT_insert_hard_case11}のように挿入する．
+Fig. \ref{fig_IpCHashT_insert_hard_case04}〜\ref{fig_IpCHashT_insert_hard_case11}のように挿入する．
 要素の退避先と locator の再接続先との兼ね合いのため，4) には多くの場合分けが必要となる．
 
 chain 間に空きは，線形探査により調べる．
 これには，対象の要素を全て調べ上げる必要があり，処理に時間が掛かる．
 また，11 通りの場合分けを全て実装するには非常に手間も掛かる．
-図\ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}に示す場合分けは，
+Fig. \ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}に示す場合分けは，
 任意の箇所に空きがあることを考慮している．
 しかし，要素削除なく挿入する場合には，メモリの断片化は発生しないため，
 必要な場合分けは
-図\ref{fig_IpCHashT_insert_hard_case01}，
+Fig. \ref{fig_IpCHashT_insert_hard_case01}，
 \ref{fig_IpCHashT_insert_hard_case03}，
 \ref{fig_IpCHashT_insert_hard_case06}，
 \ref{fig_IpCHashT_insert_hard_case11}
@@ -177,16 +177,16 @@ chain 間に空きは，線形探査により調べる．
 
 \section{探査}
 
-挿入済みの要素を探査するには，図\ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
-図\ref{alg_find_sm}は successful search を優先した設定であり，以降，successful search major option と呼ぶ．
-図\ref{alg_find_usm}は unsuccessful search を優先した設定であり，以降，unsuccessful search major option と呼ぶ．
+挿入済みの要素を探査するには，Fig. \ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
+Fig. \ref{alg_find_sm}は successful search を優先した設定であり，以降，successful search major option と呼ぶ．
+Fig. \ref{alg_find_usm}は unsuccessful search を優先した設定であり，以降，unsuccessful search major option と呼ぶ．
 
-図\ref{alg_find_usm}の unsuccessful search major option は，
+Fig. \ref{alg_find_usm}の unsuccessful search major option は，
 キーの比較コストによって successful search major option の結果より悪化することが十分に考えられるが，
 比較コストの低いキーの場合には，unsuccessful search 時の分岐が少なく，高い性能が期待される．
 実際に，分岐予測の失敗におけるペナルティは，10\textasciitilde 20 clock \footnote
 {
-  図\ref{fig_part101_infographics}の ``Wrong'' branch of ``if'' (branch misprediction) を参照．
+  Fig. \ref{fig_part101_infographics}の ``Wrong'' branch of ``if'' (branch misprediction) を参照．
 }
 程度であり，無視できない．
 
@@ -272,15 +272,15 @@ template <class T_key, class T_val>
 
 key-value ペアを 1 つ削除するには，
 次の 1) 〜 4) と，メモリの断片化を防ぐ処理として 5) を考える．
-1) 単一要素の場合は，図\ref{fig_IpCHashT_deletion_case01}のように単に削除する．
-2) 末尾要素を削除する場合は，図\ref{fig_IpCHashT_deletion_case02}のように要素と locator を削除する．
+1) 単一要素の場合は，Fig. \ref{fig_IpCHashT_deletion_case01}のように単に削除する．
+2) 末尾要素を削除する場合は，Fig. \ref{fig_IpCHashT_deletion_case02}のように要素と locator を削除する．
 3) 先頭の要素が削除された場合，探査不能としないため，先頭に別の要素をつなぎ替える必要がある．
-図\ref{fig_IpCHashT_deletion_case03}では，断片化を防ぐために，末尾のデータを先頭へ移動させている．
-4) chain の中間要素を削除する場合は，図\ref{fig_IpCHashT_deletion_case04}のように末尾要素を移動させる．
+Fig. \ref{fig_IpCHashT_deletion_case03}では，断片化を防ぐために，末尾のデータを先頭へ移動させている．
+4) chain の中間要素を削除する場合は，Fig. \ref{fig_IpCHashT_deletion_case04}のように末尾要素を移動させる．
 5) 別の削除処理によって，末尾の要素が移動すると，
-図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}のように，
+Fig. \ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}のように，
 chain の要素間に空きができ，断片化する場合がある．これを
-図\ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}に示す操作を繰り返すことにより修正する．
+Fig. \ref{fig_IpCHashT_deletion_case05}，\ref{fig_IpCHashT_deletion_case06}に示す操作を繰り返すことにより修正する．
 ただし，空き要素の探査は線形探査する必要がある．
 また，要素を移動させる度に別の chain に空きができる可能性があるため，再帰的に行う必要がある．
 この処理は，実行コストが高いため推奨しない．
@@ -363,7 +363,7 @@ load factor の上限は上がらない，
 定数 $a$, $b$ の最適値はともかくとして，
 実用に耐えうる定数を探すだけであれば，
 実験的に求められる．
-これには，図\ref{fig_bench_LF}に示す IpCHashT<uint64,uint64> (uint8, maxLF100) の load factor が最大となる，
+これには，Fig. \ref{fig_bench_LF}に示す IpCHashT<uint64,uint64> (uint8, maxLF100) の load factor が最大となる，
 最小のパディングサイズを探せばよい．
 例えば，$a=18$, \ $b=35$, \ ${\rm limit}=254$ である．
 なお，254 以上のパディングは，少なくともテーブルサイズ $10^0〜10^{8.3}$ において，

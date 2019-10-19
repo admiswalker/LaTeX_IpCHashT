@@ -14,7 +14,7 @@
 
 {\bf ファイル構成}
 \samepage \\ \indent
-上記に示すソースコードのファイル構成を表\ref{table_fileDesc}に示す．
+上記に示すソースコードのファイル構成を Table \ref{table_fileDesc} に示す．
 \begin{table}[h]
   \begin{center}
 %    \fontsize{9pt}{10pt}\selectfont
@@ -66,7 +66,7 @@ Google Test のビルドに CMake が必要となる．
 
 {\bf 実行手順}
 \samepage\newline\indent
-実行手順は，図\ref{fig_command}に示す通りである．
+実行手順は，Fig. \ref{fig_command}に示す通りである．
 \vspace{-2mm}
 \begin{figure}[h]
   \hspace{2mm}
@@ -83,7 +83,7 @@ Google Test のビルドに CMake が必要となる．
 {\bf sstd::IpCHashT のオプション}
 \samepage\newline\indent
 sstd::IpCHashT は，多数のオプションを備えており，ベンチマークで使用するオプションについては，
-表\ref{table_alias}に示す alias を IpCHashT.hpp に定義する．
+Table \ref{table_alias} に示す alias を IpCHashT.hpp に定義する．
 なお，IpCHashT\_u16 については，最大 load factor を 50 \% にする意味がないため，alias は設けない．
 他のオプションは，IpCHashT.hpp に定義されており，\#define マクロにより，soft insertion か hard insertion と，
 素数サイズのテーブルを用いて剰余演算するか，サイズ $2^k-1\ \ (k=1,2,...)$ のテーブルを用いてビットマスクするかを選択できる．

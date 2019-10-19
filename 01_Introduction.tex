@@ -3,11 +3,11 @@
 
 ハッシュテーブルの挙動を理解する上で，
 数理モデルの示す理論的な計算量は大きな助けとなる．
-図\ref{fig_taocp_v3_fig44}に\cite{knuth1998}よる比較を示す．
+Fig. \ref{fig_taocp_v3_fig44}に\cite{knuth1998}よる比較を示す．
 L は linear probing,
 U は quadratic probing \footnote{$M \rightarrow \infty$ において，quadratic probing と double hashing は uniform hashing と等価．}，
 S は separate chaining である．
-図\ref{fig_taocp_v3_fig44}が示すように，
+Fig. \ref{fig_taocp_v3_fig44}が示すように，
 load factor が高くなるにつれて，
 平均探査回数は上昇する傾向が見られる．
 この特性は，
@@ -143,7 +143,7 @@ Load factor は，探査速度向上のため 50 \% に制限されている．
 ハッシュを計算し，衝突を解決する必要がある．
 %また，closed hashing では load factor を 50\textasciitilde 80 \% に制限することが一般的である．
 単に高い探査性能を求めるのであれば，
-図\ref{fig_taocp_v3_fig44}が示すように load factor を下げてしまえば，
+Fig. \ref{fig_taocp_v3_fig44}が示すように load factor を下げてしまえば，
 衝突解決の頻度が下がり，
 平均探査回数は，どの手法でも同じような回数に落ち着く．
 %\footnote{
@@ -155,7 +155,7 @@ Load factor は，探査速度向上のため 50 \% に制限されている．
 
 Open hashing 系のアルゴリズムは chain 構造を持っており，
 primary clustering の影響を一切受けない\footnote{Load factor 増加による性能悪化は secondary clustering によるもの．}．
-このため，図\ref{fig_taocp_v3_fig44}に示すように，
+このため，Fig. \ref{fig_taocp_v3_fig44}に示すように，
 closed hashing 系のアルゴリズムよりも平均探査回数が少ない．
 一方で，chain 構造はポインタにより実装されるため，
 メモリアドレスが不連続となり，キャッシュ効率が悪く，理論上の性能を発揮しない．

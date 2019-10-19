@@ -4,13 +4,12 @@
 \section{環境}
 
 ベンチマークの実行環境を，
-表\ref{table_env}に示す．
+Table \ref{table_env} に示す．
 
 \begin{table}[hbtp]
-  \label{table_env}
   \begin{center}
     \fontsize{9pt}{10pt}\selectfont
-    \caption{Execution environment}
+    \caption{Benchmark execution environment}
     \begin{tabular}{cc} \hline
       Component & Type                                                               \rule[0pt]{0pt}{10pt} \\ \hline
       CPU       & AMD Ryzen7 1700 (8Cores/16Threads)                                 \rule[0pt]{0pt}{10pt} \\ 
@@ -20,6 +19,7 @@
       OS        & Ubuntu 16.04 LTS                                                   \rule[0pt]{0pt}{10pt} \\
       Compiler  & gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.11)        \rule[0pt]{0pt}{10pt} \\ \hline
     \end{tabular}
+    \label{table_env}
   \end{center}
 \end{table}
 
@@ -108,19 +108,19 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 %
 {\bf 最大 Loadfactor}
 \samepage\newline\indent
-最大 load factor とテーブルサイズの関係を図\ref{fig_bench_LF}に示す．
+最大 load factor とテーブルサイズの関係をFig. \ref{fig_bench_LF}に示す．
 \leavevmode \newline
 
 %
 {\bf メモリ使用量}
 \samepage\newline\indent
-メモリ使用量とテーブルサイズの関係を図\ref{fig_bench_memory}，\ref{fig_bench_memory_preAlloc}に示す．
+メモリ使用量とテーブルサイズの関係をFig. \ref{fig_bench_memory}，\ref{fig_bench_memory_preAlloc}に示す．
 \leavevmode \newline
 
 %
 {\bf 挿入}
 \samepage\newline\indent
-挿入速度とテーブルサイズの関係を図
+挿入速度とテーブルサイズの関係をFig. 
 \ref{fig_bench_insert_preAlloc}，\ref{fig_bench_insert_wRehash}，\ref{fig_bench_insert}に示す．
 挿入処理において，hard insertion では find() 関数を用いるが，soft insertion では，find() 関数を用いない．
 本ベンチマークでは，soft insertion のみを用いている．
@@ -130,23 +130,23 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 %
 {\bf 探査}
 \samepage\newline\indent
-探査速度とテーブルサイズの関係を図
+探査速度とテーブルサイズの関係をFig. 
 \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_us_sm}，
 \ref{fig_bench_find_s_um}，\ref{fig_bench_find_us_um}に示す．
-図\ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}は，
+Fig. \ref{fig_bench_find_s_sm}，\ref{fig_bench_find_s_um}は，
 コンパイル時 IpCHashT に successful search major option を指定した結果，
-図\ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}は，
+Fig. \ref{fig_bench_find_us_sm}，\ref{fig_bench_find_us_um}は，
 コンパイル時 IpCHashT に unsuccessful search major option を指定した結果である．
 \leavevmode \newline
 
 %
 {\bf 削除}
 \samepage\newline\indent
-削除速度とテーブルサイズの関係を図
+削除速度とテーブルサイズの関係をFig. 
 \ref{fig_bench_erase_sm}，
 \ref{fig_bench_erase_um}に示す．
-図\ref{fig_bench_erase_sm}は successful search major option を指定した結果，
-図\ref{fig_bench_erase_um}は unsuccessful search major option を指定した結果である．
+Fig. \ref{fig_bench_erase_sm}は successful search major option を指定した結果，
+Fig. \ref{fig_bench_erase_um}は unsuccessful search major option を指定した結果である．
 \leavevmode \newline
 
 %\newpage

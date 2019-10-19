@@ -6,7 +6,7 @@
 本投稿では，
 双方向リスト構造を内包する closed hashing アルゴリズムとして，
 In-place Chained Hash Table を提案した．
-図\ref{fig_taocp_v3_fig44}に示すように，
+Fig. \ref{fig_taocp_v3_fig44}に示すように，
 chaining 系のアルゴリズムは，successful search に加え，
 特に unsuccessful search に対して高い性能を示すことが期待された．
 \newline
@@ -14,7 +14,7 @@ chaining 系のアルゴリズムは，successful search に加え，
 まず，{\bf IpCHashT (uint8, maxLF50)} の unsuccessful search major option について結論を述べる．
 
 Successful search speed について，
-図\ref{fig_bench_find_s_um}より，
+Fig. \ref{fig_bench_find_s_um}より，
 テーブルサイズ $1.0\times10^2〜1.0\times10^7$ において，
 L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
 殆どの区間で，1 番目ないし，2 番目の実行速度を示した．
@@ -22,7 +22,7 @@ L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
 dense\_hash\_map がよい性能を示した．
 
 Unsuccessful search speed については，
-図\ref{fig_bench_find_us_um}より，
+Fig. \ref{fig_bench_find_us_um}より，
 テーブルサイズ $1.0\times10^2〜1.0\times10^7$ において，
 L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
 殆どの区間で，1 番目ないし，2 番目の実行速度を示した．
@@ -31,20 +31,20 @@ L2 キャッシュを跨ぐ $1.0\times10^5$ 前後を除き，
 最もよい性能を示した．
 
 挿入速度に関しては，
-図\ref{fig_bench_insert}に示す通り，必ずしも最速ではないものの，
-図\ref{fig_bench_insert_wRehash}より，通常の使用において，
+Fig. \ref{fig_bench_insert}に示す通り，必ずしも最速ではないものの，
+Fig. \ref{fig_bench_insert_wRehash}より，通常の使用において，
 累積の挿入速度や，リハッシュ時間は極端に遅い訳ではないことを確認した．
 
 削除速度に関しては，
-図\ref{fig_bench_erase_um} に示す通り，
+Fig. \ref{fig_bench_erase_um} に示す通り，
 2\textasciitilde 3 番目の速度を示した．
 \newline
 
 {\bf IpCHashT (uint8, maxLF50)} の successful search major option について結論を述べる．
 
 Successful search speed について，
-図\ref{fig_bench_find_s_sm}より，
-図\ref{fig_bench_find_s_um}に示す unsuccessful search major option の場合と比較して，
+Fig. \ref{fig_bench_find_s_sm}より，
+Fig. \ref{fig_bench_find_s_um}に示す unsuccessful search major option の場合と比較して，
 テーブルサイズ $3.0\times10^5〜1.0\times10^7$ において，
 性能の改善が見られる．
 それ以外の区間においては，大きな性能改善は見られず，
@@ -52,7 +52,7 @@ $1.0\times10^7〜2.0\times10^8$ の巨大なハッシュテーブについては
 同様に性能が悪化した．
 
 Unsuccessful search speed については，
-図\ref{fig_bench_find_us_sm}より，
+Fig. \ref{fig_bench_find_us_sm}より，
 unsuccessful search major option の場合と比較して，
 L2 キャッシュサイズ内の $1.0\times10^2〜1.0\times10^5$ において，
 大きく性能を落とした．
@@ -63,7 +63,7 @@ flat\_hash\_map が最も高い性能を示した．
 {\bf IpCHashT (uint16, maxLF100)} の successful search major option について結論を述べる．
 
 Successful search speed について，
-図\ref{fig_bench_find_s_sm}より，
+Fig. \ref{fig_bench_find_s_sm}より，
 区間 $1.0\times10^5〜3.5\times10^7$ において，
 dense\_hash\_map と同程度の性能を示した．
 区間 $3.5\times10^7〜2.0\times10^8$ においては，
@@ -71,7 +71,7 @@ dense\_hash\_map には劣るものの，
 2 番目の性能に収まった．
 
 Unsuccessful search speed については，
-図\ref{fig_bench_find_us_sm}より，
+Fig. \ref{fig_bench_find_us_sm}より，
 区間 $1.0\times10^5〜3.5\times10^7$ において，
 dense\_hash\_map と同程度の性能を示した．
 区間 $3.5\times10^7〜2.0\times10^8$ においては，
@@ -83,19 +83,19 @@ dense\_hash\_map の 75 \% のメモリ使用量であることを鑑みれば�
 
 ただし，
 挿入速度に関しては，
-図\ref{fig_bench_insert} が示す通り load factor が高い場合に極端に速度が低下するため，
-図\ref{fig_bench_insert_wRehash} のようなリハッシュを伴う要素の挿入には，
+Fig. \ref{fig_bench_insert} が示す通り load factor が高い場合に極端に速度が低下するため，
+Fig. \ref{fig_bench_insert_wRehash} のようなリハッシュを伴う要素の挿入には，
 dense\_hash\_map の 2.1 倍程度
 \footnote{
   $2.0\times 10^8$ 要素を挿入するとき，$52.5 {\rm[sec]}/ 25.0{\rm[sec]}=2.1$ 倍の速度差が発生している．
 }
 の時間が掛かる．
-もちろん，図\ref{fig_bench_insert_preAlloc} のように，
+もちろん，Fig. \ref{fig_bench_insert_preAlloc} のように，
 事前にハッシュテーブルが初期化されている場合，この差は小さくなり，
 load factor の比較的小さな領域を使用する場合には，差異は軽微である．
 
 削除速度に関しては，
-図\ref{fig_bench_erase_sm} に示す通り，
+Fig. \ref{fig_bench_erase_sm} に示す通り，
 CHashT よりは速い，程度の速度を保っている．
 \newline
 
@@ -125,13 +125,13 @@ CHashT よりは速い，程度の速度を保っている．
 % log10( 2*10^8 ) = x
 %               x = 8.301...
 
-以上の結果は，表\ref{table_hashT_cmp} のようにまとめられる．
+以上の結果は，Table \ref{table_hashT_cmp} のようにまとめられる．
 これらの結果から，少なくとも，AMD Ryzen7 1700 上では，key type と value type が uint64 のハッシュテーブルについて，次のことが言える．
 {\bf IpCHashT (uint8, maxLF50, successful search major option)} は，successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．
 {\bf IpCHashT (uint8, maxLF50, unsuccessful search major option)} は，successful search の区間 $10^2〜10^7$ で優れた結果を，
 successful search の区間 $10^2〜10^7$ で最も優れた結果を出す．全体によい結果を出す区間が長い．
 一方で，メモリ効率は高くなく，$10^7〜2.0\times10^8$ の巨大なハッシュテーブでは大きく性能を落とす．
-また，図\ref{alg_find_sm}，図\ref{alg_find_usm}で示されるように，
+また，Fig. \ref{alg_find_sm}，Fig. \ref{alg_find_usm}で示されるように，
 successful search major option よりもキーの比較回数が多くなるため，
 キーの比較コストが大きな型では，探査速度の低下が予測される．
 {\bf IpCHashT (uint16, maxLF100, successful search major option)} は，最も高いメモリ効率を示し，
@@ -140,7 +140,7 @@ successful search の区間 $10^5〜10^{8.3}$ において，安定した性能�
 unsuccessful search の区間 $10^7〜10^{8.3}$ で最も優れた結果を出す．
 
 以上より，IpCHashT の双方向リスト構造の in-place 実装による chaining のアルゴリズムの closed hashing 化は，
-図\ref{fig_taocp_v3_fig44}から期待されたように，
+Fig. \ref{fig_taocp_v3_fig44}から期待されたように，
 その他のハッシュテーブルと比較して低い average number of probes となることを，
 ベンチマークにより実証した．
 特に unsuccessful search において見込まれていた，理論上は他のアルゴリズムより突出して高い探査性上も実証された．
