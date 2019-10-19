@@ -11,18 +11,18 @@ S は separate chaining である．
 load factor が高くなるにつれて，
 平均探査回数は上昇する傾向が見られる．
 この特性は，
-特に linear probing で顕著であるが，
+linear probing では特に顕著であるが，
 quadratic probing では幾らか改善されている．
 しかし，いずれのアルゴリズムも
 unsuccessful search では $\alpha = 0.65$ 前後，
 successful search でも $\alpha = 0.85$ 前後において，
 急激に平均探査回数が増加している
 \footnote{
-  したがって，性能が悪化する手前でリハッシュし，性能悪化を防ぐことが一般的である．
+  このため，性能が悪化する手前でリハッシュし，性能悪化を防ぐことが一般的である．
   なお，リハッシュする load factor は，実装依存である．
 }．
 一方で，chaining を利用する C, S, SO については，
-性能悪化は限られることが分かる．
+性能悪化は限られることがわかる．
 このとき，
 C は coalesced chaining\footnote{Closed hashing の一種で片方向リストにより，次に辿る要素を示す．}，
 S は separate chaining，
@@ -59,24 +59,36 @@ SO は separate chaining with ordered lists である．
 現実的なハッシュテーブルを検討するには，
 単にアルゴリズムのみならず，
 対応する実装との比較が望ましい．
-ここでは，
-実際に利用されているハッシュテーブルの実装を示す．
+ここでは，C++ 言語におけるハッシュテーブルを実装を示す．
 \leavevmode \newline
 
 {\bf std::unorderd\_map}
 \samepage \\ \indent
-C++ 標準のハッシュテーブル．
-メモリ効率を重視しているため挿入・探査・削除速度は遅い．
+Chaining 系の実装の 1 つ．
+STL に収録された C++ 標準のハッシュテーブルである．
+アルゴリズムの選択からわかる通り，安定性とメモリ効率を重視している．
+%安定性とメモリ効率を重視した chaining 系のハッシュテーブルである．
 %アルゴリズムは separate chaining である．
 \\
 
 {\bf google::dense\_hash\_map}
 \samepage \\ \indent
-探査が最も高速な実装の内の 1 つで，\cite{sparsehash2005}に収録されている．
-アルゴリズムは quadratic probing である．
+Quadratic probing の実装の 1 つ．
+探査が最も高速な実装の内の 1 つで \cite{sparsehash2005}に収録されている．
+キーの 1 つを空マークとして登録する必要があり，キーとして使用できなくなる．
+要素の削除が必要な場合は，削除マークも登録する必要があり，同様にキーとして使用できなくなる．
+この実装は，メモリ使用量の削減と，それに伴うキャッシュ効率の向上，また，要素探査時のコードの単純化と分岐予測精度の向上が期待される．
+Load factor は，探査速度向上のため 50 \% に制限されている．
 
+いくつかのハッシュテーブルでは，
+キーのハッシュ値をテーブルサイズに丸めるために剰余演算を用いている．
+一般的に，整数除算に必要な CPU cycle は 14\textasciitilde 46 clocks 程度
+\footnote{
+  \cite{AgnerFog2018}より AMD Ryzen7 1700 の場合．
+} である．
+このとき dense\_hash\_map の性能は，
 ハッシュテーブルが L2 キャッシュに収まるとき，
-探査速度は 250 query/$\mu$s 程度 \footnote{AMD Ryzen7 1700 (8C/16T) 3.7 GHz の場合．詳細は，第\ref{chap_Results}章を参照．} であり，
+探査速度は 250 query/$\mu$s 程度\footnote{AMD Ryzen7 1700 (8C/16T) 3.7 GHz の場合．詳細は，第\ref{chap_Results}章を参照．} であり，
 探査 1 回の実行時間は 4 ns
 \footnote{
   $
@@ -85,56 +97,40 @@ C++ 標準のハッシュテーブル．
     = \frac{10^3}{250} {\rm [ns \slash query]}
     = 4 {\rm [ns \slash query]}
   $
-}
-である．このとき，3.7 GHz の CPU では単位クロックあたりの実行時間が，
-$2.7 \times 10^{-1}$ [ns/clock]
+} となる．
+このため，探査 1 回あたりの CPU cycle は 15 clock 程度
 \footnote{
+  3.7 GHz の CPU では単位クロックあたりの実行時間が
   $
-    \frac{1}{3.7 {\rm [GHz]}}
-    = \frac{1}{3.7 \times 10^9}{\rm [sec]}
-    = 2.7 \times 10^{-10}{\rm [sec]}
+    \frac{1}{3.7 {\rm [GHz]}}{\rm [sec/clock]}
+    = \frac{1}{3.7 \times 10^9}{\rm [sec/clock]}
+    = 2.7 \times 10^{-10}{\rm [sec/clock]}
     = 2.7 \times 10^{-1}{\rm [ns/clock]}
   $
-}
-であるから，1 回の探査で消費する CPU cycle は
-15 clock 程度 \footnote
-{
+  であるから，探査 1 回あたりの CPU cycle は
   $
     \frac{ 4 {\rm [ns/query]} }{ 2.7 \times 10^{-1} {\rm [ns/clock]} }
     = \frac{ 4 }{ 2.7 \times 10^{-1} } {\rm [clock/query]}
     \simeq 15 {\rm [clock/query]}
   $
-} である．
-
-いくつかのハッシュテーブルでは，
-キーのハッシュ値をテーブルサイズに丸めるために剰余演算を用いており，
-整数除算に必要な CPU cycle は 14\textasciitilde 46 clocks 程度
-\footnote{
-  \cite{AgnerFog2018}より AMD Ryzen7 1700 の場合．
-}
-である．
-これは，dense\_hash\_map の実行時間に対して計算量が大きい．
-実装を確認すると dense\_hash\_map では整数除算をしておらず，
+  程度である．
+} とわかる．
+探査には整数除算以外にもハッシュ値の計算や配列の走査が必要であることを考慮すると，
+整数除算に必要な CPU cycle は dense\_hash\_map 探査時間に対して CPU cycle が大きい．
+このため実装を確認すると，dense\_hash\_map では整数除算の代わりとして，
 テーブルサイズが $2^k-1\ \ (k=1,2,...)$ となるよう制御し，
-ハッシュ値の最下位 $k$ ビットだけをビットマスクにより取り出して，
-配列インデックスとしている．
-
-また，キーの 1 つを空マークとして登録する必要があり，キーとして使用できなくなる．
-要素の削除が必要な場合は，削除マークも登録する必要があり，同様にキーとして使用できなくなる．
-この実装は，メモリ使用量の削減と，それに伴うキャッシュ効率の向上，また，要素探査時のコードの単純化と分岐予測精度の向上が期待される．
-
-Load factor は，探査速度向上のため 50 \% に制限されている．
+ビットマスクによりハッシュ値の最下位 $k$ ビットだけを取り出して配列インデックスとしていることがわかる．
 \\
 
 {\bf ska::flat\_hash\_map}
 \samepage \\ \indent
-Robin Hood hashing の実装の内の一つ．
+Robin Hood hashing の実装の 1 つ．
 条件によっては dense\_hash\_map より探査が高速である．
 {\bf \color{red}メモ:どのような条件で最も高速であるか，引用して書く．例：XX において，YY という条件で，dense\_hash\_map より高い探査性能を示すことが報告されている．}
 Robin Hood hashing は衝突解決法の一つで，
 片方向リストによりハッシュ先のテーブルアドレスを示しており，
 次の要素位置を示す coalesced chaining とは片方向リストの使い方が逆である．
-本来の挿入位置が分かるため，
+本来の挿入位置がわかるため，
 要素挿入時に，より近い位置へ要素が移動するよう調整できる．
 探査時には，ハッシュ先になるべく近い位置へ移動させられた要素を linear probing により照合する．
 Linear probing のコストに配慮し，flat\_hash\_map では
