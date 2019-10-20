@@ -252,11 +252,28 @@ template <class T_key, class T_val>
 }
 \end{lstlisting}
 \caption{
-  Pseudo C++ code of find function prioritizing successful search.
+  Pseudo C++ code for the ``find()'' function executed while {\bf successful search major option} is specified.
+  This function is tuned to speed up ``successful searches'' more than ``unsuccessful seatches''.
+  The ``isHead()'' function checks whether the hash destination element is the head element of doubly linked list or not,
+  and if it is the head, it follows the list.
+%  At this time, the isHead function returns true when the prev element of the element structure shown in Fig. \ Ref {fig_IpCHashT_struct} is zero.
+  %%%
   This function will search ``key\_in''.
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
-  For prioritizing successful search, isHead() function will check the link list is head or not.
+  For prioritizing successful search, ``isHead()'' function will check the link list is head or not.
   {\bf \color{red}メモ:説明不足．何故が書いて無い．}
+  \\
+  {\bf 図\ref{alg_find_sm}}
+  Successful search major option を指定した場合に実行される find 関数の擬似 C++ コード．
+  Successful search が高速に実行されるようにチューニングされている．
+  isHead 関数によりハッシュ先の要素が双方向リストの先頭か否かを確認し，先頭の場合に双方向リストを辿る．
+  このとき，isHead 関数は，Fig. \ref{fig_IpCHashT_struct} に示す element 構造体の prev 要素が 0 のときに true を返す．
+  リストの先頭の場合，key\_in が配列上のキー値と一致すれば，対応する値と true を返す．
+  それ以外の場合は全て false を返す．
+  キー値の比較回数が双方向リスト上の要素数に制限されるため，高速な successful search が可能となる．
+  なお，dense\_hash\_map と同様に，あるキー値を空符号として登録し，使用されないことが保証される場合は，isHead 関数による検査が不要となる．
+  これは，リスト外の要素の初期値が，キー値と一致しないことが保証されるためである．
+  このため，isHead 関数を削除すると，キー値の比較コストが小さい場合に，unsuccessful search も高速になる．
 }
 \label{alg_find_sm}
 %\end{figure}
@@ -283,6 +300,16 @@ template <class T_key, class T_val>
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
   For prioritizing unsuccessful search, isHead() function is removed compared to successful search prioritizing option.
   {\bf \color{red}メモ:説明不足．何故が書いて無い．}
+  \\
+  {\bf 図\ref{alg_find_usm}}
+  Successful search major option を指定した場合に実行される find 関数の擬似 C++ コード．
+  Unsuccessful search が高速に実行されるようにチューニングされている．
+  ただし，キー値の比較回数が多くなるため，比較コストの高いデータ構造の場合は，successful search major option より性能が悪化すると考えられる．
+  Unsuccessful search では，キーの一致の有無に関わらず，全て探査し，一致のないことを確認する必要がある．
+  そのため，isHead より先頭要素であるかを確かめるよりも，キー値の比較を優先する方が，高速に動作する．
+  ただし，リストの先頭でない場合もキー値を比較するため，
+  キー値が要素の初期値と等しい場合に誤動作する．
+  このため，isEmpty により要素が空でないことを確認する必要がある．
 }
 \label{alg_find_usm}
 \end{figure}
