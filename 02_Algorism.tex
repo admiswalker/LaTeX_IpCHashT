@@ -255,7 +255,8 @@ template <class T_key, class T_val>
   Pseudo C++ code of find function prioritizing successful search.
   This function will search ``key\_in''.
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
-  For prioritizing successful search, isHead() function will check the link list is head or not at first.
+  For prioritizing successful search, isHead() function will check the link list is head or not.
+  {\bf \color{red}メモ:説明不足．何故が書いて無い．}
 }
 \label{alg_find_sm}
 %\end{figure}
@@ -281,6 +282,7 @@ template <class T_key, class T_val>
   This function will search ``key\_in''.
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
   For prioritizing unsuccessful search, isHead() function is removed compared to successful search prioritizing option.
+  {\bf \color{red}メモ:説明不足．何故が書いて無い．}
 }
 \label{alg_find_usm}
 \end{figure}
@@ -528,8 +530,20 @@ dense\_hash\_map と同様に，
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_22.pdf}
   \caption{
     Deletion case05.
-    削除時の断片化を低減する処理．
-    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+    The process of reducing linked list fragmentation.
+    Link distance is reduced by moving a distant element to nearby empty element found by sequential search.
+    As the element moves, a new empty element is created.
+    To completely eliminate fragmentation,
+    it must be performed recursively at least until the linked distance reaches a local minimum.
+    Therefore, the execution cost is very high.
+    \\
+    {\bf 図\ref{fig_IpCHashT_deletion_case05}}
+    Deletion case05.
+    Linked list の断片化を低減する処理．
+    遠くにある要素を，線形探査により探した近くの空き要素へ移動させることで linke 距離を短くする．
+    要素が移動すると新しい空き要素ができるため，
+    断片化を完全に解消するには，少なくとも linke 距離が局所的最小値となるまで再帰的に実行する必要がある．
+    このため，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case05}
 %\end{figure}
@@ -538,8 +552,20 @@ dense\_hash\_map と同様に，
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_23.pdf}
   \caption{
     Deletion case06.
-    削除時の断片化を低減する処理．
-    空き要素を線形探査し，詰められるなくなるまで，再帰的に実行する必要があり，実行コストは非常に高い．
+    The process of reducing linked list fragmentation.
+    Link distance is reduced by moving a distant element to nearby empty element found by sequential search.
+    As the element moves, a new empty element is created.
+    To completely eliminate fragmentation,
+    it must be performed recursively at least until the linked distance reaches a local minimum.
+    Therefore, the execution cost is very high.
+    \\
+    {\bf 図\ref{fig_IpCHashT_deletion_case06}}
+    Deletion case06.
+    Linked list の断片化を低減する処理．
+    遠くにある要素を，線形探査により探した近くの空き要素へ移動させることで linke 距離を短くする．
+    要素が移動すると新しい空き要素ができるため，
+    断片化を完全に解消するには，少なくとも linke 距離が局所的最小値となるまで再帰的に実行する必要がある．
+    このため，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case06}
 \end{figure}
