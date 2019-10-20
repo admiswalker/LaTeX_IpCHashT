@@ -47,7 +47,7 @@ T\_shift には uint8 または uint16 型を用い，相対位置による双�
 }．
 %\leavevmode \newline
 
-\begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{figure} % 特に強い理由がない限り，[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val, typename T_shift>
 struct element{
@@ -112,7 +112,7 @@ struct element{
     下向き矢印は，ハッシュ先が示す配列要素の上に置かれる．
     各要素は，丸 1 つと prev locator 1 つ，next locator 1 つで構成される．
     ただし，接続が無い場合 locator は省略される．
-    点線で書かれた丸は空の要素を表す．また，緑の枠線と矢印は要素の移動を表す．
+    点線で書かれた丸は空の要素を表す．また，緑色の枠線と矢印は要素の移動を表す．
     バツ印は linked list の削除表す．
     配色は，青色を初期状態，赤色を要素の挿入と削除，緑色を要素の移動，としている．
   }
@@ -139,22 +139,35 @@ struct element{
 %\begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_04.pdf}
   \caption{
+    An example of mapping the abstract representation shown in Fig. \ref{fig_IpCHashT_apparence} to a continuous address space.
+    A gray frame represents the array.
+    Even with the same abstract representation,
+    the state of the continuous address space depends on the array state at the time of insertion.
+    Also, deleting elements can cause memory fragmentation.
+    The blue linked list is a map of the abstract representation shown in Fig. \ref{fig_IpCHashT_apparence},
+    and the red linked list is another chain inserted between them.
+    In this example,
+    the blue linked list is fragmented and the tail element is inserted in a distant place
+    even though there is an empty element in the foreground.
+    This fragmentation occurs when three or more elements are inserted into the blue linked list
+    and then the value stored in the left empty element is deleted.
     \\
     {\bf 図\ref{fig_IpCHashT_apparence}}
     Fig. \ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
-    同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
-    灰色の枠線が配列を表す．
-    青字の linked list はFig. \ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
-    赤字の linked list は間に挿入された別の chain である．
-    この例では，手前に空き要素があるにも関わらず，
-    青字の linked list の末尾が不用意に遠い場所に格納されており，
-    断片化している．
+    灰色の枠線は配列を表す．
+    同じ抽象表現でも，連続アドレス空間の状態は，要素挿入時の配列状態により異なる．
+    また，要素の削除はメモリを断片化させることがある．
+    青色の linked list はFig. \ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
+    赤色の linked list は間に挿入された別の chain である．
+    この例では，青色の linked list が断片化されており，手前に空の要素があるにも関わらず，末尾要素が遠い場所に格納されている．
+    この断片化は，3 つ以上の要素が青色の linked list に挿入された後に，
+    左側の空要素に格納されていた値が削除されたことにより発生する．
   }
   \label{fig_IpCHashT_insert_introspection}
 \end{figure}
 
 本章で示すFig. \ref{fig_IpCHashT_fig_description}〜\ref{fig_IpCHashT_deletion_case06}は，
-青字を初期状態とし，赤字が挿入時の変更を，緑字は要素の移動に伴う変更を，それぞれ表す．
+青色を初期状態とし，赤色が挿入時の変更を，緑色は要素の移動に伴う変更を，それぞれ表す．
 Fig. \ref{fig_IpCHashT_fig_description}では，
 Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号を説明している．
 Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
@@ -223,7 +236,7 @@ Fig. \ref{alg_find_usm}の unsuccessful search major option は，
 }
 程度であり，無視できない．
 
-\begin{figure}%[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+\begin{figure}%[h] % 特に強い理由がない限り，[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val>
 (bool, T_val) find(T_key key_in){
@@ -246,7 +259,7 @@ template <class T_key, class T_val>
 }
 \label{alg_find_sm}
 %\end{figure}
-%\begin{figure}[h] % 特に強い理由がない限り、[htbp]のような指定はしないでください。
+%\begin{figure}[h] % 特に強い理由がない限り，[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val>
 (bool, T_val) find(T_key key_in){
