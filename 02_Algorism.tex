@@ -45,7 +45,7 @@ T\_shift には uint8 または uint16 型を用い，相対位置による双�
   例えば 64 bits CPU の場合，ポインタサイズは 64 bits であるから，T\_key と T\_val が uint64 型の場合，
   テープルサイズの 50\% が双方向リストに由来する．
 }．
-\leavevmode \newline
+%\leavevmode \newline
 
 \begin{figure} % 特に強い理由がない限り、[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
@@ -96,18 +96,28 @@ struct element{
 \begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_01.pdf}
   \caption{
+    Symbols used in Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}.
+    `` Ope. '' indecates the execution order, and `` Ope. 0 '' means the initial state.
+    The down arrow is placed on the array element indicated by the hash destination.
+    Each element is composed by a circle, a prev locator, and a next locator.
+    However, locators are omitted when there are no connection.
+    Circles written with dotted lines represent empty elements.
+    Green boxes and arrows represent movement of elements.
+    Crosses indicate that the linked list is deleted.
+    The color scheme is blue for the initial state, red for element insertion and deletion, and green for element movement.
+    \\
+    {\bf 図\ref{fig_IpCHashT_fig_description}}
     Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}に用いる記号．
     ``Ope.''は，実行順序を表し，``Ope. 0'' の場合は初期状態を意味する．
-    下向き矢印は，ハッシュ値の示す配列アドレス上に置かれる．
-    各要素は，丸 1 つと prev locator 1 つ，next locator 1 つで構成されるが，
-    接続が無い場合 locator は省略される．
-    点線で書かれた丸は空の要素を表し，緑の枠線と矢印は要素の移動を表す．
+    下向き矢印は，ハッシュ先が示す配列要素の上に置かれる．
+    各要素は，丸 1 つと prev locator 1 つ，next locator 1 つで構成される．
+    ただし，接続が無い場合 locator は省略される．
+    点線で書かれた丸は空の要素を表す．また，緑の枠線と矢印は要素の移動を表す．
     バツ印は linked list の削除表す．
-    配色は，青色を初期状態，赤色を要素の挿入・削除動作，緑色を要素の移動，と分かれている．
+    配色は，青色を初期状態，赤色を要素の挿入と削除，緑色を要素の移動，としている．
   }
   \label{fig_IpCHashT_fig_description}
 %\end{figure}
-
 %\begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_03.pdf}
   \caption{
@@ -119,7 +129,6 @@ struct element{
   }
   \label{fig_IpCHashT_apparence}
 %\end{figure}
-
 %\begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_04.pdf}
   \caption{
@@ -150,8 +159,8 @@ Open hashing を用いたハッシュテーブルの説明では，
 実際には，Fig. \ref{fig_IpCHashT_insert_introspection}のように各要素が断続的なアドレス空間上に存在することがある．
 
 %\leavevmode \newline
-%\leavevmode \newline
 %\vspace{-1cm}
+\leavevmode \newline
 \section{挿入}
 
 高い探査性能を達成するためには，
@@ -189,12 +198,13 @@ Fig. \ref{fig_IpCHashT_insert_hard_case01}，
 これは，要素の削除と再挿入によるメモリ断片化への耐性を捨て，
 実装コストの低減と，挿入の高速化を優先している．
 
+\leavevmode \newline
 \section{探査}
 
 挿入済みの要素を探査するには，Fig. \ref{alg_find_sm}，\ref{alg_find_usm}に示すアルゴリズムが考えられる．
 Fig. \ref{alg_find_sm}は successful search を優先した設定であり，以降，successful search major option と呼ぶ．
 Fig. \ref{alg_find_usm}は unsuccessful search を優先した設定であり，以降，unsuccessful search major option と呼ぶ．
-
+\samepage\newline\indent
 Fig. \ref{alg_find_usm}の unsuccessful search major option は，
 キーの比較コストによって successful search major option の結果より悪化することが十分に考えられるが，
 比較コストの低いキーの場合には，unsuccessful search 時の分岐が少なく，高い性能が期待される．
@@ -279,6 +289,7 @@ template <class T_key, class T_val>
 %  \end{algorithmic}
 %\end{algorithm}
 
+\newpage
 \section{削除}
 
 通常，linked list の要素を削除するには，要素を削除した上で，ポインタを繋ぎ変えればよい．
@@ -382,6 +393,7 @@ load factor の上限は上がらない，
 例えば，$a=18$, \ $b=35$, \ ${\rm limit}=254$ である．
 なお，254 以上のパディングは，少なくともテーブルサイズ $10^0〜10^{8.3}$ において，
 大きな違いがないため，uint16 の場合においても ${\rm limit}=254$ としており，$a$, $b$ にも同じ定数を用いる．
+
 
 \section{ハッシュ値の計算}
 
