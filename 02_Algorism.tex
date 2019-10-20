@@ -38,7 +38,7 @@ unsuccessful search を優先するオプションについて新たに実装と
 要素の挿入においては，操作手順を再検討し，より簡潔な実装とする．
 
 IpCHashT では，Fig. \ref{fig_IpCHashT_struct}に示すデータ構造を備える．
-各要素には key-value ペアの他に，linked list のための prev 要素と next 要素を持つ．
+各要素には key-value ペアの他に，双方向リストのための prev 要素と next 要素を持つ．
 T\_shift には uint8 または uint16 型を用い，相対位置による双方向リストを構成する．
 これは，ポインタ接続におけるメモリ消費量が無視できないためである
 \footnote{
@@ -66,7 +66,7 @@ struct element{
 \end{lstlisting}
 \caption{
   Pseudo C++ data structure for IpCHashT element. ``T\_key'' is a key type and ``T\_val'' is val a value type.
-  ``T\_shift'' is used for double linked lists and specifies uint8 or uint16.
+  ``T\_shift'' is used for doubly linked lists and specifies uint8 or uint16.
   Specifying a type larger than uint16 has little merit.
   ``prev'' indicates the distance from the previous element and 
   ``next'' indicates the distance from next element.
@@ -88,7 +88,7 @@ struct element{
   ただし，max(T\_shift) は T\_shift 型の取り得る最大値である．
   0 のときに自分自身を示し，max(T\_shift) - 1 がリンクできる最大距離である．区間外へのリンクはできない．
   max(T\_shift) は，予約されており，'prev==max(T\_shift)' のとき，要素が空であることを示す．
-  また，'prev==0' であれば linked list の先頭であること，'next==0' であれば linked list の末尾であることがわかる．
+  また，'prev==0' であればリストの先頭であること，'next==0' であればリストの末尾であることがわかる．
 }
 \label{fig_IpCHashT_struct}
 \end{figure}
@@ -103,7 +103,7 @@ struct element{
     However, locators are omitted when there are no connection.
     Circles written with dotted lines represent empty elements.
     Green boxes and arrows represent movement of elements.
-    Crosses indicate that the linked list is deleted.
+    Crosses indicate that the linke is deleted.
     The color scheme is blue for the initial state, red for element insertion and deletion, and green for element movement.
     \\
     {\bf 図\ref{fig_IpCHashT_fig_description}}
@@ -113,7 +113,7 @@ struct element{
     各要素は，丸 1 つと prev locator 1 つ，next locator 1 つで構成される．
     ただし，接続が無い場合 locator は省略される．
     点線で書かれた丸は空の要素を表す．また，緑色の枠線と矢印は要素の移動を表す．
-    バツ印は linked list の削除表す．
+    バツ印はリストの削除表す．
     配色は，青色を初期状態，赤色を要素の挿入と削除，緑色を要素の移動，としている．
   }
   \label{fig_IpCHashT_fig_description}
@@ -123,14 +123,14 @@ struct element{
   \caption{
     An abstract representation of the element chain inserted into IpCHashT.
     In this case, the hash destinations of the three elements indicate the address of the first element,
-    and the conflict is resolved by linked list.
+    and the conflict is resolved by doubly linked list.
     Each element is connected by prev and next locators that indicate relative position, 
     and there may be another element between each element.
     \\
     {\bf 図\ref{fig_IpCHashT_apparence}}
     IpCHashT に挿入された要素の抽象表現.
     この場合，3 つの要素のハッシュ先は，いずれも first 要素のアドレスを示すため，
-    linked list により衝突を解決している．
+    双方向リストにより衝突を解決している．
     各要素は prev locator と next locator の示す相対位置により接続されており，
     各要素間に別の要素がある可能性がある．
   }
@@ -144,12 +144,12 @@ struct element{
     Even with the same abstract representation,
     the state of the continuous address space depends on the array state at the time of insertion.
     Also, deleting elements can cause memory fragmentation.
-    The blue linked list is a map of the abstract representation shown in Fig. \ref{fig_IpCHashT_apparence},
-    and the red linked list is another chain inserted between them.
+    The blue list is a map of the abstract representation shown in Fig. \ref{fig_IpCHashT_apparence},
+    and the red list is another chain inserted between them.
     In this example,
-    the blue linked list is fragmented and the tail element is inserted in a distant place
+    the blue list is fragmented and the tail element is inserted in a distant place
     even though there is an empty element in the foreground.
-    This fragmentation occurs when three or more elements are inserted into the blue linked list
+    This fragmentation occurs when three or more elements are inserted into the blue list
     and then the value stored in the left empty element is deleted.
     \\
     {\bf 図\ref{fig_IpCHashT_apparence}}
@@ -157,10 +157,10 @@ struct element{
     灰色の枠線は配列を表す．
     同じ抽象表現でも，連続アドレス空間の状態は，要素挿入時の配列状態により異なる．
     また，要素の削除はメモリを断片化させることがある．
-    青色の linked list はFig. \ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
-    赤色の linked list は間に挿入された別の chain である．
-    この例では，青色の linked list が断片化されており，手前に空の要素があるにも関わらず，末尾要素が遠い場所に格納されている．
-    この断片化は，3 つ以上の要素が青色の linked list に挿入された後に，
+    青色のリストはFig. \ref{fig_IpCHashT_apparence}に示す抽象表現の写像であり，
+    赤色のリストは間に挿入された別の chain である．
+    この例では，青色のリストが断片化されており，手前に空の要素があるにも関わらず，末尾要素が遠い場所に格納されている．
+    この断片化は，3 つ以上の要素が青色のリストに挿入された後に，
     左側の空要素に格納されていた値が削除されたことにより発生する．
   }
   \label{fig_IpCHashT_insert_introspection}
@@ -316,7 +316,7 @@ template <class T_key, class T_val>
 
 \section{削除}
 
-通常，linked list の要素を削除するには，要素を削除した上で，ポインタを繋ぎ変えればよい．
+通常，リストの要素を削除するには，要素を削除した上で，ポインタを繋ぎ変えればよい．
 しかし，IpCHashT では，幾つかの場合を考慮する必要がある．
 
 key-value ペアを 1 つ削除するには，
@@ -530,7 +530,7 @@ dense\_hash\_map と同様に，
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_22.pdf}
   \caption{
     Deletion case05.
-    The process of reducing linked list fragmentation.
+    The process of reducing doubly linked list fragmentation.
     Link distance is reduced by moving a distant element to nearby empty element found by sequential search.
     As the element moves, a new empty element is created.
     To completely eliminate fragmentation,
@@ -539,10 +539,10 @@ dense\_hash\_map と同様に，
     \\
     {\bf 図\ref{fig_IpCHashT_deletion_case05}}
     Deletion case05.
-    Linked list の断片化を低減する処理．
-    遠くにある要素を，線形探査により探した近くの空き要素へ移動させることで linke 距離を短くする．
+    双方向リストの断片化を低減する処理．
+    遠くにある要素を，線形探査により探した近くの空き要素へ移動させることでリンク距離を短くする．
     要素が移動すると新しい空き要素ができるため，
-    断片化を完全に解消するには，少なくとも linke 距離が局所的最小値となるまで再帰的に実行する必要がある．
+    断片化を完全に解消するには，少なくともリンク距離が局所的最小値となるまで再帰的に実行する必要がある．
     このため，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case05}
@@ -552,7 +552,7 @@ dense\_hash\_map と同様に，
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_23.pdf}
   \caption{
     Deletion case06.
-    The process of reducing linked list fragmentation.
+    The process of reducing doubly linked list fragmentation.
     Link distance is reduced by moving a distant element to nearby empty element found by sequential search.
     As the element moves, a new empty element is created.
     To completely eliminate fragmentation,
@@ -561,10 +561,10 @@ dense\_hash\_map と同様に，
     \\
     {\bf 図\ref{fig_IpCHashT_deletion_case06}}
     Deletion case06.
-    Linked list の断片化を低減する処理．
-    遠くにある要素を，線形探査により探した近くの空き要素へ移動させることで linke 距離を短くする．
+    双方向リストの断片化を低減する処理．
+    遠くにある要素を，線形探査により探した近くの空き要素へ移動させることでリンク距離を短くする．
     要素が移動すると新しい空き要素ができるため，
-    断片化を完全に解消するには，少なくとも linke 距離が局所的最小値となるまで再帰的に実行する必要がある．
+    断片化を完全に解消するには，少なくともリンク距離が局所的最小値となるまで再帰的に実行する必要がある．
     このため，実行コストは非常に高い．
   }
   \label{fig_IpCHashT_deletion_case06}

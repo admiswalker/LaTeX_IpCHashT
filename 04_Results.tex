@@ -54,7 +54,7 @@ C++ の標準ライブラリに収録されているハッシュテーブル．
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF50)}
 \samepage\newline\indent
 提案アルゴリズムの実装の 1 つ．
-uint8 により linked list を構成する．
+uint8 により双方向リストを構成する．
 Load factor の最大値を 50 \% に制限している．
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
 {\rm bench.hpp} 内では別名として {\rm iHashT\_u8h} を定義する．
@@ -64,7 +64,7 @@ Load factor の最大値を 50 \% に制限している．
 {\bf sstd::IpCHashT<uint64,uint64> (as uint8 and maxLF100)}
 \samepage\newline\indent
 提案アルゴリズムの実装の 1 つ．
-uint8 により linked list を構成する．
+uint8 により双方向リストを構成する．
 Load factor の制限はなく，link 距離が ``${\rm uint8} の最大値 - 1 = 254$'' を超えるか，テーブルが全て埋まるまで要素を挿入する．
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
 {\rm bench.hpp} 内では別名として {\rm iHashT\_u8f} を定義する．
@@ -74,7 +74,7 @@ Load factor の制限はなく，link 距離が ``${\rm uint8} の最大値 - 1 
 {\bf sstd::IpCHashT<uint64,uint64> (as uint16 and maxLF100)}
 \samepage\newline\indent
 提案アルゴリズムの実装の 1 つ．
-uint16 により linked list を構成する．
+uint16 により双方向リストを構成する．
 Load factor の制限はなく，link 距離が ``$uint16 の最大値 - 1 = 65534$'' を超えるか，テーブルが全て埋まるまで要素を挿入する．
 テーブルサイズを $2^k-1\ \ (k=1,2,...)$ とし，ハッシュ値の最下位 $k$ ビットを配列インデックスとする．
 {\rm bench.hpp} 内では別名として {\rm iHashT\_u16} を定義する．
@@ -101,7 +101,7 @@ ska::power\_of\_two\_std\_hash<uint64> オプションにより，
 
 
 \section{結果}
-ここでは，IpCHashT の linked list 長に uint8 と uint16 を用いた設定，load factor の最大値を 50 \% に制限した設定に加えて，
+ここでは，IpCHashT の双方向リストを uint8 と uint16 により構成した設定と，load factor の最大値を 50 \% に制限した設定に加えて，
 要素探査時に successful search を優先する設定と，unsuccessful search を優先する設定についてベンチマークする．
 \leavevmode \newline
 

@@ -15,7 +15,7 @@ Fig. \ref{fig_bench_LF}に示す，最大 load factor とテーブルサイズ�
 {\bf IpCHashT (uint8, maxLF50)}，{\bf dense\_hash\_map}，{\bf flat\_hash\_map} は，
 load factor が制限されており，50 \% に留まっている．
 {\bf IpCHashT (uint8, maxLF100)} は，テーブルサイズ $10^3$ 未満では 90 \% 以上の load factor を示す．
-テーブルサイズが $4\times10^2$ を超える辺りから，linked list の長さが ``${\rm uint8} の最大値 - 1=254$'' に制限されている影響により，
+テーブルサイズが $4\times10^2$ を超える辺りから，双方向リストの長さが ``${\rm uint8} の最大値 - 1=254$'' に制限されている影響により，
 load factor が単調に減少していく．
 {\bf IpCHashT (uint16, maxLF100)} は区間 $10^1〜10^8$ に渡り 97.5 \% 以上を維持している．
 なお，実際には 100 サンプルの中央値のため，
