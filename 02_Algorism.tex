@@ -121,8 +121,15 @@ struct element{
 %\begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_03.pdf}
   \caption{
+    An abstract representation of the element chain inserted into IpCHashT.
+    In this case, the hash destinations of the three elements indicate the address of the first element,
+    and the conflict is resolved by linked list.
+    Each element is connected by prev and next locators that indicate relative position, 
+    and there may be another element between each element.
+    \\
+    {\bf 図\ref{fig_IpCHashT_apparence}}
     IpCHashT に挿入された要素の抽象表現.
-    この場合，3 つの要素のハッシュ値は，いずれも first 要素のアドレスを示すため，
+    この場合，3 つの要素のハッシュ先は，いずれも first 要素のアドレスを示すため，
     linked list により衝突を解決している．
     各要素は prev locator と next locator の示す相対位置により接続されており，
     各要素間に別の要素がある可能性がある．
@@ -132,6 +139,8 @@ struct element{
 %\begin{figure}
   \includegraphics[scale=0.73]{./fig_algo/algorism_crop_04.pdf}
   \caption{
+    \\
+    {\bf 図\ref{fig_IpCHashT_apparence}}
     Fig. \ref{fig_IpCHashT_apparence}に示す抽象表現を連続アドレス空間上に写像した一例.
     同じ抽象表現でも，挿入と削除の手順により格納状態は異なる．
     灰色の枠線が配列を表す．
