@@ -104,7 +104,10 @@ CHashT よりは速い，程度の速度を保っている．
   \begin{center}
 %    \fontsize{9pt}{10pt}\selectfont
     \fontsize{8.5pt}{10pt}\selectfont
-    \caption{各実装の比較．}
+    \caption{
+      各実装の比較．
+      {\bf \color{red}メモ: 測定条件と，best good, bad medium の意味を書く．}
+    }
     \begin{tabular}{c|c|ccc|ccc|c|c} \hline
         Implementation of      & Insert                  & \multicolumn{3}{c|}{\begin{tabular}{c}Successful search\end{tabular}}       & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful search\end{tabular}}      & Erase                   & Memory                \rule[0pt]{0pt}{15pt} \\
         hash table             &                         & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$    & $10^{2\textasciitilde5}$     & $10^{5\textasciitilde7}$      & $10^{7\textasciitilde8.3}$     &                         & efficiency            \rule[0pt]{0pt}{15pt} \\ \hline
