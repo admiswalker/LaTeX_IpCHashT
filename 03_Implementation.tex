@@ -18,39 +18,47 @@
 \begin{table}[h]
   \begin{center}
 %    \fontsize{9pt}{10pt}\selectfont
+%    \fontsize{8pt}{10pt}\selectfont
     \fontsize{7pt}{10pt}\selectfont
     \caption{
       File organization.
-      {\bf \color{red}メモ: 更新する．}
     }
-    \begin{tabular}{ccc} \hline
-      File name                  & Description                                  & Origin \rule[0pt]{0pt}{8pt} \\ \hline
-      flat\_hash\_map-master     & Extract file of "flat\_hash\_map-master.zip" & \\
-      googletest-master          & Extract file of "googletest-master.zip"      & \\
-      sparsehash-master          & Extract file of "sparsehash-master.zip"      & \\
-      sstd                       & Extract file of "sstd.zip"                   & \\
-      CHashT.hpp                 & Inplimentation of "sstd::CHashT"             & \\
-      FNV\_Hash.cpp              & Light claculation weight hash function       & $^{a)}$\url{qiita.com/Ushio/items/a19083514d087a57fc72} \\
-      FNV\_Hash.hpp              & Light claculation weight hash function       & $^{a)}$\url{qiita.com/Ushio/items/a19083514d087a57fc72} \\
-      IpCHashT.hpp               & Inplimentation of "sstd::IpCHashT" (Proposing method) & \\
-      Makefile                   & Makefile                                     & \\
-      README.md                  & Read me file                                 & \\
-      bench.hpp                  & Benchmark                                    & \\
-      bench\_main.cpp            & Entry potion for "bench.hpp"                 & \\
-      exe\_bm                    & Binary file for benchmark                    & \\
-      exe\_t                     & Binary file for test of "test\_CHashT.hpp" and "test\_IpCHashT.hpp" & \\
-      flat\_hash\_map-master.zip & Inplimentation of "ska::flat\_hash\_map"     & $^{a)}$\url{github.com/skarupke/flat_hash_map} \\
-      googletest-master.zip      & Google's C++ test framework                  & $^{a)}$\url{github.com/google/googletest} \\
-      plots.py                   & Plotting funcrions for benchmark             & \\
-      sparsehash-master.zip      & Inplimentation of "google::dense\_hash\_map" & $^{a)}$\url{github.com/sparsehash/sparsehash} \\
-      sstd.zip                   & Convenient functions set                     & $^{a)}$\url{github.com/admiswalker/SubStandardLibrary} \\
-      test\_CHashT.hpp           & Test code for "CHashT.hpp"                   & \\
-      test\_IpCHashT.hpp         & Test code for "IpCHashT.hpp"                 & \\
-      test\_main.cpp             & Entry potion for "test\_CHashT.hpp" and "test\_IpCHashT.hpp" & \\
-      typeDef.h                  & Type definitions for integer & \\ \hline
+    \begin{tabular}{cc} \hline
+      File name                  & Description                                                           \rule[0pt]{0pt}{8pt} \\ \hline
+      bench                      & Results of the benchmarks on this post                                \\
+      tmpBenck                   & Output directory of the benchmarks                                    \\
+      tmpDir                     & Temporary directory for graph plotting                                \\
+      CHashT.hpp                 & Inplimentation of "sstd::CHashT"                                      \\
+      FNV\_Hash.cpp              & Hash function with light claculation weight for only implimentation test $^{a)}$ \\
+      FNV\_Hash.hpp              & Hash function with light claculation weight for only implimentation test $^{a)}$ \\
+      IpCHashT.hpp               & Inplimentation of "sstd::IpCHashT" (Proposing method)                 \\
+      Makefile                   & Makefile                                                              \\
+      README.md                  & Read me file                                                          \\
+      SubStandardLibrary-SSTD--master.zip & Convenient functions set $^{b)}$                              \\
+      bench.hpp                  & Benchmark                                                             \\
+      exe\_bench                 & Binary file for benchmark                                             \\
+      exe\_bench\_uM             & Binary file for benchmark of allocated memory size                    \\
+      exe\_sProc                 & Binary file for statistical process of "main\_sProc.cpp"              \\
+      exe\_test                  & Binary file for test of "test\_CHashT.hpp" and "test\_IpCHashT.hpp"   \\
+      flat\_hash\_map-master.zip & Inplimentation of "ska::flat\_hash\_map" $^{c)}$                       \\
+      googletest-master.zip      & Google's C++ test framework $^{d)}$                                    \\
+      main\_bench.cpp            & Entry point for benchmark of "bench.hpp"                              \\
+      main\_bench\_usedMemory.cpp & Entry point for benchmark of allocated memory size of "bench.hpp"    \\
+      main\_sProc.cpp            & Entry point for the benchmarks statistical process.                   \\
+      main\_test.cpp             & Entry point for test of "test\_CHashT.hpp" and "test\_IpCHashT.hpp"   \\
+      plots.py                   & Plotting funcrions for benchmark                                      \\
+      sparsehash-master.zip      & Inplimentation of "google::dense\_hash\_map" $^{e)}$                   \\
+      test\_CHashT.hpp           & Test code for "CHashT.hpp"                                            \\
+      test\_IpCHashT.hpp         & Test code for "IpCHashT.hpp"                                          \\
+      typeDef.h                  & Type definitions for integer                                          \\ \hline
     \end{tabular}
     \label{table_fileDesc}\\
-    $^{a)}$ The protocol is "https".
+    Origins: $^{a)}$\url{https://qiita.com/Ushio/items/a19083514d087a57fc72}, 
+    $^{b)}$\url{https://github.com/admiswalker/SubStandardLibrary}, 
+    $^{c)}$\url{https://github.com/skarupke/flat_hash_map}, 
+    $^{d)}$\url{https://github.com/google/googletest},
+    $^{e)}$\url{https://github.com/sparsehash/sparsehash}\\
+%    $^{a)}$ The protocol is "https".
   \end{center}
 \end{table}
 
