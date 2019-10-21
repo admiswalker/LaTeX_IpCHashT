@@ -153,27 +153,9 @@ successful search の区間 $10^5〜10^{8.3}$ において，安定した性能�
 {\bf IpCHashT (uint16, maxLF100, unsuccessful search major option)} は，最も高いメモリ効率を示し，
 unsuccessful search の区間 $10^7〜10^{8.3}$ で最も優れた結果を出す．
 
-以上より，IpCHashT の双方向リスト構造の in-place 実装による chaining のアルゴリズムの closed hashing 化は，
-Fig. \ref{fig_taocp_v3_fig44}から期待されたように，
-その他のハッシュテーブルと比較して低い average number of probes となることを，
-ベンチマークにより実証した．      {\bf \color{red}メモ: <- 本当に？}
+以上より，双方向リスト構造の in-place 実装による chaining のアルゴリズムの closed hashing 化について，
+Fig. \ref{fig_taocp_v3_fig44}から期待されたような，高い探査性能を持つことを，ベンチマークにより実証した．
 特に unsuccessful search において見込まれていた，理論上は他のアルゴリズムより突出して高い探査性上も実証された．
-これらにより，世界最速の探査性能を持つハッシュテーブルアルゴリズムの 1 つを提案し，
-実装とベンチマークにより実証した．
-
-%ハッシュテーブルの性能は，key type や value type，テーブルサイズ等により異なる．
-%ここでは，AMD Ryzen7 1700 上では，key type と value type が uint64 のハッシュテーブル
-%このように，
-%IpCHashT が区間 $10^2〜10^7$ に渡り，高い性能を示すことを示した．
-
-
-%{\bf dense\_hash\_map} は，successful search の区間 $10^2〜10^{8.3}$ の測定範囲ほぼ全域に渡り，よい性能を示す．
-%特に，巨大なテーブルの場合でも，速度低下が緩やかである．また，メモリ効率もよい．
-%一方で，unuccessful search については，非常に遅い結果となった．
-%また，要素の空きや削除を示すキーを登録する必要があり，登録したキーはキーとして扱えなくなる．
-
-
-
-
-
+%これらにより，世界最速の探査性能を持つハッシュテーブルアルゴリズムの 1 つを提案し，
+%実装とベンチマークにより実証した．
 
