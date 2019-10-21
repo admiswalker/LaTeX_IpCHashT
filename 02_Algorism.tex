@@ -283,8 +283,9 @@ template <class T_key, class T_val>
   ただし，条件が特殊なため，この投稿では扱わない．
 }
 \label{alg_find_sm}
-%\end{figure}
-%\begin{figure}[h] % 特に強い理由がない限り，[htbp]のような指定はしないでください。
+\end{figure}
+
+\begin{figure}%[h] % 特に強い理由がない限り，[htbp]のような指定はしないでください。
 \begin{lstlisting}[language=C++]
 template <class T_key, class T_val>
 (bool, T_val) find(T_key key_in){
@@ -302,7 +303,14 @@ template <class T_key, class T_val>
 }
 \end{lstlisting}
 \caption{
-  Pseudo C++ code of find function prioritizing unsuccessful search.
+  Pseudo C++ code for the ``find()'' function executed while {\bf unsuccessful search major option} is specified.
+  This function is tuned to speed up ``unsuccessful searches'' more than ``successful seatches''.
+  However, since the number of key comparisons is greater than that of successful search major options,
+  data structures with high key comparison costs are considered to perform worse than successful search major options.
+  In a case of unsuccessful search, it is necessary to find out all the keys associated with hash destination do not match ``key\_in''.
+  Prioritizing key comparison makes unsuccessful search faster than ensuring the element is head.
+  %
+  %%%
   This function will search ``key\_in''.
   If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
   For prioritizing unsuccessful search, isHead() function is removed compared to successful search prioritizing option.
@@ -311,9 +319,11 @@ template <class T_key, class T_val>
   {\bf 図\ref{alg_find_usm}}
   Unsuccessful search major option を指定した場合に実行される find 関数の擬似 C++ コード．
   Unsuccessful search が高速に実行されるようにチューニングされている．
-  ただし，キーの比較回数が多くなるため，比較コストの高いデータ構造の場合は，successful search major option より性能が悪化すると考えられる．
-  Unsuccessful search では，キーの一致の有無に関わらず，全て探査し，一致のないことを確認する必要がある．
+  ただし，キーの比較回数は successful search major option よりも多くなるため，
+  キーの比較コストが高いデータ構造では，successful search major option より性能が悪化すると考えられる．
+  Unsuccessful search では，キーの一致の有無に関わらず，ハッシュ先に関係するキーを全て探査し，key\_in と一致しないことを確認する必要がある．
   そのため，isHead より先頭要素であるかを確かめるよりも，キーの比較を優先する方が，高速に動作する．
+  %%%
   ところが，リストの先頭でない場合もキーを比較するため，
   キーが要素の初期値と等しい場合に誤動作する．
   このため，isEmpty により要素が空でないことを確認する必要がある．
