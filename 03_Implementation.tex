@@ -24,20 +24,20 @@
       File organization.
     }
     \begin{tabular}{cc} \hline
-      File name                  & Description                                                           \rule[0pt]{0pt}{8pt} \\ \hline
+      File or directory name     & Description                                                           \rule[0pt]{0pt}{8pt} \\ \hline
       bench                      & Results of the benchmarks on this post                                \\
       tmpBenck                   & Output directory of the benchmarks                                    \\
       tmpDir                     & Temporary directory for graph plotting                                \\
       CHashT.hpp                 & Inplimentation of "sstd::CHashT"                                      \\
-      FNV\_Hash.cpp              & Hash function with light claculation weight for only implimentation test $^{a)}$ \\
-      FNV\_Hash.hpp              & Hash function with light claculation weight for only implimentation test $^{a)}$ \\
+      FNV\_Hash.cpp              & Hash function for only implimentation test $^{a)}$                     \\
+      FNV\_Hash.hpp              & Hash function for only implimentation test $^{a)}$                     \\
       IpCHashT.hpp               & Inplimentation of "sstd::IpCHashT" (Proposing method)                 \\
       Makefile                   & Makefile                                                              \\
       README.md                  & Read me file                                                          \\
       SubStandardLibrary-SSTD--master.zip & Convenient functions set $^{b)}$                              \\
       bench.hpp                  & Benchmark                                                             \\
       exe\_bench                 & Binary file for benchmark                                             \\
-      exe\_bench\_uM             & Binary file for benchmark of allocated memory size                    \\
+      exe\_bench\_uM             & Binary file for benchmarking allocated memory size called from exe\_bench \\
       exe\_sProc                 & Binary file for statistical process of "main\_sProc.cpp"              \\
       exe\_test                  & Binary file for test of "test\_CHashT.hpp" and "test\_IpCHashT.hpp"   \\
       flat\_hash\_map-master.zip & Inplimentation of "ska::flat\_hash\_map" $^{c)}$                       \\
@@ -67,7 +67,9 @@
 %\leavevmode \newline
 
 \newpage
-{\bf 環境}
+{\bf 環境／Software Environment}
+\samepage\newline\indent
+For benchmarking, g++, git, make, cmake and python with matplotlib is required.
 \samepage\newline\indent
 環境は Ubuntu を想定しており，コンパイルには G++ が必要である．
 本体のビルドには Make が，
@@ -83,9 +85,18 @@ Google Test のビルドに CMake が必要となる．
 %  \hspace{2mm}
   \includegraphics[scale=0.73]{./fig_odg/libre_crop_01.pdf}
   \caption{
+    The benchmarking process. \ \ 
+    1. Cloning benchmark files from Git. \ \ 
+    2. Chane directory. \ \ 
+    3. Compile. \ \ 
+    4. Run test code. \ \ 
+    5. Run benchmark. \ \ 
+    6. Run statistical processes.
+    \\
+    {\bf 図\ref{fig_command}}
     ベンチマークの実行手順.
     ソースコードを Git リポジトリからクローンし，
-    ディレクトリを移動，コンパイル，テストコードの実行，ベンチマークの計算，計算結果の統計処理
+    ディレクトリを移動，コンパイル，テストコードの実行，ベンチマークの実行，計算結果の統計処理
     を行っている．
   }
   \label{fig_command}
