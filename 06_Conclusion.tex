@@ -105,8 +105,19 @@ CHashT よりは速い，程度の速度を保っている．
 %    \fontsize{9pt}{10pt}\selectfont
     \fontsize{8.5pt}{10pt}\selectfont
     \caption{
-      各実装の比較．
-      {\bf \color{red}メモ: 測定条件と，best good, bad medium の意味を書く．}
+      Comparison of insertion speed, search speed (successful search / unsuccessful search),
+      deletion speed, and memory efficiency of each implementation.
+      In particular, search speed is evaluated separately for the number of elements on the hash table $10^{2\textasciitilde5}$, $10^{5\textasciitilde7}$, and $10^{7\textasciitilde8.3}$.
+      Measurement conditions are key and value: uint64, CPU: AMD Ryzen7 1700, and memory: DDR4-2666 32GB.
+      ``best'' is a hash table that shows the highest performance of each item.
+      In addition, ``good'', ``medium'', and ``bad'' are qualitative evaluations.
+      \\
+      {\bf 表\ref{table_hashT_cmp}}
+      各実装の挿入速度と探査速度（成功する場合／失敗する場合），削除速度，メモリ効率の比較．
+      特に探査速度はハッシュテーブル上の要素数が $10^{2\textasciitilde5}$，$10^{5\textasciitilde7}$，$10^{7\textasciitilde8.3}$ の場合について個別に評価する．
+      測定条件は，key, value が uint64 で，CPU が AMD Ryzen7 1700，メモリが DDR4-2666 32GB である．
+      best は各項目で最も高い性能を示したハッシュテーブルを示す．
+      その他，good, medium, bad は定性的な評価である．
     }
     \begin{tabular}{c|c|ccc|ccc|c|c} \hline
         Implementation of      & Insert                  & \multicolumn{3}{c|}{\begin{tabular}{c}Successful search\end{tabular}}       & \multicolumn{3}{c|}{\begin{tabular}{c}Unsuccessful search\end{tabular}}      & Erase                   & Memory                \rule[0pt]{0pt}{15pt} \\
@@ -145,7 +156,7 @@ unsuccessful search の区間 $10^7〜10^{8.3}$ で最も優れた結果を出�
 以上より，IpCHashT の双方向リスト構造の in-place 実装による chaining のアルゴリズムの closed hashing 化は，
 Fig. \ref{fig_taocp_v3_fig44}から期待されたように，
 その他のハッシュテーブルと比較して低い average number of probes となることを，
-ベンチマークにより実証した．
+ベンチマークにより実証した．      {\bf \color{red}メモ: <- 本当に？}
 特に unsuccessful search において見込まれていた，理論上は他のアルゴリズムより突出して高い探査性上も実証された．
 これらにより，世界最速の探査性能を持つハッシュテーブルアルゴリズムの 1 つを提案し，
 実装とベンチマークにより実証した．
