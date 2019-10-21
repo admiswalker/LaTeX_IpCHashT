@@ -10,7 +10,7 @@ probing により衝突を解決しなければならない．
 Robin Hood hashing は，1 回でアクセスできる位置に要素を移動できるものの，
 ハッシュ先の重複\footnote{secondary clustering．} に対しては線形探査が必要となる．
 
-本研究では，
+本投稿では，
 ハッシュ先が別のキーの退避先として利用されてしまう primary clustering に付随した問題に対して，
 逆方向にリストを辿ることで，要素が使用済みの場合でも適切に移動し，
 ハッシュ先が必ず 1 つ目の要素となるように調整する．
@@ -27,7 +27,7 @@ Fig. \ref{fig_IpCHashT_struct}，
 Fig. \ref{fig_IpCHashT_insert_hard_case01}〜\ref{fig_IpCHashT_insert_hard_case11}，
 Fig. \ref{fig_IpCHashT_deletion_case01}〜\ref{fig_IpCHashT_deletion_case06}は，
 \cite{ADMIS2017} に由来する．
-ただし，本研究では，
+ただし，本投稿では，
 挿入アルゴリズムに新しく soft insertion を採用している．
 探査においても，
 successful search を優先するオプションと，
@@ -176,7 +176,7 @@ Fig. \ref{fig_IpCHashT_apparence}〜\ref{fig_IpCHashT_deletion_case06}では，
 Open hashing を用いたハッシュテーブルの説明では，
 連続したアドレス空間上の配列要素が，
 ２辺を共有した四角形の連なりにより表現されることが多い．
-同様に，本研究では IpCHashT の配列要素を抽象化して表すが，
+同様に，本投稿では IpCHashT の配列要素を抽象化して表すが，
 一見するとFig. \ref{fig_IpCHashT_apparence}のように隣接した連続構造であっても，
 実際には，Fig. \ref{fig_IpCHashT_insert_introspection}のように各要素が断続的なアドレス空間上に存在することがある．
 
@@ -254,26 +254,33 @@ template <class T_key, class T_val>
 \caption{
   Pseudo C++ code for the ``find()'' function executed while {\bf successful search major option} is specified.
   This function is tuned to speed up ``successful searches'' more than ``unsuccessful seatches''.
-  The ``isHead()'' function checks whether the hash destination element is the head element of doubly linked list or not,
-  and if it is the head, it follows the list.
-%  At this time, the isHead function returns true when the prev element of the element structure shown in Fig. \ Ref {fig_IpCHashT_struct} is zero.
-  %%%
-  This function will search ``key\_in''.
-  If key is found, the function will return ``true'' and corresponding value that is expressed as ``table[ idx ].val''.
-  For prioritizing successful search, ``isHead()'' function will check the link list is head or not.
-  {\bf \color{red}メモ:説明不足．何故が書いて無い．}
+  The ``isHead()'' function checks the hash destination is a head element or not, and if it is the head, it follows the list.
+  At this time, the ``isHead()'' function returns true
+  when the ``prev'' element which is a member element of the structure shown in Fig. \ref{fig_IpCHashT_struct} is $0$.
+  Then the ``find()'' function returns true and a corresponding value to the key when a ``key\_in'' is equal to the key on the array.
+  In all other cases, the ``find()'' function returns false.
+  Compared with the existing closed hashing method,
+  the number of key comparisons is limited to the number of elements on the doubly linked list,
+  therefore high-speed successful search is possible.
+  As with the dense\_hash\_map,
+  the check with the ``isHead()'' function becomes unnecessary
+  when one key is registered as an empty mark and is guaranteed not to be used.
+  This is because the initial value of an element outside the list is guaranteed not to match any key.
+  For this reason, removing the ``isHead()'' function will speed up unsuccessful search too while the key comparison cost is small.
+  However, this post does not deal with such special conditions.
   \\
   {\bf 図\ref{alg_find_sm}}
   Successful search major option を指定した場合に実行される find 関数の擬似 C++ コード．
   Successful search が高速に実行されるようにチューニングされている．
   isHead 関数によりハッシュ先の要素が双方向リストの先頭か否かを確認し，先頭の場合に双方向リストを辿る．
   このとき，isHead 関数は，Fig. \ref{fig_IpCHashT_struct} に示す element 構造体の prev 要素が 0 のときに true を返す．
-  リストの先頭の場合，key\_in が配列上のキー値と一致すれば，対応する値と true を返す．
+  リストの先頭の場合，key\_in が配列上のキーと一致すれば，対応する値と true を返す．
   それ以外の場合は全て false を返す．
-  キー値の比較回数が双方向リスト上の要素数に制限されるため，高速な successful search が可能となる．
-  なお，dense\_hash\_map と同様に，あるキー値を空符号として登録し，使用されないことが保証される場合は，isHead 関数による検査が不要となる．
-  これは，リスト外の要素の初期値が，キー値と一致しないことが保証されるためである．
-  このため，isHead 関数を削除すると，キー値の比較コストが小さい場合に，unsuccessful search も高速になる．
+  既存の closed hashing 法と比較して，キーの比較回数が双方向リスト上の要素数に制限されるため，高速な successful search が可能となる．
+  なお，dense\_hash\_map と同様に，あるキーを空符号として登録し，使用されないことが保証される場合は，isHead 関数による検査が不要となる．
+  これは，リスト外の要素の初期値が，いずれのキーとも一致しないことが保証されるためである．
+  このため，isHead 関数を削除すると，キーの比較コストが小さい場合に，unsuccessful search も高速になる．
+  ただし，条件が特殊なため，この投稿では扱わない．
 }
 \label{alg_find_sm}
 %\end{figure}
@@ -302,14 +309,15 @@ template <class T_key, class T_val>
   {\bf \color{red}メモ:説明不足．何故が書いて無い．}
   \\
   {\bf 図\ref{alg_find_usm}}
-  Successful search major option を指定した場合に実行される find 関数の擬似 C++ コード．
+  Unsuccessful search major option を指定した場合に実行される find 関数の擬似 C++ コード．
   Unsuccessful search が高速に実行されるようにチューニングされている．
-  ただし，キー値の比較回数が多くなるため，比較コストの高いデータ構造の場合は，successful search major option より性能が悪化すると考えられる．
+  ただし，キーの比較回数が多くなるため，比較コストの高いデータ構造の場合は，successful search major option より性能が悪化すると考えられる．
   Unsuccessful search では，キーの一致の有無に関わらず，全て探査し，一致のないことを確認する必要がある．
-  そのため，isHead より先頭要素であるかを確かめるよりも，キー値の比較を優先する方が，高速に動作する．
-  ただし，リストの先頭でない場合もキー値を比較するため，
-  キー値が要素の初期値と等しい場合に誤動作する．
+  そのため，isHead より先頭要素であるかを確かめるよりも，キーの比較を優先する方が，高速に動作する．
+  ところが，リストの先頭でない場合もキーを比較するため，
+  キーが要素の初期値と等しい場合に誤動作する．
   このため，isEmpty により要素が空でないことを確認する必要がある．
+  %分岐予測が簡単となるため，速度が上がる．
 }
 \label{alg_find_usm}
 \end{figure}
